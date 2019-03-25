@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="350dp">
+
+    <devlight.io.library.ArcProgressStackView
+
+        android:id="@+id/arcProgressStackViewTasks"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+
+        app:apsv_animated="true"
+        app:apsv_animation_duration="2000"
+        app:apsv_dragged="false"
+        app:apsv_draw_width="80dp"
+        app:apsv_leveled="false"
+        app:apsv_model_bg_enabled="true"
+        app:apsv_model_offset="-2dp"
+
+
+        app:apsv_rounded="true"
+        app:apsv_shadowed="false"
+
+        app:apsv_text_color="#FFFFFF" />
+
+</RelativeLayout>

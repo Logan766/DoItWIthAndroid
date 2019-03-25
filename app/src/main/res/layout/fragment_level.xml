@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="350dp" >
+
+    <devlight.io.library.ArcProgressStackView
+
+        android:id="@+id/arcProgressStackViewLevel"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+
+        app:apsv_model_bg_enabled="true"
+        app:apsv_animated="true"
+        app:apsv_animation_duration="2000"
+        app:apsv_dragged="false"
+        app:apsv_draw_width="20dp"
+        app:apsv_leveled="false"
+        app:apsv_model_offset="2dp"
+        app:apsv_start_angle="135"
+        app:apsv_sweep_angle="270"
+
+
+
+        app:apsv_rounded="true"
+        app:apsv_shadowed="false"
+
+        app:apsv_text_color="#00000000" />
+
+    <TextView
+        android:id="@+id/text_level_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/arcProgressStackViewLevel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:text="7"
+        android:textSize="130sp" />
+
+    <TextView
+        android:id="@+id/text_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="170dp"
+        android:layout_marginBottom="70dp"
+        android:text="Level"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/arcProgressStackViewLevel"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="150dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="0dp"
+        android:text="Button" />
+</RelativeLayout>
