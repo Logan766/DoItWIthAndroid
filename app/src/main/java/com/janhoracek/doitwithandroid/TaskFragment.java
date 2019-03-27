@@ -52,7 +52,7 @@ public class TaskFragment extends Fragment {
             String description = data.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddTaskActivity.EXTRA_PRIORITY, 1);
 
-            Taskers task = new Taskers(title, description);
+            Taskers task = new Taskers(title, description, priority);
             taskViewModel.insert(task);
 
             Toast.makeText(getActivity(), "Task added successfully", Toast.LENGTH_SHORT).show();

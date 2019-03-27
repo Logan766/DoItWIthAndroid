@@ -1,8 +1,10 @@
 package com.janhoracek.doitwithandroid;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.janhoracek.doitwithandroid.Database.Taskers;
@@ -28,6 +30,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Taskers currentTaskers = mTasks.get(position);
+        switch (currentTaskers.getPriority()) {
+            case 1:
+                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
+                break;
+            case 2:
+                holder.mRelativeLayout.setBackgroundColor(Color.YELLOW);
+                break;
+            case 3:
+                holder.mRelativeLayout.setBackgroundColor(Color.RED);
+                break;
+        }
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
     }
@@ -51,9 +64,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     class TaskHolder extends  RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
+        private RelativeLayout mRelativeLayout;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
+            mRelativeLayout = itemView.findViewById(R.id.task_backgroud);
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
         }
