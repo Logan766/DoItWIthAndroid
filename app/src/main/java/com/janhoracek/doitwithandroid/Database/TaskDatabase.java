@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Database;
 
 import android.content.Context;
 import android.os.AsyncTask;

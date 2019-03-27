@@ -1,6 +1,10 @@
 package com.janhoracek.doitwithandroid;
 
 import android.app.Application;
+
+import com.janhoracek.doitwithandroid.Database.TaskRepository;
+import com.janhoracek.doitwithandroid.Database.Taskers;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 

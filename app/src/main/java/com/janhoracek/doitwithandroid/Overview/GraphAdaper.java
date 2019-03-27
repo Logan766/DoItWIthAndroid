@@ -7,18 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
-import com.google.common.graph.Graph;
-import com.janhoracek.doitwithandroid.DataFetcher;
-import com.janhoracek.doitwithandroid.GraphPagerAdapter;
 import com.janhoracek.doitwithandroid.R;
-import com.janhoracek.doitwithandroid.Taskers;
 
 import java.util.List;
 

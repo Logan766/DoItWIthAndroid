@@ -5,8 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
+import com.janhoracek.doitwithandroid.Database.Taskers;
 
 import java.util.ArrayList;
 import java.util.List;

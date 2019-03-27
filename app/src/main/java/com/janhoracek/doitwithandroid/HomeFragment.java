@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.util.List;
@@ -37,7 +35,7 @@ public class HomeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        //observe data and change
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
