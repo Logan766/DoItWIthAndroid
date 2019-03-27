@@ -1,12 +1,14 @@
 package com.janhoracek.doitwithandroid;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.protobuf.StringValue;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
+        holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()));
+        Log.d("DIWD", "onBindViewHolder: " + currentTaskers.getExp());
     }
 
     @Override
@@ -65,12 +69,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
         private RelativeLayout mRelativeLayout;
+        private TextView mTextViewExp;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             mRelativeLayout = itemView.findViewById(R.id.task_backgroud);
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
+            mTextViewExp = itemView.findViewById(R.id.exp_task);
         }
     }
 }

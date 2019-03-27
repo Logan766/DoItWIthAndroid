@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Taskers.class}, version = 1)
+@Database(entities = {Taskers.class}, version = 1, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
 
     private static TaskDatabase instance;
@@ -43,9 +43,9 @@ public abstract class TaskDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            taskDao.insert(new Taskers("Nazev1", "popis1", 1));
-            taskDao.insert(new Taskers("Nazev2", "popis2", 2));
-            taskDao.insert(new Taskers("Nazev3", "popis3", 3));
+            taskDao.insert(new Taskers("Nazev1", "popis1", 1, 80));
+            taskDao.insert(new Taskers("Nazev2", "popis2", 2, 150));
+            taskDao.insert(new Taskers("Nazev3", "popis3", 3, 200));
             return null;
         }
     }

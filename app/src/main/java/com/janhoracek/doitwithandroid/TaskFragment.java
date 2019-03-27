@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,10 @@ public class TaskFragment extends Fragment {
             String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddTaskActivity.EXTRA_PRIORITY, 1);
+            int duration = data.getIntExtra(AddTaskActivity.EXTRA_DURATION, 1);
+            Log.d("DIWD", "DURATION is " + duration);
 
-            Taskers task = new Taskers(title, description, priority);
+            Taskers task = new Taskers(title, description, priority, duration);
             taskViewModel.insert(task);
 
             Toast.makeText(getActivity(), "Task added successfully", Toast.LENGTH_SHORT).show();

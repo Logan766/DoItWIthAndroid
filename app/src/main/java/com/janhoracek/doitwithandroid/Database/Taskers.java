@@ -12,15 +12,15 @@ public class Taskers {
     private String name;
     private String description;
     private int priority;
-    /*private int exp;
-    private long deadline_time;
-    private long time_consumption;*/
+    private int exp;
+    /*private long deadline_time;*/
+    private int time_consumption;
 
-    public Taskers(String name, String description, int priority) {
+    public Taskers(String name, String description, int priority, int time_consumption) {
         this.name = name;
         this.description = description;
         this.priority = priority;
-        /*this.deadline_time = deadline_time;
+        //this.deadline_time = deadline_time;
         this.time_consumption = time_consumption;
         switch (priority) {
             case 1:
@@ -31,11 +31,15 @@ public class Taskers {
                 break;
             case 3:
                 exp = 400;
-        }*/
+        }
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public int getId() {
@@ -53,16 +57,17 @@ public class Taskers {
     public int getPriority() {
         return priority;
     }
-/*
+
     public int getExp() {
         return exp;
     }
 
+    /*
     public long getDeadline_time() {
         return deadline_time;
     }
-
-    public long getTime_consumption() {
+*/
+    public int getTime_consumption() {
         return time_consumption;
-    }*/
+    }
 }

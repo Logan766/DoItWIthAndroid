@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,14 +30,19 @@ import static java.time.format.FormatStyle.MEDIUM;
 public class AddTaskActivity extends AppCompatActivity {
     public static final String EXTRA_TITLE = "com.janhoracek.doitwithandroid.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.janhoracek.doitwithandroid.EXTRA_DESCRIPTION";
-    public static final String EXTRA_PRIORITY = "com.janhoracek.doitwithandroid.EXTRA_PRIORITX";
+    public static final String EXTRA_PRIORITY = "com.janhoracek.doitwithandroid.EXTRA_PRIORITY";
+    public static final String EXTRA_DEADLINE = "com.janhoracek.doitwithandroid.EXTRA_DEADLINE";
+    public static final String EXTRA_DURATION = "com.janhoracek.doitwithandroid.EXTRA_DURATION";
 
     private EditText mEditTextTitle;
     private EditText mEditTextDescription;
     private NumberPicker mNumberPickerPriority;
+    private NumberPicker mNumberPickerHours;
+    private NumberPicker mNumberPickerMinutes;
     private Toolbar mToolbar;
     private TextView mTextViewAddDate;
-    SimpleDateFormat mDateFormat;
+    private SimpleDateFormat mDateFormat;
+    private Date mDeadline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,8 @@ public class AddTaskActivity extends AppCompatActivity {
         mEditTextTitle = findViewById(R.id.edit_task_title);
         mEditTextDescription = findViewById(R.id.edit_task_desciption);
         mNumberPickerPriority = findViewById(R.id.number_pickser_priority);
+        mNumberPickerHours = findViewById(R.id.number_picker_duration_hours);
+        mNumberPickerMinutes = findViewById(R.id.number_picker_duration_minutes);
         mToolbar = findViewById(R.id.add_task_toolbar);
         mTextViewAddDate = findViewById(R.id.text_view_add_date);
         mDateFormat = new SimpleDateFormat("d. MMMM yyyy    HH:mm");
@@ -53,14 +61,26 @@ public class AddTaskActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        setTitle("Add Task");
 
         mNumberPickerPriority.setMinValue(1);
         mNumberPickerPriority.setMaxValue(3);
 
+        mNumberPickerHours.setMinValue(0);
+        mNumberPickerHours.setMaxValue(72);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-        setTitle("Add Task");
+        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                int temp = value * 15;
+                return "" + temp;
+            }
+        };
+        mNumberPickerMinutes.setFormatter(formatter);
 
+        mNumberPickerMinutes.setMinValue(0);
+        mNumberPickerMinutes.setMaxValue(3);
 
         mTextViewAddDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +92,10 @@ public class AddTaskActivity extends AppCompatActivity {
                         //.displayHours(false)
                         //.displayMinutes(false)
                         //.todayText("aujourd'hui")
+                        //.backgroundColor(Color.BLACK)
+                        //.mainColor(Color.GREEN)
+                        //.titleTextColor(Color.GREEN)
+                        .mustBeOnFuture()
                         .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                             @Override
                             public void onDisplayed(SingleDateAndTimePicker picker) {
@@ -83,6 +107,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {
+                                mDeadline = date;
                                 //String myString = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(date);
                                 String myString = mDateFormat.format(date);
                                 mTextViewAddDate.setText(myString);
@@ -97,9 +122,12 @@ public class AddTaskActivity extends AppCompatActivity {
         String title = mEditTextTitle.getText().toString();
         String description = mEditTextDescription.getText().toString();
         int priority = mNumberPickerPriority.getValue();
+        Date deadline = mDeadline;
+        int duration_time = mNumberPickerHours.getValue() * 60 + mNumberPickerMinutes.getValue() * 15;
 
-        if (title.trim().isEmpty() || description.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert title and description", Toast.LENGTH_SHORT).show();
+
+        if (title.trim().isEmpty() || description.trim().isEmpty() || duration_time == 0 || deadline == null) {
+            Toast.makeText(this, "Please insert title and description and duration", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -107,6 +135,8 @@ public class AddTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
+        data.putExtra(EXTRA_DURATION, duration_time);
+        data.putExtra(EXTRA_DEADLINE, deadline);
 
         setResult(RESULT_OK, data);
         finish();
