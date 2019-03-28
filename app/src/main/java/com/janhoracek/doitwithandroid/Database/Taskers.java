@@ -1,6 +1,8 @@
 package com.janhoracek.doitwithandroid.Database;
 
 
+import java.util.Date;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -13,10 +15,10 @@ public class Taskers {
     private String description;
     private int priority;
     private int exp;
-    /*private long deadline_time;*/
+    //private Date deadline_time;
     private int time_consumption;
 
-    public Taskers(String name, String description, int priority, int time_consumption) {
+    public Taskers(String name, String description, int priority,  int time_consumption) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -62,11 +64,11 @@ public class Taskers {
         return exp;
     }
 
-    /*
-    public long getDeadline_time() {
+
+    /*public Date getDeadline_time() {
         return deadline_time;
-    }
-*/
+    }*/
+
     public int getTime_consumption() {
         return time_consumption;
     }

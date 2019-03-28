@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
+import java.util.Date;
+
 import static android.app.Activity.RESULT_OK;
 
 public class TaskFragment extends Fragment {
@@ -53,7 +55,9 @@ public class TaskFragment extends Fragment {
             String description = data.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddTaskActivity.EXTRA_PRIORITY, 1);
             int duration = data.getIntExtra(AddTaskActivity.EXTRA_DURATION, 1);
-            Log.d("DIWD", "DURATION is " + duration);
+            Date deadline = (Date) data.getSerializableExtra(AddTaskActivity.EXTRA_DEADLINE);
+
+            Log.d("DIWD", "Deadline(long) is " + deadline);
 
             Taskers task = new Taskers(title, description, priority, duration);
             taskViewModel.insert(task);

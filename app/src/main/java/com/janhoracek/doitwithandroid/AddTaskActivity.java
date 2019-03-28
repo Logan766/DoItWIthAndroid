@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,8 +33,8 @@ public class AddTaskActivity extends AppCompatActivity {
     public static final String EXTRA_TITLE = "com.janhoracek.doitwithandroid.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.janhoracek.doitwithandroid.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY = "com.janhoracek.doitwithandroid.EXTRA_PRIORITY";
-    public static final String EXTRA_DEADLINE = "com.janhoracek.doitwithandroid.EXTRA_DEADLINE";
     public static final String EXTRA_DURATION = "com.janhoracek.doitwithandroid.EXTRA_DURATION";
+    public static final String EXTRA_DEADLINE = "com.janhoracek.doitwithandroid.EXTRA_DEADLINE";
 
     private EditText mEditTextTitle;
     private EditText mEditTextDescription;
@@ -43,6 +45,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private TextView mTextViewAddDate;
     private SimpleDateFormat mDateFormat;
     private Date mDeadline;
+    private SimpleDateFormat mDateFormatIso8601;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class AddTaskActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.add_task_toolbar);
         mTextViewAddDate = findViewById(R.id.text_view_add_date);
         mDateFormat = new SimpleDateFormat("d. MMMM yyyy    HH:mm");
+
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -139,6 +143,16 @@ public class AddTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_DEADLINE, deadline);
 
         setResult(RESULT_OK, data);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mDeadline);
+
+        Log.d("DIWD", "date year: " + calendar.get(Calendar.YEAR));
+        Log.d("DIWD", "date month: " + calendar.get(Calendar.MONTH));
+        Log.d("DIWD", "date day: " + calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        Log.d("DIWD", "time: " + calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE));
+
+
         finish();
 
     }
