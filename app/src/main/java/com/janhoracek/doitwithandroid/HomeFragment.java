@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 //public class HomeFragment extends Fragment implements View.OnClickListener
@@ -35,6 +38,20 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        Date currentTime = Calendar.getInstance().getTime();
+
+        int date_id = Calendar.getInstance().get(Calendar.YEAR) * 10000 + (Calendar.getInstance().get(Calendar.MONTH)+1) * 100 + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+
+        Log.d("DIWD", "Integer id date " + String.valueOf(date_id));
+
+        Log.d("DIWD", "Integer year " + String.valueOf(date_id / 10000));
+        Log.d("DIWD", "Integer month " + String.valueOf((date_id % 10000) / 100));
+        Log.d("DIWD", "Integer day " + String.valueOf(date_id % 100));
+
+        
 
         //observe data and change
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
