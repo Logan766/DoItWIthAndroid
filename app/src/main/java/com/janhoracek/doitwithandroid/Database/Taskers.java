@@ -15,14 +15,17 @@ public class Taskers {
     private String description;
     private int priority;
     private int exp;
-    //private Date deadline_time;
     private int time_consumption;
+    private int d_day;
+    private int d_month;
+    private int d_year;
+    private String d_time;
+    private Long d_time_milisec;
 
-    public Taskers(String name, String description, int priority,  int time_consumption) {
+    public Taskers(String name, String description, int priority,  int time_consumption, int d_day, int d_month, int d_year, String d_time, Long d_time_milisec) {
         this.name = name;
         this.description = description;
         this.priority = priority;
-        //this.deadline_time = deadline_time;
         this.time_consumption = time_consumption;
         switch (priority) {
             case 1:
@@ -34,6 +37,11 @@ public class Taskers {
             case 3:
                 exp = 400;
         }
+        this.d_day = d_day;
+        this.d_month = d_month;
+        this.d_year = d_year;
+        this.d_time = d_time;
+        this.d_time_milisec = d_time_milisec;
     }
 
     public void setId(int id) {
@@ -64,12 +72,27 @@ public class Taskers {
         return exp;
     }
 
+    public int getD_day() {
+        return d_day;
+    }
 
-    /*public Date getDeadline_time() {
-        return deadline_time;
-    }*/
+    public int getD_month() {
+        return d_month;
+    }
+
+    public int getD_year() {
+        return d_year;
+    }
+
+    public String getD_time() {
+        return d_time;
+    }
 
     public int getTime_consumption() {
         return time_consumption;
+    }
+
+    public Long getD_time_milisec() {
+        return d_time_milisec;
     }
 }

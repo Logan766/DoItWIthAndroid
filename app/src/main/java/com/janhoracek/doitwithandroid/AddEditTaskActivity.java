@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +33,8 @@ import java.util.Date;
 import static java.time.format.FormatStyle.LONG;
 import static java.time.format.FormatStyle.MEDIUM;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class AddEditTaskActivity extends AppCompatActivity {
+    public static final String EXTRA_ID = "com.janhoracek.doitwithandroid.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.janhoracek.doitwithandroid.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.janhoracek.doitwithandroid.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY = "com.janhoracek.doitwithandroid.EXTRA_PRIORITY";
@@ -59,14 +64,7 @@ public class AddTaskActivity extends AppCompatActivity {
         mNumberPickerMinutes = findViewById(R.id.number_picker_duration_minutes);
         mToolbar = findViewById(R.id.add_task_toolbar);
         mTextViewAddDate = findViewById(R.id.text_view_add_date);
-        mDateFormat = new SimpleDateFormat("d. MMMM yyyy    HH:mm");
-
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-        setTitle("Add Task");
+        mDateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
 
         mNumberPickerPriority.setMinValue(1);
         mNumberPickerPriority.setMaxValue(3);
@@ -78,7 +76,7 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public String format(int value) {
                 int temp = value * 15;
-                return "" + temp;
+                return String.valueOf(temp);
             }
         };
         mNumberPickerMinutes.setFormatter(formatter);
@@ -93,8 +91,6 @@ public class AddTaskActivity extends AppCompatActivity {
                         //.bottomSheet()
                         .curved()
                         //.minutesStep(15)
-                        //.displayHours(false)
-                        //.displayMinutes(false)
                         //.todayText("aujourd'hui")
                         //.backgroundColor(Color.BLACK)
                         //.mainColor(Color.GREEN)
@@ -120,6 +116,40 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Task");
+            mDeadline = (Date) intent.getSerializableExtra(EXTRA_DEADLINE);
+            mEditTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            mEditTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            mTextViewAddDate.setText(mDateFormat.format(mDeadline));
+            mNumberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+            mNumberPickerHours.setValue(intent.getIntExtra(EXTRA_DURATION, 1)/60);
+            mNumberPickerMinutes.setValue((intent.getIntExtra(EXTRA_DURATION, 1) % 60) / 15 );
+
+            //bug fix
+            try {
+                Method method = mNumberPickerMinutes.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+                method.setAccessible(true);
+                method.invoke(mNumberPickerMinutes, true);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } else {
+            setTitle("Add Task");
+        }
     }
 
     private void saveTask() {
@@ -129,9 +159,13 @@ public class AddTaskActivity extends AppCompatActivity {
         Date deadline = mDeadline;
         int duration_time = mNumberPickerHours.getValue() * 60 + mNumberPickerMinutes.getValue() * 15;
 
-
-        if (title.trim().isEmpty() || description.trim().isEmpty() || duration_time == 0 || deadline == null) {
+        if (title.trim().isEmpty() || description.trim().isEmpty() || duration_time == 0) {
             Toast.makeText(this, "Please insert title and description and duration", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (deadline == null) {
+            Toast.makeText(this, "Deadline empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -141,6 +175,11 @@ public class AddTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_PRIORITY, priority);
         data.putExtra(EXTRA_DURATION, duration_time);
         data.putExtra(EXTRA_DEADLINE, deadline);
+
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id);
+        }
 
         setResult(RESULT_OK, data);
 

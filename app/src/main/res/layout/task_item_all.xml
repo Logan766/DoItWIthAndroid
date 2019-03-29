@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp">
+
+
+    <RelativeLayout
+        android:id="@+id/task_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            app:srcCompat="@drawable/ic_delete_sweep_black_24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ellipsize="end"
+
+            android:maxLines="1"
+            android:text="Title"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/text_view_description"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_title"
+            android:text="Description" />
+
+        <TextView
+            android:drawableLeft="@drawable/ic_whatshot_black_24dp"
+            android:drawablePadding="4dp"
+            android:id="@+id/text_view_deadline"
+            android:layout_marginTop="15dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_below="@id/text_view_description"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_view_deadline_data"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.1.2019"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_toEndOf="@+id/text_view_deadline"
+            android:layout_below="@+id/text_view_description"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/text_view_time_consumption"
+            android:drawableLeft="@drawable/ic_access_alarms_black_24dp"
+            android:drawablePadding="4dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/text_view_description"
+            android:layout_toStartOf="@+id/text_view_time_consumption_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_view_time_consumption_data"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="75 min."
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/text_view_description"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -27,8 +27,9 @@ public class HomeFragment extends Fragment{
     private ViewPager mViewPager;
     private GraphPagerAdapter mAdapter;
     private SpringDotsIndicator mSpringDotsIndicator;
-    private TaskAdapter adapter;
+    private TaskAdapterToday adapter;
     private TaskViewModel taskViewModel;
+    private RecyclerView mRecyclerView;
 
     @Nullable
     @Override
@@ -49,11 +50,11 @@ public class HomeFragment extends Fragment{
 
         Button mButton1 = v.findViewById(R.id.button_test);
         mButton1.setOnClickListener(this);*/
-        RecyclerView mRecyclerView = v.findViewById(R.id.recycler_view);
+        mRecyclerView = v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        adapter = new TaskAdapter();
+        adapter = new TaskAdapterToday();
         mRecyclerView.setAdapter(adapter);
 
         mSpringDotsIndicator = v.findViewById(R.id.spring_dots_indicator);

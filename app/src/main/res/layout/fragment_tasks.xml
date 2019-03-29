@@ -2,41 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:text="Choose task to edit"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/text_view_choose_task"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/text_view_choose_task"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_fragment_recyclerview"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/task_item_all"/>
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="125dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/content_scrolling"
-                android:layout_below="@id/calendarView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/calendarView"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="-50dp"
-                android:text="Choose a date"
-                android:textSize="25dp" />
-        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

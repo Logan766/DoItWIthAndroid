@@ -45,7 +45,7 @@
             android:layout_below="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/task_item"/>
+            tools:listitem="@layout/task_item_today"/>
 
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
