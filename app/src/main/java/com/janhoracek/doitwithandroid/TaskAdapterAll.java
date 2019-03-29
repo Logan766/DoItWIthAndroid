@@ -15,12 +15,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TaskAdapterAll extends RecyclerView.Adapter<TaskAdapterAll.TaskHolder> {
-    private List<Taskers> mTasks = new ArrayList<>();
+public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHolder> {
     private OnTaskClickListener mListener;
     private SimpleDateFormat mDateFormat;
+
+    public TaskAdapterAll() {
+        super(DIFF_CALLBACK);
+    }
+
+    public static final DiffUtil.ItemCallback<Taskers> DIFF_CALLBACK = new DiffUtil.ItemCallback<Taskers>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Taskers oldItem, @NonNull Taskers newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Taskers oldItem, @NonNull Taskers newItem) {
+            return oldItem.getName().equals(newItem.getName()) &&
+                    oldItem.getDescription().equals(newItem.getDescription()) &&
+                    oldItem.getPriority() == newItem.getPriority() &&
+                    oldItem.getTime_consumption() == newItem.getTime_consumption() &&
+                    oldItem.getD_time_milisec() == newItem.getD_time_milisec();
+        }
+    };
 
     @NonNull
     @Override
@@ -33,7 +54,7 @@ public class TaskAdapterAll extends RecyclerView.Adapter<TaskAdapterAll.TaskHold
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         mDateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
-        Taskers currentTaskers = mTasks.get(position);
+        Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:
                 holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
@@ -51,21 +72,10 @@ public class TaskAdapterAll extends RecyclerView.Adapter<TaskAdapterAll.TaskHold
         holder.mTextViewDeadline.setText(mDateFormat.format(currentTaskers.getD_time_milisec()));
     }
 
-    @Override
-    public int getItemCount() {
-        return mTasks.size();
-    }
 
     public Taskers getTaskAt(int position) {
-        return mTasks.get(position);
+        return getItem(position);
     }
-
-    public void setTasks(List<Taskers> tasks) {
-        this.mTasks = tasks;
-        notifyDataSetChanged(); //replace
-
-    }
-
 
     class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
@@ -87,7 +97,7 @@ public class TaskAdapterAll extends RecyclerView.Adapter<TaskAdapterAll.TaskHold
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (mListener != null && position != RecyclerView.NO_POSITION) {
-                        mListener.onTaskClick(mTasks.get(position));
+                        mListener.onTaskClick(getItem(position));
                     }
                 }
             });

@@ -48,7 +48,7 @@ public class TaskFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
                 //update ReyclerView
-                mAdapterAll.setTasks(taskers);
+                mAdapterAll.submitList(taskers);
             }
         });
 
