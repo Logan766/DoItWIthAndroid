@@ -12,7 +12,7 @@ public class TaskRepository {
     private LiveData allTasks;
 
     public TaskRepository(Application application) {
-        TaskDatabase database = TaskDatabase.getInstance(application);
+        AppDatabase database = AppDatabase.getInstance(application);
         taskDao = database.taskDao();
         allTasks = taskDao.getAllNotes();
     }

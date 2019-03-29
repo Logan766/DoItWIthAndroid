@@ -1,10 +1,10 @@
 package com.janhoracek.doitwithandroid;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.janhoracek.doitwithandroid.Database.TaskViewModel;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.List;
 
 
 public class ApplicationActivity extends AppCompatActivity {

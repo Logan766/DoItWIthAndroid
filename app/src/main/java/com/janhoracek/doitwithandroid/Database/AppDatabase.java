@@ -9,16 +9,17 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Taskers.class}, version = 1, exportSchema = false)
-public abstract class TaskDatabase extends RoomDatabase {
+@Database(entities = {Taskers.class, Stats.class}, version = 1, exportSchema = false)
+public abstract class AppDatabase extends RoomDatabase {
 
-    private static TaskDatabase instance;
+    private static AppDatabase instance;
 
     public abstract TaskDao taskDao();
+    public abstract StatsDao statsDao();
 
-    public static synchronized TaskDatabase getInstance(Context context) {
+    public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), TaskDatabase.class, "task_databse")
+            instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "task_databse")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
@@ -36,9 +37,11 @@ public abstract class TaskDatabase extends RoomDatabase {
 
     private static  class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private TaskDao taskDao;
+        private StatsDao statsDao;
 
-        private PopulateDbAsyncTask(TaskDatabase db) {
+        private PopulateDbAsyncTask(AppDatabase db) {
             taskDao = db.taskDao();
+            statsDao = db.statsDao();
         }
 
         @Override
@@ -46,6 +49,11 @@ public abstract class TaskDatabase extends RoomDatabase {
 //            taskDao.insert(new Taskers("Nazev1", "popis1", 1, 80, 15, 6, 2019, "13:45"));
 //            taskDao.insert(new Taskers("Nazev2", "popis2", 2, 150, 15,6,2019, "13:15"));
 //            taskDao.insert(new Taskers("Nazev3", "popis3", 3, 200,16,7, 2019, "12:30"));
+
+            statsDao.insert(new Stats(20190325));
+            statsDao.insert(new Stats(20190326));
+            statsDao.insert(new Stats(20190327));
+            statsDao.insert(new Stats(20190328));
             return null;
         }
     }

@@ -17,9 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.janhoracek.doitwithandroid.Database.Stats;
+import com.janhoracek.doitwithandroid.Database.StatsViewModel;
+import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +37,9 @@ public class HomeFragment extends Fragment{
     private TaskAdapterToday adapter;
     private TaskViewModel taskViewModel;
     private RecyclerView mRecyclerView;
+
+    private StatsViewModel mStatsViewModel;
+    private List<Stats> mStats = new ArrayList<>();
 
     @Nullable
     @Override
@@ -51,7 +58,7 @@ public class HomeFragment extends Fragment{
         Log.d("DIWD", "Integer month " + String.valueOf((date_id % 10000) / 100));
         Log.d("DIWD", "Integer day " + String.valueOf(date_id % 100));
 
-        
+
 
         //observe data and change
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
@@ -62,6 +69,28 @@ public class HomeFragment extends Fragment{
                 adapter.setTasks(taskers);
             }
         });
+
+        mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
+
+        Stats stats = new Stats(20190325);
+        stats.setHigh_priority_done(5);
+        stats.setLow_priority_done(1);
+        stats.setExp(2100);
+        mStatsViewModel.update(stats);
+
+        mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
+            @Override
+            public void onChanged(@Nullable List<Stats> stats) {
+                //update ReyclerView
+                //adapter.setTasks(taskers);
+                Log.d("DIWD", "TRYYYY: " + stats.get(0).getExp());
+            }
+        });
+
+
+
+
+
         /*Button mButton = v.findViewById(R.id.button4);
         mButton.setOnClickListener(this);
 
