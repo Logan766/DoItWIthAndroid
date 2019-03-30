@@ -72,18 +72,18 @@ public class HomeFragment extends Fragment{
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
 
-        Stats stats = new Stats(20190325);
+        /*Stats stats = new Stats(20190325);
         stats.setHigh_priority_done(5);
         stats.setLow_priority_done(1);
         stats.setExp(2100);
-        mStatsViewModel.update(stats);
+        mStatsViewModel.update(stats);*/
 
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
             public void onChanged(@Nullable List<Stats> stats) {
                 //update ReyclerView
                 //adapter.setTasks(taskers);
-                Log.d("DIWD", "TRYYYY: " + stats.get(0).getExp());
+                //Log.d("DIWD", "TRYYYY: " + stats.get(0).getExp());
             }
         });
 

@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class DataFetcher extends AppCompatActivity {
         entries.add(new BarEntry(6f, 60f));
 
         BarDataSet set = new BarDataSet(entries, "BarDataSet");
-        set.setColors(new int[] {  R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark });
+        set.setColors(ColorTemplate.JOYFUL_COLORS);
         BarData data = new BarData(set);
         return data;
     }
@@ -81,7 +82,7 @@ public class DataFetcher extends AppCompatActivity {
     }
 
     public LineData tuMasLino() {
-        List<Entry> valsComp1 = new ArrayList<Entry>();
+        /*List<Entry> valsComp1 = new ArrayList<Entry>();
 
         Entry c1e1 = new Entry(0f, 100000f); // 0 == quarter 1
         valsComp1.add(c1e1);
@@ -93,6 +94,21 @@ public class DataFetcher extends AppCompatActivity {
 
         List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(setComp1);
+
+        LineData data = new LineData(dataSets);*/
+
+        ArrayList<Entry> yValues = new ArrayList<>();
+
+        yValues.add(new Entry(0, 60f));
+        yValues.add(new Entry(1, 70f));
+        yValues.add(new Entry(2, 40f));
+        yValues.add(new Entry(3, 20f));
+        yValues.add(new Entry(4, 90f));
+
+        LineDataSet set1 = new LineDataSet(yValues, "Data Set 1");
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
 
         LineData data = new LineData(dataSets);
         return data;

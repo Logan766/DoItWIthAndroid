@@ -62,10 +62,16 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case 1:
                     {
                     GraphHolderLineChart viewHolder = (GraphHolderLineChart) holder;
+                    LineChart chart = ((GraphHolderLineChart) holder).graph;
                     ChartItem item = items.get(position);
-                    viewHolder.lineTitle.setText("Linka");
-                    viewHolder.graph.notifyDataSetChanged();
-                    viewHolder.graph.postInvalidate();
+                    viewHolder.setIsRecyclable(true);
+
+                    viewHolder.lineTitle.setText(item.getTitle());
+                    item.styleGraph(viewHolder.graph);
+                    //item.setGraphData(item.getChartData());
+
+                    chart.invalidate();
+
                     }
                     break;
                 case 2:
@@ -74,32 +80,11 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     BarChart chart = ((GraphHolderBarChart) holder).graph;
                     ChartItem item = items.get(position);
                     viewHolder.setIsRecyclable(true);
-                    viewHolder.barTitle.setText("Bar");
-                        // apply styling
-                        chart.getDescription().setEnabled(false);
-                        chart.setDrawGridBackground(false);
-                        chart.setDrawBarShadow(false);
 
-                        XAxis xAxis = chart.getXAxis();
-                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                        xAxis.setDrawGridLines(false);
-                        xAxis.setDrawAxisLine(true);
+                    viewHolder.barTitle.setText(item.getTitle());
+                    item.styleGraph(viewHolder.graph);
+                    item.setGraphData(item.getChartData());
 
-                        YAxis leftAxis = chart.getAxisLeft();
-                        leftAxis.setLabelCount(5, false);
-                        leftAxis.setSpaceTop(20f);
-                        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-                        YAxis rightAxis = chart.getAxisRight();
-                        rightAxis.setLabelCount(5, false);
-                        rightAxis.setSpaceTop(20f);
-                        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-
-                        chart.animateXY(2500, 2500);
-
-                    chart.setData((BarData) item.getChartData());
-                    chart.notifyDataSetChanged();
                     chart.invalidate();
                     }
                     break;
@@ -128,7 +113,10 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setGraphs (List<ChartItem> graphs) {
         this.items = graphs;
-        //notifyDataSetChanged(); //replace
+    }
+
+    public List<ChartItem> getGraphs() {
+        return items;
     }
 
 
