@@ -26,6 +26,18 @@ public class Stats {
         medium_priority_done = 0;
         high_priority_done = 0;
     }
+    public String toString() {
+        String result;
+        result = "\n ID: " + String.valueOf(getId()) +
+                 "\n YEAR: " + String.valueOf(getYear()) +
+                 "\n MONTH: " + String.valueOf(getMonth()) +
+                 "\n DAY: " + String.valueOf(getDate()) +
+                 "\n EXP: " + String.valueOf(getExp()) +
+                 "\n LOW PRIORITY DONE: " + String.valueOf(getLow_priority_done()) +
+                 "\n MEDIUM PRIORITY DONE: " + String.valueOf(getMedium_priority_done()) +
+                 "\n HIGH PRIORITY DONE: " + String.valueOf(getHigh_priority_done());
+        return result;
+    }
 
     public int getId() {
         return id;

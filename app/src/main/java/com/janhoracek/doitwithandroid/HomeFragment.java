@@ -30,6 +30,8 @@ import java.util.List;
 
 //public class HomeFragment extends Fragment implements View.OnClickListener
 public class HomeFragment extends Fragment{
+    private static final String TAG = "DIWD1";
+
 
     private ViewPager mViewPager;
     private GraphPagerAdapter mAdapter;
@@ -71,6 +73,7 @@ public class HomeFragment extends Fragment{
         });
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
+
 
         /*Stats stats = new Stats(20190325);
         stats.setHigh_priority_done(5);
@@ -138,7 +141,43 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                /*int newExp = adapter.getTaskAt(viewHolder.getAdapterPosition()).getExp();
+                Log.d(TAG, "new EXP= " + String.valueOf(adapter.getTaskAt(viewHolder.getAdapterPosition()).getExp()));
+
+                int newPriority = adapter.getTaskAt(viewHolder.getAdapterPosition()).getPriority();
+                Log.d(TAG, "new priority: " + String.valueOf(adapter.getTaskAt(viewHolder.getAdapterPosition()).getPriority()));
+
+                int exp = mStatsViewModel.getPrioritiesExp(20190329).get(0).getExp();
+                Log.d(TAG, "EXP today " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getExp()));
+
+                int high_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getHigh_priority_done();
+                Log.d(TAG, "high priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getHigh_priority_done()));
+
+                int medium_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getMedium_priority_done();
+                Log.d(TAG, "medium priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getMedium_priority_done()));
+
+                int low_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getLow_priority_done();
+                Log.d(TAG, "medium priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getLow_priority_done()));
+
+                exp += newExp;
+                Log.d(TAG, "EXP k zapsani " + String.valueOf(exp));
+                switch (newPriority) {
+                    case 1:
+                        high_priority += 1;
+                        break;
+                    case 2:
+                        medium_priority += 1;
+                        break;
+                    case 3:
+                        low_priority += 1;
+                        break;
+                }
+                mStatsViewModel.update(low_priority, medium_priority, high_priority, exp, 20190329);*/
+                mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
+
+                Log.d(TAG, "onSwiped: " + mStatsViewModel.getPrioritiesExp(20190329).get(0).toString());
             }
         }).attachToRecyclerView(mRecyclerView);
 

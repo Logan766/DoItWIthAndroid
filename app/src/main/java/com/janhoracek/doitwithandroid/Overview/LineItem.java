@@ -45,7 +45,7 @@ public class LineItem extends  ChartItem {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-        //xAxis.setGranularity(1f);
+        xAxis.setGranularity(1f);
 
 
 

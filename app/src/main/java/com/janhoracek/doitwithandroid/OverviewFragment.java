@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.protobuf.StringValue;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Overview.BarItem;
@@ -108,11 +109,11 @@ public class OverviewFragment extends Fragment {
     private void updateLine(List<Stats> stats, GraphAdaper adaper) {
         LineChartEntry = new ArrayList<>();
         for(int i = 0; i<stats.size(); i++) {
-            LineChartEntry.add(new Entry(stats.get(i).getId(), stats.get(i).getExp()));
-            Log.d("DIWD", "updateLine: " + String.valueOf(stats.get(i).getExp()));
+            LineChartEntry.add(new Entry(stats.get(i).getDate(), stats.get(i).getExp()));
+            //Log.d("DIWD", "ID: " + String.valueOf(stats.get(i).getId()) + "EXP: " +String.valueOf(stats.get(i).getExp()));
         }
         Log.d("DIWD", "LineChartEntry size= " + String.valueOf(LineChartEntry.size()));
-        Collections.sort(LineChartEntry, new EntryXComparator());
+        //Collections.sort(LineChartEntry, new EntryXComparator());
         LineDataSet = new LineDataSet(LineChartEntry, "XP");
         LineChartDataSet = new ArrayList<>();
         LineChartDataSet.add(LineDataSet);

@@ -57,13 +57,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
+                holder.mRelativeLayout.setBackgroundColor(Color.RED);
                 break;
             case 2:
                 holder.mRelativeLayout.setBackgroundColor(Color.YELLOW);
                 break;
             case 3:
-                holder.mRelativeLayout.setBackgroundColor(Color.RED);
+                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());

@@ -26,6 +26,10 @@ public class StatsRepository {
         new UpdateStatAsyncTask(statsDao).execute(stats);
     }
 
+    public void update(int low_priority, int medium_priority, int high_priority, int exp, int id_today) {
+        new UpdateStatsPriorityAsyncTask(statsDao).execute(low_priority, medium_priority, high_priority, exp, id_today);
+    }
+
     public void delete(Stats stats) {
         new DeleteStatAsyncTask(statsDao).execute(stats);
     }
@@ -36,6 +40,15 @@ public class StatsRepository {
 
     public LiveData<List<Stats>> getAllStats() {
         return allStats;
+    }
+
+    public LiveData<List<Stats>> searchBy(String v) {
+
+        return null;
+    }
+
+    public List<Stats> getPrioritiesExp(int id_today) {
+        return statsDao.getPrioritiesExp(id_today);
     }
 
     private static class InsertStatAsyncTask extends AsyncTask<Stats, Void, Void> {
@@ -62,6 +75,21 @@ public class StatsRepository {
         @Override
         protected Void doInBackground(Stats... stats) {
             statsDao.update(stats[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateStatsPriorityAsyncTask extends AsyncTask<Integer, Void, Void> {
+        private StatsDao statsDao;
+
+        private UpdateStatsPriorityAsyncTask(StatsDao statsDao) {
+            this.statsDao =statsDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            statsDao.update(integers[0], integers[1], integers[2], integers[3], integers[4]);
             return null;
         }
     }

@@ -33,13 +33,13 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         Taskers currentTaskers = mTasks.get(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
+                holder.mRelativeLayout.setBackgroundColor(Color.RED);
                 break;
             case 2:
                 holder.mRelativeLayout.setBackgroundColor(Color.YELLOW);
                 break;
             case 3:
-                holder.mRelativeLayout.setBackgroundColor(Color.RED);
+                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());
