@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.Entity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -43,12 +44,7 @@ public class OverviewFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ChartItem> items = new ArrayList<>();
     private StatsViewModel mStatsViewModel;
-    private List<Stats> Mstats;
-
-    private ArrayList<Entry> LineChartEntry;
-    LineDataSet LineDataSet;
-    ArrayList<ILineDataSet> LineChartDataSet;
-    LineData mLineData;
+    //private List<Stats> Mstats;
 
     @Nullable
     @Override
@@ -57,23 +53,13 @@ public class OverviewFragment extends Fragment {
         mRecyclerView = v.findViewById(R.id.recycler_view_graphs);
         mFloatingActionButton = v.findViewById(R.id.fab_change);
 
-
-
-        LineChartEntry = new ArrayList<>();
-        LineDataSet = new LineDataSet(LineChartEntry, "XP");
-        LineChartDataSet = new ArrayList<>();
-        LineChartDataSet.add(LineDataSet);
-        mLineData = new LineData(LineDataSet);
-
-
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        items.add(new LineItem(mLineData, "Lina"));
+        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), "Experience gained per day"));
         items.add(new BarItem(new DataFetcher().tuMasBare(), "Nadpis1"));
         items.add(new BarItem(new DataFetcher().tuMasBare2(), "Nadpis2"));
         items.add(new BarItem(new DataFetcher().tuMasBare3(), "Nadpis3"));
-
         items.add(new PieItem(new DataFetcher().tuMas(), "Nadpis4"));
 
         final GraphAdaper adaper = new GraphAdaper();
@@ -85,9 +71,7 @@ public class OverviewFragment extends Fragment {
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
             public void onChanged(@Nullable List<Stats> stats) {
-                //updateLine(stats, adaper);
-                Mstats = stats;
-                Log.d("DIWD", "ted je size " + String.valueOf(stats.size()));
+
             }
         });
         Log.d("DIWD", "ted cumis na statistiku");
@@ -96,31 +80,13 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("DIWD", "cudlajz neco dela ");
-                /*Stats stat = new Stats(20190330);
-                stat.setExp(500);
-                mStatsViewModel.insert(stat);*/
-                updateLine(Mstats, adaper);
+                for(int i=0; i<mStatsViewModel.getAllStatsList().size(); i++) {
+                    Log.d("OWUP", "Print: " + mStatsViewModel.getAllStatsList().get(i).toString());
+                }
             }
         });
-
         return v;
     }
 
-    private void updateLine(List<Stats> stats, GraphAdaper adaper) {
-        LineChartEntry = new ArrayList<>();
-        for(int i = 0; i<stats.size(); i++) {
-            LineChartEntry.add(new Entry(stats.get(i).getDate(), stats.get(i).getExp()));
-            //Log.d("DIWD", "ID: " + String.valueOf(stats.get(i).getId()) + "EXP: " +String.valueOf(stats.get(i).getExp()));
-        }
-        Log.d("DIWD", "LineChartEntry size= " + String.valueOf(LineChartEntry.size()));
-        //Collections.sort(LineChartEntry, new EntryXComparator());
-        LineDataSet = new LineDataSet(LineChartEntry, "XP");
-        LineChartDataSet = new ArrayList<>();
-        LineChartDataSet.add(LineDataSet);
-        mLineData = new LineData(LineDataSet);
-        Log.d("DIWD", "graph type " + String.valueOf(adaper.getGraphs().get(0).getTitle()));
-        adaper.getGraphs().get(0).setGraphData(mLineData);
-
-    }
 
 }

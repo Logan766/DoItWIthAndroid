@@ -22,4 +22,6 @@ public abstract class ChartItem {
 
     public abstract void notifyGraph();
 
+    public abstract Chart getGraph();
+
 }

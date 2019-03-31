@@ -3,12 +3,18 @@ package com.janhoracek.doitwithandroid;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.janhoracek.doitwithandroid.Database.Stats;
+import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +27,13 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.List;
+
 
 public class ApplicationActivity extends AppCompatActivity {
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
-    private TaskViewModel taskViewModel;
+    private StatsViewModel mStatsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +41,16 @@ public class ApplicationActivity extends AppCompatActivity {
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_application);
 
-        /*taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
+        mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
+        new DateHandler(mStatsViewModel).checkLastDate();
+        mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
-            public void onChanged(@Nullable List<Taskers> taskers) {
-                //update ReyclerView
-                Toast.makeText(ApplicationActivity.this, "Zmena nova", Toast.LENGTH_SHORT).show();
+            public void onChanged(@Nullable List<Stats> stats) {
+                Log.d("GGR", "Graf updated");
+                Log.d("GGR", "Velikost stats: " + stats.size());
+                ChartDataHolder.getInstance().setmLineChartData(stats);
             }
-        });*/
+        });
 
         BottomNavigationView mBottomNavigationView = findViewById(R.id.bottom_navigation);
         final Toolbar mToolbar = findViewById(R.id.toolbar);

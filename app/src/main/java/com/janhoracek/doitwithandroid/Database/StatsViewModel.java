@@ -50,6 +50,10 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getPrioritiesExp(id_today);
     }
 
+    public List<Stats> getAllStatsList() {
+        return mRepository.getAllStatsList();
+    }
+
     public List<Stats> getLastDate() {
         return mRepository.getLastDate();
     }

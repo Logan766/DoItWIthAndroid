@@ -47,58 +47,17 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-
-
-        /*Date currentTime = Calendar.getInstance().getTime();
-
-        int date_id = Calendar.getInstance().get(Calendar.YEAR) * 10000 + (Calendar.getInstance().get(Calendar.MONTH)+1) * 100 + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-
-        Log.d("DIWD", "Integer id date " + String.valueOf(date_id));
-
-        Log.d("DIWD", "Integer year " + String.valueOf(date_id / 10000));
-        Log.d("DIWD", "Integer month " + String.valueOf((date_id % 10000) / 100));
-        Log.d("DIWD", "Integer day " + String.valueOf(date_id % 100));*/
-
-
-
-        //observe data and change
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
-                //update ReyclerView
                 adapter.setTasks(taskers);
             }
         });
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
-        //new DateHandler(mStatsViewModel).getCurrentDateForStats();
-        new DateHandler(mStatsViewModel).checkLastDate();
-        /*Stats stats = new Stats(20190325);
-        stats.setHigh_priority_done(5);
-        stats.setLow_priority_done(1);
-        stats.setExp(2100);
-        mStatsViewModel.update(stats);*/
+        ChartDataHolder.getInstance().setmLineChartData(mStatsViewModel.getAllStatsList());
 
-        mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
-            @Override
-            public void onChanged(@Nullable List<Stats> stats) {
-                //update ReyclerView
-                //adapter.setTasks(taskers);
-                //Log.d("DIWD", "TRYYYY: " + stats.get(0).getExp());
-            }
-        });
-
-
-
-
-
-        /*Button mButton = v.findViewById(R.id.button4);
-        mButton.setOnClickListener(this);
-
-        Button mButton1 = v.findViewById(R.id.button_test);
-        mButton1.setOnClickListener(this);*/
         mRecyclerView = v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
@@ -141,43 +100,8 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-                /*int newExp = adapter.getTaskAt(viewHolder.getAdapterPosition()).getExp();
-                Log.d(TAG, "new EXP= " + String.valueOf(adapter.getTaskAt(viewHolder.getAdapterPosition()).getExp()));
-
-                int newPriority = adapter.getTaskAt(viewHolder.getAdapterPosition()).getPriority();
-                Log.d(TAG, "new priority: " + String.valueOf(adapter.getTaskAt(viewHolder.getAdapterPosition()).getPriority()));
-
-                int exp = mStatsViewModel.getPrioritiesExp(20190329).get(0).getExp();
-                Log.d(TAG, "EXP today " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getExp()));
-
-                int high_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getHigh_priority_done();
-                Log.d(TAG, "high priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getHigh_priority_done()));
-
-                int medium_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getMedium_priority_done();
-                Log.d(TAG, "medium priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getMedium_priority_done()));
-
-                int low_priority = mStatsViewModel.getPrioritiesExp(20190329).get(0).getLow_priority_done();
-                Log.d(TAG, "medium priority today: " + String.valueOf(mStatsViewModel.getPrioritiesExp(20190329).get(0).getLow_priority_done()));
-
-                exp += newExp;
-                Log.d(TAG, "EXP k zapsani " + String.valueOf(exp));
-                switch (newPriority) {
-                    case 1:
-                        high_priority += 1;
-                        break;
-                    case 2:
-                        medium_priority += 1;
-                        break;
-                    case 3:
-                        low_priority += 1;
-                        break;
-                }
-                mStatsViewModel.update(low_priority, medium_priority, high_priority, exp, 20190329);*/
                 mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
-
-                //Log.d(TAG, "onSwiped: " + mStatsViewModel.getPrioritiesExp(20190329).get(0).toString());
             }
         }).attachToRecyclerView(mRecyclerView);
 

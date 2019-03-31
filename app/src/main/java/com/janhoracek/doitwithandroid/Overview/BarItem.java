@@ -1,10 +1,5 @@
 package com.janhoracek.doitwithandroid.Overview;
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.view.LayoutInflater;
-import android.view.View;
-
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,7 +11,7 @@ public class BarItem extends ChartItem {
 
     private BarData mBarData;
     private String mTitle;
-    private BarChart barGraph;
+    private BarChart mBarChart;
 
     public BarItem(ChartData<?> chartData, String title) {
         super(chartData);
@@ -39,25 +34,25 @@ public class BarItem extends ChartItem {
     public void styleGraph(Chart chart) {
         // apply styling
 
-        barGraph = (BarChart) chart;
-        barGraph.setNoDataText("No data");
-        barGraph.getDescription().setEnabled(false);
-        barGraph.setDrawGridBackground(false);
-        barGraph.setDrawBarShadow(false);
-        barGraph.animateY(2500);
-        barGraph.getLegend().setEnabled(false);
+        mBarChart = (BarChart) chart;
+        mBarChart.setNoDataText("No data");
+        mBarChart.getDescription().setEnabled(false);
+        mBarChart.setDrawGridBackground(false);
+        mBarChart.setDrawBarShadow(false);
+        mBarChart.animateY(2500);
+        mBarChart.getLegend().setEnabled(false);
 
-        XAxis xAxis = barGraph.getXAxis();
+        XAxis xAxis = mBarChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
 
-        YAxis leftAxis = barGraph.getAxisLeft();
+        YAxis leftAxis = mBarChart.getAxisLeft();
         leftAxis.setLabelCount(5, false);
         leftAxis.setSpaceTop(20f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
-        YAxis rightAxis = barGraph.getAxisRight();
+        YAxis rightAxis = mBarChart.getAxisRight();
         rightAxis.setLabelCount(5, false);
         rightAxis.setSpaceTop(20f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -70,14 +65,18 @@ public class BarItem extends ChartItem {
 
     @Override
     public void setGraphData(ChartData<?> chartData) {
-        barGraph.setData((BarData) chartData);
+        mBarChart.setData((BarData) chartData);
     }
 
     @Override
     public void notifyGraph() {
-        barGraph.notifyDataSetChanged();
-        barGraph.animate();
+        mBarChart.notifyDataSetChanged();
+        mBarChart.animate();
     }
 
+    @Override
+    public Chart getGraph() {
+        return mBarChart;
+    }
 
 }

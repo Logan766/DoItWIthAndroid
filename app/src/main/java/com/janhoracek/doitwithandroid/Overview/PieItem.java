@@ -44,4 +44,9 @@ public class PieItem extends ChartItem {
 
     }
 
+    @Override
+    public Chart getGraph() {
+        return null;
+    }
+
 }

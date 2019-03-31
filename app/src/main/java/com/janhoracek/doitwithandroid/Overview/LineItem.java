@@ -4,13 +4,25 @@ import android.content.Context;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.janhoracek.doitwithandroid.ChartDataHolder;
+import com.janhoracek.doitwithandroid.Database.Stats;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LineItem extends  ChartItem {
-    private LineData mLineData;
+    private static LineData mLineData;
     private String mTitle;
     private LineChart mLineChart;
 
@@ -36,7 +48,7 @@ public class LineItem extends  ChartItem {
 
         mLineChart.setDragEnabled(true);
         mLineChart.setScaleEnabled(true);
-        mLineChart.animateX(1000);
+        mLineChart.animateY(1000);
         mLineChart.getLegend().setEnabled(false);
 
 
@@ -46,9 +58,7 @@ public class LineItem extends  ChartItem {
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
         xAxis.setGranularity(1f);
-
-
-
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(getDate()));
 
     }
 
@@ -67,4 +77,24 @@ public class LineItem extends  ChartItem {
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
     }
+
+    @Override
+    public Chart getGraph() {
+        return mLineChart;
+    }
+
+    public ArrayList<String> getDate() {
+
+        List<Stats> stats = ChartDataHolder.getInstance().getStatsList();
+        ArrayList<String> label = new ArrayList<>();
+        for (int i = 0; i <= stats.size()-1; i++) {
+            String day = String.valueOf(stats.get(i).getDate());
+            String month = String.valueOf(stats.get(i).getMonth());
+            String year = String.valueOf(stats.get(i).getYear());
+            label.add(day + "." + month + "\n" + year);
+        }
+        return label;
+    }
 }
+
+

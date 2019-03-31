@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/colorPrimaryDark"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:title="Ahoj"></androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -1,6 +1,7 @@
 package com.janhoracek.doitwithandroid.Overview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
+import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.R;
 
 import java.util.List;
@@ -67,10 +69,14 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.setIsRecyclable(true);
 
                     viewHolder.lineTitle.setText(item.getTitle());
+                    Log.d("GGR", "Snazis se tam narvat " + ChartDataHolder.getInstance().getStatsList().size());
+
                     item.styleGraph(viewHolder.graph);
-                    item.setGraphData(item.getChartData());
+                    item.setGraphData(ChartDataHolder.getInstance().getmLineChartData());
+
 
                     chart.invalidate();
+                    chart.animate();
 
                     }
                     break;
@@ -140,7 +146,7 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public GraphHolderLineChart(@NonNull View itemView) {
             super(itemView);
             graph = itemView.findViewById(R.id.linechart_overview);
-            graph.getDescription().setEnabled(false);
+            /*graph.getDescription().setEnabled(false);
             graph.setDrawGridBackground(false);
 
             XAxis xAxis = graph.getXAxis();
@@ -154,9 +160,7 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             YAxis rightAxis = graph.getAxisRight();
             rightAxis.setLabelCount(5, false);
             rightAxis.setDrawGridLines(false);
-            rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-
+            rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)*/
             lineTitle = itemView.findViewById(R.id.item_linechart_text_view_title);
         }
     }

@@ -55,6 +55,10 @@ public class StatsRepository {
         return statsDao.getLastDate();
     }
 
+    public List<Stats> getAllStatsList() {
+        return statsDao.getAllStatsList();
+    }
+
     private static class InsertStatAsyncTask extends AsyncTask<Stats, Void, Void> {
         private StatsDao statsDao;
 
