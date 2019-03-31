@@ -2,6 +2,8 @@ package com.janhoracek.doitwithandroid.Database;
 
 import android.app.Application;
 
+import com.janhoracek.doitwithandroid.DateHandler;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,8 +50,12 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getPrioritiesExp(id_today);
     }
 
-    public void completeTask(Taskers task) {
-        int idToday = 20190329;
+    public List<Stats> getLastDate() {
+        return mRepository.getLastDate();
+    }
+
+    public void completeTask(Taskers task, StatsViewModel statsViewModel) {
+        int idToday = new DateHandler(statsViewModel).getCurrentDateForStats();
         Stats stat = getPrioritiesExp(idToday).get(0);
         int priorityDone = task.getPriority();
         int xpEarned = task.getExp();

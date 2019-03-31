@@ -50,7 +50,7 @@ public abstract class AppDatabase extends RoomDatabase {
 //            taskDao.insert(new Taskers("Nazev1", "popis1", 1, 80, 15, 6, 2019, "13:45"));
 //            taskDao.insert(new Taskers("Nazev2", "popis2", 2, 150, 15,6,2019, "13:15"));
 //            taskDao.insert(new Taskers("Nazev3", "popis3", 3, 200,16,7, 2019, "12:30"));
-            Stats stats;
+            /*Stats stats;
             stats = new Stats(20190325);
             stats.setHigh_priority_done(5);
             stats.setLow_priority_done(1);
@@ -79,7 +79,7 @@ public abstract class AppDatabase extends RoomDatabase {
             stats.setLow_priority_done(1);
             stats.setMedium_priority_done(3);
             stats.setExp(1500);
-            statsDao.insert(stats);
+            statsDao.insert(stats);*/
             return null;
         }
     }

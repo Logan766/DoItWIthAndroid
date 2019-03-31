@@ -51,6 +51,10 @@ public class StatsRepository {
         return statsDao.getPrioritiesExp(id_today);
     }
 
+    public List<Stats> getLastDate() {
+        return statsDao.getLastDate();
+    }
+
     private static class InsertStatAsyncTask extends AsyncTask<Stats, Void, Void> {
         private StatsDao statsDao;
 

@@ -13,6 +13,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 
 public class ApplicationActivity extends AppCompatActivity {
     private int mOldMenu;
@@ -22,6 +30,7 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_application);
 
         /*taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);

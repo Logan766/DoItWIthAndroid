@@ -32,4 +32,7 @@ public interface StatsDao {
 
     @Query("SElECT * FROM stats_table ORDER BY id ASC")
     LiveData<List<Stats>> getAllStats();
+
+    @Query("SELECT * FROM stats_table  ORDER BY id DESC LIMIT 1")
+    List<Stats> getLastDate();
 }

@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        Date currentTime = Calendar.getInstance().getTime();
+        /*Date currentTime = Calendar.getInstance().getTime();
 
         int date_id = Calendar.getInstance().get(Calendar.YEAR) * 10000 + (Calendar.getInstance().get(Calendar.MONTH)+1) * 100 + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment{
 
         Log.d("DIWD", "Integer year " + String.valueOf(date_id / 10000));
         Log.d("DIWD", "Integer month " + String.valueOf((date_id % 10000) / 100));
-        Log.d("DIWD", "Integer day " + String.valueOf(date_id % 100));
+        Log.d("DIWD", "Integer day " + String.valueOf(date_id % 100));*/
 
 
 
@@ -73,8 +73,8 @@ public class HomeFragment extends Fragment{
         });
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
-
-
+        //new DateHandler(mStatsViewModel).getCurrentDateForStats();
+        new DateHandler(mStatsViewModel).checkLastDate();
         /*Stats stats = new Stats(20190325);
         stats.setHigh_priority_done(5);
         stats.setLow_priority_done(1);
@@ -174,10 +174,10 @@ public class HomeFragment extends Fragment{
                         break;
                 }
                 mStatsViewModel.update(low_priority, medium_priority, high_priority, exp, 20190329);*/
-                mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()));
+                mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
 
-                Log.d(TAG, "onSwiped: " + mStatsViewModel.getPrioritiesExp(20190329).get(0).toString());
+                //Log.d(TAG, "onSwiped: " + mStatsViewModel.getPrioritiesExp(20190329).get(0).toString());
             }
         }).attachToRecyclerView(mRecyclerView);
 
