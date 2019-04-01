@@ -54,6 +54,10 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getAllStatsList();
     }
 
+    public List<StatsByMonth> getTasksDoneByMonths() {
+        return mRepository.getTasksDoneByMonths();
+    }
+
     public List<Stats> getLastDate() {
         return mRepository.getLastDate();
     }

@@ -46,13 +46,16 @@ public class BarItem extends ChartItem {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
+        xAxis.setGranularity(1f);
 
         YAxis leftAxis = mBarChart.getAxisLeft();
+        leftAxis.setGranularity(1f);
         leftAxis.setLabelCount(5, false);
         leftAxis.setSpaceTop(20f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis rightAxis = mBarChart.getAxisRight();
+        rightAxis.setGranularity(1f);
         rightAxis.setLabelCount(5, false);
         rightAxis.setSpaceTop(20f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -71,7 +74,7 @@ public class BarItem extends ChartItem {
     @Override
     public void notifyGraph() {
         mBarChart.notifyDataSetChanged();
-        mBarChart.animate();
+        mBarChart.invalidate();
     }
 
     @Override

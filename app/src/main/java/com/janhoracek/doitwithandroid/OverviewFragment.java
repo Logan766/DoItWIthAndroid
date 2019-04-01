@@ -56,8 +56,8 @@ public class OverviewFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), "Experience gained per day"));
-        items.add(new BarItem(new DataFetcher().tuMasBare(), "Nadpis1"));
+        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), "Experience gained"));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), "Tasks done by month"));
         items.add(new BarItem(new DataFetcher().tuMasBare2(), "Nadpis2"));
         items.add(new BarItem(new DataFetcher().tuMasBare3(), "Nadpis3"));
         items.add(new PieItem(new DataFetcher().tuMas(), "Nadpis4"));

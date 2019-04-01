@@ -89,9 +89,10 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     viewHolder.barTitle.setText(item.getTitle());
                     item.styleGraph(viewHolder.graph);
-                    item.setGraphData(item.getChartData());
+                    item.setGraphData(ChartDataHolder.getInstance().getmBarDataMonth());
 
                     chart.invalidate();
+                    chart.animate();
                     }
                     break;
                 case 3:

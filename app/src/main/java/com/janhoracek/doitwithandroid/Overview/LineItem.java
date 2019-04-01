@@ -50,6 +50,7 @@ public class LineItem extends  ChartItem {
         mLineChart.setScaleEnabled(true);
         mLineChart.animateY(1000);
         mLineChart.getLegend().setEnabled(false);
+        mLineChart.getDescription().setEnabled(false);
 
 
 

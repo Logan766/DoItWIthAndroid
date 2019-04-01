@@ -42,9 +42,8 @@ public class StatsRepository {
         return allStats;
     }
 
-    public LiveData<List<Stats>> searchBy(String v) {
-
-        return null;
+    public List<StatsByMonth> getTasksDoneByMonths() {
+        return statsDao.getTasksDoneByMonths();
     }
 
     public List<Stats> getPrioritiesExp(int id_today) {
