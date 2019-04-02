@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -101,6 +102,7 @@ public class HomeFragment extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
+
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(mRecyclerView);

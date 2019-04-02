@@ -40,19 +40,6 @@ public class LevelFragment extends Fragment implements UpdateableFragment, View.
         models.add(new ArcProgressStackView.Model("Progress", 55, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark)));
         mGraph.setModels(models);
         update();
-
-        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
-            @Override
-            public void onChanged(@Nullable List<Taskers> taskers) {
-                //update ReyclerView
-                /*models.set(0, new ArcProgressStackView.Model("Progress", 75, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark)));
-                mGraph.setModels(models);*/
-
-
-            }
-        });
-
         return v;
     }
 
