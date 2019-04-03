@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,11 +18,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.takusemba.spotlight.OnSpotlightStateChangedListener;
+import com.takusemba.spotlight.OnTargetStateChangedListener;
+import com.takusemba.spotlight.Spotlight;
+import com.takusemba.spotlight.shape.Circle;
+import com.takusemba.spotlight.shape.RoundedRectangle;
+import com.takusemba.spotlight.target.CustomTarget;
+import com.takusemba.spotlight.target.SimpleTarget;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.util.ArrayList;
@@ -32,6 +44,9 @@ import java.util.List;
 //public class HomeFragment extends Fragment implements View.OnClickListener
 public class HomeFragment extends Fragment{
     private static final String TAG = "DIWD1";
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+    private static final String HOME_FRAG_RUN = "com.janhoracek.doitwithandroid.HOME_FRAG_RUN";
+    private static final String USER_EXPERIENCE = "com.janhoracek.doitwithandroid.USER_EXPERIENCE";
 
 
     private ViewPager mViewPager;
@@ -43,11 +58,16 @@ public class HomeFragment extends Fragment{
 
     private StatsViewModel mStatsViewModel;
     private List<Stats> mStats = new ArrayList<>();
+    private Spotlight spotik;
+
+    private boolean FirstRunCheck;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        final View v = inflater.inflate(R.layout.fragment_home, container, false);
+        final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
@@ -55,6 +75,7 @@ public class HomeFragment extends Fragment{
                 adapter.setTasks(taskers);
             }
         });
+
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         ChartDataHolder.getInstance().setmLineChartData(mStatsViewModel.getAllStatsList());
@@ -101,32 +122,80 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
+                int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
+                int currExp = pref.getInt(USER_EXPERIENCE, -1);
+                pref.edit().putInt(USER_EXPERIENCE, expGain + currExp).apply();
+
+
 
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(mRecyclerView);
 
+        FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
+        //if(FirstRunCheck) {
+        if(true) {
+            pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
+            v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    final Spotlight spot = Spotlight.with(getActivity())
+                            .setOverlayColor(R.color.background)
+                            .setDuration(1000L)
+                            .setAnimation(new DecelerateInterpolator(2f))
+                            .setTargets(buildTargets(v))
+                            .setClosedOnTouchedOutside(true)
+                            .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
+                                @Override
+                                public void onStarted() {
+                                    Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onEnded() {
+                                    Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    spot.start();
+                }
+
+            });
+        }
 
         return v;
     }
 
+    private ArrayList<SimpleTarget> buildTargets(View v) {
+        ArrayList<SimpleTarget> targets = new ArrayList<>();
+        int[] location = new int[2];
 
+        mRecyclerView.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
 
+        SimpleTarget simpleTarget = new SimpleTarget.Builder(getActivity())
+                .setPoint(x + v.getWidth() / 2 , y)
+                .setShape(new RoundedRectangle(100f, v.getWidth(), 5f)) // or RoundedRectangle()
+                .setDuration(1000L)
+                .setTitle("Tasks to do today")
+                .setDescription("Here you can see tasks that you should do today, simply swipe in any direction to mark them as completed")
+                .setOverlayPoint(mRecyclerView.getX(), mRecyclerView.getY())
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        // do something
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        // do something
+                    }
+                })
+                .build();
+        targets.add(simpleTarget);
 
-    /*@Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button4:
-                Log.d("DIWD", "Button pressed");
-                DatabaseController.getInstance().saveToDatabase("Nadpis", "Obsah");
-                break;
-            case R.id.button_test:
-                String user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                Log.d("DIWD", "read passed");
-                String path = user+"/Prvni note";
+        return targets;
+    }
 
-                break;
-        }
-    }*/
 }
+

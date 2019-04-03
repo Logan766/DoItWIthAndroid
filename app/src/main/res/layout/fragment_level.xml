@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="350dp" >
+    android:layout_height="350dp"
+    android:background="@android:color/background_light">
 
     <devlight.io.library.ArcProgressStackView
 
@@ -11,20 +12,19 @@
         android:layout_height="250dp"
         android:layout_centerInParent="true"
 
-        app:apsv_model_bg_enabled="true"
         app:apsv_animated="true"
         app:apsv_animation_duration="2000"
         app:apsv_dragged="false"
         app:apsv_draw_width="20dp"
         app:apsv_leveled="false"
+        app:apsv_model_bg_enabled="true"
         app:apsv_model_offset="2dp"
-        app:apsv_start_angle="135"
-        app:apsv_sweep_angle="270"
-
-
-
         app:apsv_rounded="true"
         app:apsv_shadowed="false"
+
+
+        app:apsv_start_angle="135"
+        app:apsv_sweep_angle="270"
 
         app:apsv_text_color="#00000000" />
 
@@ -42,13 +42,49 @@
         android:id="@+id/text_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/arcProgressStackViewLevel"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="170dp"
         android:layout_marginBottom="70dp"
         android:text="Level"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@id/arcProgressStackViewLevel"
         android:textSize="30sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arcProgressStackViewLevel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-15dp">
+
+        <TextView
+            android:id="@+id/text_current_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="80dp"
+            android:text="255"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_toEndOf="@+id/text_current_exp"
+            android:text="/"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_exp_next_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/divider"
+            android:width="80dp"
+            android:text="128000"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/button2"

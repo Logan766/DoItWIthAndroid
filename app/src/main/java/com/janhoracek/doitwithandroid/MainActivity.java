@@ -34,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkFirstRun() {
 
-        final String PREFS_NAME = "SettingsSharedPrefs";
+        final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+        final String USER_LEVEL = "com.janhoracek.doitwithandroid.USER_LEVEL";
+        final String USER_EXPERIENCE = "com.janhoracek.doitwithandroid.USER_EXPERIENCE";
+        final String NEXT_EXPERIENCE = "com.janhoracek.doitwithandroid.NEXT_EXPERIENCE";
         final String PREF_VERSION_CODE_KEY = "1";
         final int DOESNT_EXIST = -1;
 
@@ -54,8 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (savedVersionCode == DOESNT_EXIST) {
 
-            // TODO This is a new install (or the user cleared the shared preferences)
+            // TODO Intent na first start
             Log.d("FRFFS", "This is the first run");
+            prefs.edit().putInt(USER_LEVEL, 1).apply();
+            prefs.edit().putInt(USER_EXPERIENCE, 0).apply();
+            prefs.edit().putInt(NEXT_EXPERIENCE, 1000).apply();
 
         } else if (currentVersionCode > savedVersionCode) {
 

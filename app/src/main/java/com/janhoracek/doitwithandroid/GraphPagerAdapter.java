@@ -53,4 +53,6 @@ public class GraphPagerAdapter extends FragmentPagerAdapter {
         return mFragmentManager.findFragmentByTag(tag);
     }
 
+
+
 }

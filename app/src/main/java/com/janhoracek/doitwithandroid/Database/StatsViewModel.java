@@ -62,7 +62,7 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getLastDate();
     }
 
-    public void completeTask(Taskers task, StatsViewModel statsViewModel) {
+    public int completeTask(Taskers task, StatsViewModel statsViewModel) {
         int idToday = new DateHandler(statsViewModel).getCurrentDateForStats();
         Stats stat = getPrioritiesExp(idToday).get(0);
         int priorityDone = task.getPriority();
@@ -86,6 +86,6 @@ public class StatsViewModel extends AndroidViewModel {
 
         currentXP += xpEarned;
         update(currentLowPriorityDone, currentMediumPriorityDone, currentHighPriorityDone, currentXP, idToday);
-
+        return xpEarned;
     }
 }
