@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment{
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_home, container, false);
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
@@ -123,10 +123,14 @@ public class HomeFragment extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
-                int currExp = pref.getInt(USER_EXPERIENCE, -1);
-                pref.edit().putInt(USER_EXPERIENCE, expGain + currExp).apply();
+                //int currExp = pref.getInt(USER_EXPERIENCE, -1);
+                //pref.edit().putInt(USER_EXPERIENCE, expGain + currExp).apply();
+                //mAdapter.getItem(0).updateProgress(expGain, getContext());
+                //mAdapter.instantiateItem(container, 0);
 
-
+                UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
+                if(fragment == null) return;
+                fragment.updateProgress(expGain, getContext());
 
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
             }
@@ -134,7 +138,7 @@ public class HomeFragment extends Fragment{
 
         FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
         //if(FirstRunCheck) {
-        if(true) {
+        if(false) {
             pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override

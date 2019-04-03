@@ -20,7 +20,7 @@ public class GraphPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public UpdateableFragment getItem(int position) {
         switch(position) {
             case 0:
                 return new LevelFragment();

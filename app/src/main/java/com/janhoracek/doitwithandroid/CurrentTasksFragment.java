@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import devlight.io.library.ArcProgressStackView;
 
 
-public class CurrentTasksFragment extends Fragment implements UpdateableFragment{
+public class CurrentTasksFragment extends UpdateableFragment{
 
     ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
     ArcProgressStackView mGraph;
@@ -24,12 +25,6 @@ public class CurrentTasksFragment extends Fragment implements UpdateableFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_current_tasks, container, false);
         Log.d("DIWD", "Ted jsme na taskach");
-
-//        Button mButton = v.findViewById(R.id.button4);
-//        mButton.setOnClickListener(this);
-//
-//        Button mButton1 = v.findViewById(R.id.button_test);
-//        mButton1.setOnClickListener(this);
 
         mGraph = v.findViewById(R.id.arcProgressStackViewTasks);
 
@@ -49,26 +44,16 @@ public class CurrentTasksFragment extends Fragment implements UpdateableFragment
         return v;
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.button4:
-//                Log.d("DIWD", "Button pressed");
-//                DatabaseController.getInstance().saveToDatabase("Nadpis", "Obsah");
-//                break;
-//            case R.id.button_test:
-//                String user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//                Log.d("DIWD", "read passed");
-//                String path = user+"/Prvni note";
-//
-//                break;
-//        }
-//    }
 
     @Override
     public void update() {
         Log.d("DIWD", "CurrTask");
         mGraph.requestLayout();
         mGraph.animateProgress();
+    }
+
+    @Override
+    public void updateProgress(int expGained, Context ctx) {
+
     }
 }
