@@ -123,15 +123,9 @@ public class HomeFragment extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
-                //int currExp = pref.getInt(USER_EXPERIENCE, -1);
-                //pref.edit().putInt(USER_EXPERIENCE, expGain + currExp).apply();
-                //mAdapter.getItem(0).updateProgress(expGain, getContext());
-                //mAdapter.instantiateItem(container, 0);
-
                 UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
                 if(fragment == null) return;
                 fragment.updateProgress(expGain, getContext());
-
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(mRecyclerView);
