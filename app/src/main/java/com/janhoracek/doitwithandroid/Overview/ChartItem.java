@@ -10,6 +10,8 @@ public abstract class ChartItem {
         this.mChartData = chartData;
     }
 
+    public abstract int getOwnKindType();
+
     public abstract int getGraphType();
 
     public abstract ChartData<?> getChartData();

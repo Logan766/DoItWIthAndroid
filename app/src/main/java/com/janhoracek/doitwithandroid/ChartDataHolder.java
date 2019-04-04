@@ -54,8 +54,8 @@ public class ChartDataHolder {
         }
 
         LineDataSet set = new LineDataSet(yValues, "EXP");
-        set.setLineWidth(3f);
-        Log.d("GGR", "ted jsem tlusta ");
+        //set.setLineWidth(3f);
+        //Log.d("GGR", "ted jsem tlusta ");
         set.setColor(Color.GRAY);
         set.setCircleHoleColor(Color.GRAY);
         set.setCircleColor(Color.GRAY);

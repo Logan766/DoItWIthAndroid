@@ -5,24 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:text="Choose task to edit"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/text_view_choose_task"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:tabGravity="fill"
-        app:tabMode="fixed" />
-
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@+id/text_view_choose_task"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">

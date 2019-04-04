@@ -7,10 +7,18 @@
     android:layout_marginTop="8dp">
 
 
+    <View
+        android:id="@+id/priority_today"
+        android:layout_width="25dp"
+        android:layout_height="80dp"
+        android:layout_gravity="right"
+        android:background="@color/colorPrimary" />
+
     <RelativeLayout
         android:id="@+id/task_backgroud"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:padding="8dp">
 
         <TextView
@@ -18,7 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="25dp"
+            android:text="200 XP" />
 
         <TextView
             android:id="@+id/text_view_title"
@@ -36,5 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_title"
             android:text="Description" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

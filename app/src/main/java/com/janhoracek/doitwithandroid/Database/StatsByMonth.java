@@ -5,6 +5,7 @@ public class StatsByMonth {
     public int medium_done;
     public int high_done;
     public int month;
+    public int year;
 
     public int getLow_done() {
         return low_done;
@@ -36,5 +37,13 @@ public class StatsByMonth {
 
     public void setMonth(int month) {
         this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

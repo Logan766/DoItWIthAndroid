@@ -25,11 +25,18 @@ public class LineItem extends  ChartItem {
     private static LineData mLineData;
     private String mTitle;
     private LineChart mLineChart;
+    private int mLineGraphKind;
 
-    public LineItem(ChartData<?> chartData, String title) {
+    public LineItem(ChartData<?> chartData, String title, int lineGraphKind) {
         super(chartData);
         mLineData = (LineData) chartData;
         this.mTitle = title;
+        this.mLineGraphKind = lineGraphKind;
+    }
+
+    @Override
+    public int getOwnKindType() {
+        return mLineGraphKind;
     }
 
     @Override

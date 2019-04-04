@@ -74,7 +74,6 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     item.styleGraph(viewHolder.graph);
                     item.setGraphData(ChartDataHolder.getInstance().getmLineChartData());
 
-
                     chart.invalidate();
                     chart.animate();
 

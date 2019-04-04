@@ -33,13 +33,13 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         Taskers currentTaskers = mTasks.get(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mRelativeLayout.setBackgroundColor(Color.RED);
+                holder.mPriority.setBackgroundColor(Color.RED);
                 break;
             case 2:
-                holder.mRelativeLayout.setBackgroundColor(Color.YELLOW);
+                holder.mPriority.setBackgroundColor(Color.YELLOW);
                 break;
             case 3:
-                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
+                holder.mPriority.setBackgroundColor(Color.GREEN);
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());
@@ -69,6 +69,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         private TextView mTextViewDescription;
         private RelativeLayout mRelativeLayout;
         private TextView mTextViewExp;
+        private View mPriority;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +77,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
             mTextViewExp = itemView.findViewById(R.id.exp_task);
+            mPriority = itemView.findViewById(R.id.priority_today);
         }
     }
 }

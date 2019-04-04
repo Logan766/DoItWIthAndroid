@@ -57,13 +57,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mRelativeLayout.setBackgroundColor(Color.RED);
+                holder.mPriority.setBackgroundColor(Color.RED);
                 break;
             case 2:
-                holder.mRelativeLayout.setBackgroundColor(Color.YELLOW);
+                holder.mPriority.setBackgroundColor(Color.YELLOW);
                 break;
             case 3:
-                holder.mRelativeLayout.setBackgroundColor(Color.GREEN);
+                holder.mPriority.setBackgroundColor(Color.GREEN);
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());
@@ -83,6 +83,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private RelativeLayout mRelativeLayout;
         private TextView mTextViewDeadline;
         private TextView mTextViewEstTime;
+        private View mPriority;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +92,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
             mTextViewDeadline = itemView.findViewById(R.id.text_view_deadline_data);
             mTextViewEstTime = itemView.findViewById(R.id.text_view_time_consumption_data);
+            mPriority = itemView.findViewById(R.id.priority);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

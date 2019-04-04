@@ -18,7 +18,7 @@ public interface StatsDao {
     @Query("SELECT * FROM stats_table WHERE id = :id_today")
     List<Stats> getPrioritiesExp(int id_today);
 
-    @Query("SELECT SUM(low_priority_done) as low_done, SUM(medium_priority_done) as medium_done, SUM(high_priority_done) as high_done, month FROM stats_table GROUP BY month ORDER BY year ASC, month ASC")
+    @Query("SELECT SUM(low_priority_done) as low_done, SUM(medium_priority_done) as medium_done, SUM(high_priority_done) as high_done, month, year FROM stats_table GROUP BY month ORDER BY year ASC, month ASC")
     List<StatsByMonth> getTasksDoneByMonths();
 
     @Insert

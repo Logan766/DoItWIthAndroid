@@ -8,11 +8,18 @@ public class PieItem extends ChartItem {
 
     private PieData mPieData;
     private String mTitle;
+    private int mPieGraphKind;
 
-    public PieItem(ChartData<?> chartData, String title) {
+    public PieItem(ChartData<?> chartData, String title, int pieGraphKind) {
         super(chartData);
         this.mPieData = (PieData) chartData;
         this.mTitle = title;
+        this.mPieGraphKind = pieGraphKind;
+    }
+
+    @Override
+    public int getOwnKindType() {
+        return 0;
     }
 
     public int getGraphType() {
