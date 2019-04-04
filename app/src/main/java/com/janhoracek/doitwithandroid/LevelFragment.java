@@ -24,8 +24,6 @@ import java.util.List;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import devlight.io.library.ArcProgressStackView;
-import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti.models.Shape;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -120,29 +118,4 @@ public class LevelFragment extends UpdateableFragment {
         mNextExperience.setText(String.valueOf(pref.getInt(NEXT_EXPERIENCE, -1)));
 
     }
-
-    /*
-    @Override
-    public void onClick(View v) {
-          switch (v.getId()) {
-            case R.id.button2:
-                Log.d("DIWD", "Button pressed");
-                ArrayList<ArcProgressStackView.Model> models1 = new ArrayList<>();
-
-                models1.add(new ArcProgressStackView.Model("Progress", 75, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark)));
-                mGraph.setModels(models1);
-                mGraph.getProgressAnimator().setCurrentPlayTime(716);
-                mGraph.animateProgress();
-                break;
-            case R.id.button3:
-                ArrayList<ArcProgressStackView.Model> models2 = new ArrayList<>();
-
-                models2.add(new ArcProgressStackView.Model("Progress", 25, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark)));
-                mGraph.setModels(models2);
-
-                mGraph.animateProgress();
-
-                break;
-          }
-      }*/
 }
