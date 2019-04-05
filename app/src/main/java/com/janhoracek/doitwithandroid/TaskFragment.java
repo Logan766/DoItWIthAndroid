@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
-import com.janhoracek.doitwithandroid.Overview.FragmentCurrentTasks;
 
 public class TaskFragment extends Fragment {
     public static final int ADD_TASK_REQUEST = 1;

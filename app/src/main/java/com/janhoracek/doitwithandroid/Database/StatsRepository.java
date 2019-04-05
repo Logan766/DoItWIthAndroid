@@ -46,6 +46,10 @@ public class StatsRepository {
         return statsDao.getTasksDoneByMonths();
     }
 
+    public List<StatsOverall> getOverallPriority() {
+        return statsDao.getOverallPriority();
+    }
+
     public List<Stats> getPrioritiesExp(int id_today) {
         return statsDao.getPrioritiesExp(id_today);
     }

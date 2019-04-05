@@ -41,4 +41,7 @@ public interface StatsDao {
 
     @Query("SELECT * FROM stats_table ORDER BY id ASC")
     List<Stats> getAllStatsList();
+
+    @Query("SELECT SUM (low_priority_done) as low_done, SUM (medium_priority_done) as medium_done, SUM (high_priority_done) as high_done FROM stats_table ")
+    List<StatsOverall> getOverallPriority();
 }

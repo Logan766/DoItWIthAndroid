@@ -3,14 +3,21 @@ package com.janhoracek.doitwithandroid;
 import android.animation.Animator;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.airbnb.lottie.LottieAnimationView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 checkFirstRun();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
             }
 
             @Override
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mButton = (Button) findViewById(R.id.button);
-        checkFirstRun();
+
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +85,20 @@ public class MainActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
 
             // This is just a normal run
+            /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();*/
+            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+            startActivity(intent);
+            finish();
+
             Log.d("FRFFS", "This is normal run");
             return;
 
         } else if (savedVersionCode == DOESNT_EXIST) {
 
-            // TODO Intent na first start
+            // First run
+            //TODO intent
             Log.d("FRFFS", "This is the first run");
             prefs.edit().putInt(USER_LEVEL, 1).apply();
             prefs.edit().putInt(USER_EXPERIENCE, 0).apply();
@@ -100,4 +112,9 @@ public class MainActivity extends AppCompatActivity {
         // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
+
+
+
 }
+
+

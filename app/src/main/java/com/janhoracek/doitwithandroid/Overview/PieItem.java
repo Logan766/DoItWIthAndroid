@@ -45,7 +45,7 @@ public class PieItem extends ChartItem {
         mPieChart = (PieChart) chart;
         mPieChart.getDescription().setEnabled(false);
         mPieChart.animateY(2500);
-        mPieChart.setExtraBottomOffset(30f);
+        //mPieChart.setExtraBottomOffset(30f);
 
         mPieChart.setUsePercentValues(true);
 
@@ -61,8 +61,6 @@ public class PieItem extends ChartItem {
         entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.GREEN));
         legend.setCustom(entries);
         legend.setXEntrySpace(5f);
-
-
     }
 
     @Override

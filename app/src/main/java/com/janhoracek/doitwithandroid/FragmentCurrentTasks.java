@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid.Overview;
+package com.janhoracek.doitwithandroid;
 
 import android.content.Context;
 import android.content.Intent;

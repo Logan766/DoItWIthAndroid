@@ -107,10 +107,13 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     PieChart chart = ((GraphHolderPieChart) holder).graph;
                     viewHolder.setIsRecyclable(true);
 
-                    chart.setData((PieData) item.getChartData());
-                    chart.notifyDataSetChanged();
+                    viewHolder.pieTitle.setText(item.getTitle());
+                    item.styleGraph(viewHolder.graph);
 
+                    item.setGraphData(ChartDataHolder.getInstance().getmPieOverallData());
 
+                    chart.invalidate();
+                    chart.animate();
                 }
                     break;
                 default:

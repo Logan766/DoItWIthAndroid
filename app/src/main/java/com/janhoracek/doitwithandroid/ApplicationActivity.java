@@ -56,6 +56,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 ChartDataHolder.getInstance().setmLineChartData(stats);
                 ChartDataHolder.getInstance().setmBarDataMonth(mStatsViewModel.getTasksDoneByMonths());
                 ChartDataHolder.getInstance().setmBarDataDay(stats);
+                ChartDataHolder.getInstance().setmPieOverallData(mStatsViewModel.getOverallPriority());
             }
         });
 

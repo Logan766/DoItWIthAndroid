@@ -58,6 +58,10 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getTasksDoneByMonths();
     }
 
+    public List<StatsOverall> getOverallPriority() {
+        return mRepository.getOverallPriority();
+    }
+
     public List<Stats> getLastDate() {
         return mRepository.getLastDate();
     }

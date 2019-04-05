@@ -9,10 +9,14 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsByMonth;
+import com.janhoracek.doitwithandroid.Database.StatsOverall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class ChartDataHolder {
     private static List<StatsByMonth> sStatsByMonths;
     private static BarData mBarDataMonth;
     private static BarData mBarDataDay;
+    private static PieData mPieOverallData;
 
     private ChartDataHolder() {
 
@@ -125,5 +130,23 @@ public class ChartDataHolder {
         BarDataSet set = new BarDataSet(entries, "Tasks done every day");
         set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
         mBarDataDay = new BarData(set);
+    }
+
+    public void setmPieOverallData(List<StatsOverall> stats) {
+        List<StatsOverall> Sstats = stats;
+        mPieOverallData = new PieData();
+        List<PieEntry> entries = new ArrayList<>();
+
+        entries.add(new PieEntry(stats.get(0).getLow_done(), "Low Priority Done"));
+        entries.add(new PieEntry(stats.get(0).getMedium_done(), "Medium Priority Done"));
+        entries.add(new PieEntry(stats.get(0).getHigh_done(), "High Priority Done"));
+
+        PieDataSet set = new PieDataSet(entries, "Tasks done by priority");
+        set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
+        mPieOverallData = new PieData(set);
+    }
+
+    public PieData getmPieOverallData() {
+        return mPieOverallData;
     }
 }
