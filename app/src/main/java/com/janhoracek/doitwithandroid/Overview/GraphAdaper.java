@@ -69,7 +69,6 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.setIsRecyclable(true);
 
                     viewHolder.lineTitle.setText(item.getTitle());
-                    Log.d("GGR", "Snazis se tam narvat " + ChartDataHolder.getInstance().getStatsList().size());
 
                     item.styleGraph(viewHolder.graph);
                     item.setGraphData(ChartDataHolder.getInstance().getmLineChartData());
@@ -88,8 +87,15 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     viewHolder.barTitle.setText(item.getTitle());
                     item.styleGraph(viewHolder.graph);
-                    item.setGraphData(ChartDataHolder.getInstance().getmBarDataMonth());
-
+                        switch (item.getOwnKindType()) {
+                            case 1:
+                                item.setGraphData(ChartDataHolder.getInstance().getmBarDataDay());
+                                break;
+                            case 2:
+                                item.setGraphData(ChartDataHolder.getInstance().getmBarDataMonth());
+                                break;
+                        }
+                    chart.getData().setHighlightEnabled(false);
                     chart.invalidate();
                     chart.animate();
                     }

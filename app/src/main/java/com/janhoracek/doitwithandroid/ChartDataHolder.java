@@ -26,6 +26,7 @@ public class ChartDataHolder {
     private static List<Stats> sStatsList;
     private static List<StatsByMonth> sStatsByMonths;
     private static BarData mBarDataMonth;
+    private static BarData mBarDataDay;
 
     private ChartDataHolder() {
 
@@ -93,10 +94,8 @@ public class ChartDataHolder {
 
     public void setmBarDataMonth(List<StatsByMonth> stats) {
         sStatsByMonths = stats;
-        for(int i = 0; i<=stats.size()-1; i++) {
-            Log.d("BAR", "Entry would be: LOW DONE: " + stats.get(i).getLow_done() + " MEDIUME DONE: " + stats.get(i).getMedium_done() + " HIGH DONE: " + stats.get(i).getHigh_done() + " MONTH:" + stats.get(i).getMonth() );
-        }
         mBarDataMonth = new BarData();
+        mBarDataMonth.setBarWidth(0.5f);
 
         List<BarEntry> entries = new ArrayList<>();
 
@@ -104,8 +103,27 @@ public class ChartDataHolder {
             entries.add(new BarEntry(i, new float[] {stats.get(i).getLow_done(), stats.get(i).getMedium_done(), stats.get(i).getHigh_done()}));
         }
 
-        BarDataSet set = new BarDataSet(entries, "Task done in month");
+        BarDataSet set = new BarDataSet(entries, "Tasks done in month");
         set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
         mBarDataMonth = new BarData(set);
+    }
+
+    public BarData getmBarDataDay() {
+        return mBarDataDay;
+    }
+
+    public void setmBarDataDay(List<Stats> stats) {
+        List<Stats> Sstats = stats;
+        mBarDataDay = new BarData();
+        mBarDataDay.setBarWidth(0.5f);
+        List<BarEntry> entries = new ArrayList<>();
+
+        for(int i = 0; i<= stats.size()-1; i++) {
+            entries.add(new BarEntry(i, new float[] {stats.get(i).getLow_priority_done(), stats.get(i).getMedium_priority_done(), stats.get(i).getHigh_priority_done()}));
+        }
+
+        BarDataSet set = new BarDataSet(entries, "Tasks done every day");
+        set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
+        mBarDataDay = new BarData(set);
     }
 }

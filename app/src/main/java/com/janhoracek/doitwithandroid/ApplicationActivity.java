@@ -55,6 +55,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 Log.d("GGR", "Velikost stats: " + stats.size());
                 ChartDataHolder.getInstance().setmLineChartData(stats);
                 ChartDataHolder.getInstance().setmBarDataMonth(mStatsViewModel.getTasksDoneByMonths());
+                ChartDataHolder.getInstance().setmBarDataDay(stats);
             }
         });
 

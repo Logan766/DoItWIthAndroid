@@ -1,12 +1,17 @@
 package com.janhoracek.doitwithandroid.Overview;
 
+import android.graphics.Color;
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsByMonth;
@@ -26,7 +31,6 @@ public class BarItem extends ChartItem {
         this.mBarData = (BarData) chartData;
         this.mTitle = title;
         this.mBarGraphKind = barGraphKind;
-
     }
 
     @Override
@@ -54,7 +58,21 @@ public class BarItem extends ChartItem {
         mBarChart.setDrawGridBackground(false);
         mBarChart.setDrawBarShadow(false);
         mBarChart.animateY(2500);
-        mBarChart.getLegend().setEnabled(false);
+        mBarChart.setExtraBottomOffset(30f);
+
+        Legend legend = mBarChart.getLegend();
+        legend.setEnabled(true);
+        //legend.setFormSize(10f);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setTextSize(12f);
+        legend.setTextColor(Color.BLACK);
+        List<LegendEntry> entries = new ArrayList<>();
+        entries.add(new LegendEntry("High priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.RED));
+        entries.add(new LegendEntry("Medium priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.YELLOW));
+        entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.GREEN));
+        legend.setCustom(entries);
+        legend.setXEntrySpace(5f);
+
 
 
         XAxis xAxis = mBarChart.getXAxis();
