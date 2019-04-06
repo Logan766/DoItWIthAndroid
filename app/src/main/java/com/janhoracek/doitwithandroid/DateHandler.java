@@ -74,8 +74,6 @@ public class DateHandler {
     public String getDateFromMilisecs(long milliSeconds) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(milliSeconds);
-
-
         return String.valueOf(cal.getTime());
     }
 }

@@ -85,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
 
             // This is just a normal run
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-            /*
-            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+            /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();*/
+
+            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+            startActivity(intent);
+            finish();
 
             Log.d("FRFFS", "This is normal run");
             return;

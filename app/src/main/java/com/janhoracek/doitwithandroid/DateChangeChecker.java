@@ -1,0 +1,50 @@
+package com.janhoracek.doitwithandroid;
+
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import java.util.Calendar;
+
+public class DateChangeChecker {
+    private static final String CURRENT_DATE = "com.janhoracek.doitwithandroid.CURRENT_DATE";
+    private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
+    private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
+    private static final int NOT_EXIST = -1;
+    private static DateChangeChecker instance;
+
+    private static String TAG = "DCHCK";
+
+
+    private DateChangeChecker() {
+
+    }
+
+    public static DateChangeChecker getInstance() {
+        if(instance == null) {
+            instance = new DateChangeChecker();
+        }
+        return instance;
+    }
+
+    public void CheckDate(SharedPreferences pref) {
+        long CurrentTime = 60000 * (pref.getLong(CURRENT_DATE, NOT_EXIST) / 60000);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 1);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if(CurrentTime == NOT_EXIST ) {
+            pref.edit().putLong(CURRENT_DATE, cal.getTimeInMillis()).apply();
+            Log.d(TAG, "Date not exist puttin in date: " + cal.getTime());
+            pref.edit().putLong(TIME_REMAINING, pref.getLong(PRODUCTIVITY_TIME, -1)).apply();
+            return;
+        } else if ( CurrentTime != cal.getTimeInMillis()) {
+            pref.edit().putLong(CURRENT_DATE, cal.getTimeInMillis()).apply();
+            pref.edit().putLong(TIME_REMAINING, pref.getLong(PRODUCTIVITY_TIME, -1)).apply();
+            Log.d(TAG, "Time remaining: " + (pref.getLong(PRODUCTIVITY_TIME, -1)));
+            Log.d(TAG, "Date different. Expected: " + CurrentTime + " got: " + cal.getTimeInMillis());
+            return;
+        }
+        Log.d(TAG, "Dates are ok");
+    }
+}

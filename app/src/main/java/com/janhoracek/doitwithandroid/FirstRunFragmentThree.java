@@ -24,12 +24,12 @@ import androidx.fragment.app.Fragment;
 
 public class FirstRunFragmentThree extends Fragment {
     private static final String TAG = "FIRSTRUNN";
-    private final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
-    private final String START_HOUR = "com.janhoracek.doitwithandroid.StartHour";
-    private final String START_MINUTE = "com.janhoracek.doitwithandroid.Start_Minute";
-    private final String END_HOUR = "com.janhoracek.doitwithandroid.EndHour";
-    private final String END_MINUTE = "com.janhoracek.doitwithandroid.EndMinute";
-    private final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.ProductvityTime";
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+    private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
+    private static final String START_MINUTE = "com.janhoracek.doitwithandroid.START_MINUTE";
+    private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
+    private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
+    private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
 
     private Button mButton;
     private SingleDateAndTimePicker mDateAndTimePickerStart;
@@ -54,8 +54,9 @@ public class FirstRunFragmentThree extends Fragment {
                 final int startMinute;
                 final int endHour;
                 final int endMinute;
-                int prodHours;
+                final int prodHours;
                 int prodMinutes;
+                final long prodTime;
                 cal.setTime(mDateAndTimePickerStart.getDate());
                 startHour = cal.get(Calendar.HOUR_OF_DAY);
                 startMinute = cal.get(Calendar.MINUTE);
@@ -68,6 +69,7 @@ public class FirstRunFragmentThree extends Fragment {
                 Log.d(TAG, "End time minutes " + endMinute);
                 prodHours = (((endHour - startHour) * 60) + (endMinute - startMinute)) / 60;
                 prodMinutes = (((endHour - startHour) * 60) + (endMinute - startMinute)) % 60;
+                prodTime = prodHours * 60 + prodMinutes;
                 if(prodHours <= 0) {
                     Toast.makeText(getActivity(), "Productivity time lower than hour...You can do better!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -81,7 +83,8 @@ public class FirstRunFragmentThree extends Fragment {
                                     pref.edit().putInt(START_MINUTE, startMinute).apply();
                                     pref.edit().putInt(END_HOUR, endHour).apply();
                                     pref.edit().putInt(END_MINUTE, endMinute).apply();
-                                    pref.edit().putInt(PRODUCTIVITY_TIME, startHour).apply();
+                                    pref.edit().putLong(PRODUCTIVITY_TIME, prodTime).apply();
+                                    Log.d(TAG, "Productivity time: " + prodTime);
                                     Intent intent = new Intent(getContext(), ApplicationActivity.class);
                                     startActivity(intent);
                                     getActivity().finish();

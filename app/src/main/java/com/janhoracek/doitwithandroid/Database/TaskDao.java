@@ -26,6 +26,6 @@ public interface TaskDao {
     @Query("DELETE FROM task_table")
     void deleteAllTasks();
 
-    @Query("SElECT * FROM task_table ORDER BY priority ASC")
+    @Query("SElECT * FROM task_table ORDER BY d_time_milisec ASC")
     LiveData<List<Taskers>> getAllNotes();
 }

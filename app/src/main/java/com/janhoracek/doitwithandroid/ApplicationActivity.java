@@ -47,7 +47,7 @@ public class ApplicationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_application);
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
-        new DateHandler().checkLastDate(mStatsViewModel);
+        //new DateHandler().checkLastDate(mStatsViewModel);
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
             public void onChanged(@Nullable List<Stats> stats) {

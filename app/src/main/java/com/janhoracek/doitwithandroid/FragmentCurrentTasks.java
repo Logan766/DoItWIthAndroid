@@ -61,6 +61,8 @@ public class FragmentCurrentTasks extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_tasks_current, container, false);
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        DateChangeChecker.getInstance().CheckDate(pref);
+
         mRecyclerView = v.findViewById(R.id.task_fragment_recyclerview);
         mFloatingActionButton = v.findViewById(R.id.add_task_fab);
 

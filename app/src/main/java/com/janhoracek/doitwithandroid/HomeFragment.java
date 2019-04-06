@@ -49,9 +49,12 @@ import java.util.List;
 //public class HomeFragment extends Fragment implements View.OnClickListener
 public class HomeFragment extends Fragment{
     private static final String TAG = "DIWD1";
+    private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
+    private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String HOME_FRAG_RUN = "com.janhoracek.doitwithandroid.HOME_FRAG_RUN";
     private static final String USER_EXPERIENCE = "com.janhoracek.doitwithandroid.USER_EXPERIENCE";
+    private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
 
 
     private ViewPager mViewPager;
@@ -73,25 +76,27 @@ public class HomeFragment extends Fragment{
         final View v = inflater.inflate(R.layout.fragment_home, container, false);
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        DateChangeChecker.getInstance().CheckDate(pref);
+
+
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
                 //adapter.setTasks(taskers);
-                adapter.setTasks(taskViewModel.getTasksToday(taskers));
-                for (int i = 0; i <= taskers.size()-1; i++) {
-                    Log.d(TAG, "Deadline casy z milisecond: " + new DateHandler().getDateFromMilisecs(taskers.get(i).getD_time_milisec()));
-                }
-                Log.d(TAG, "Current time: " + Calendar.getInstance().getTime());
-                //Log.d(TAG, "Test " + (121L / 100));
-                long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
-                Log.d(TAG, "Current time without sec: " + new DateHandler().getDateFromMilisecs(timeMili));
+                Calendar calEnd = Calendar.getInstance();
+                calEnd.set(Calendar.SECOND, 0);
+                calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
+                calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
+                //if (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis() && new DateHandler().getCurrentDateTimeInMilisec() > ) {adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));}
+                adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
+                //long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
             }
         });
 
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
-        ChartDataHolder.getInstance().setmLineChartData(mStatsViewModel.getAllStatsList());
+        new DateHandler().checkLastDate(mStatsViewModel);
 
         mRecyclerView = v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -139,6 +144,9 @@ public class HomeFragment extends Fragment{
                 UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
                 if(fragment == null) return;
                 fragment.updateProgress(expGain, getContext());
+                long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+                timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
+                pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                 Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
             }

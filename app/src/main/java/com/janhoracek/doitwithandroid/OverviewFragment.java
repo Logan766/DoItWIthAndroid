@@ -1,7 +1,9 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.Context;
 import android.content.Entity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,17 +41,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class OverviewFragment extends Fragment {
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+
     private RecyclerView mRecyclerView;
     private FloatingActionButton mFloatingActionButton;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ChartItem> items = new ArrayList<>();
     private StatsViewModel mStatsViewModel;
+    private SharedPreferences pref;
     //private List<Stats> Mstats;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
+        SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        DateChangeChecker.getInstance().CheckDate(pref);
+
         mRecyclerView = v.findViewById(R.id.recycler_view_graphs);
         mFloatingActionButton = v.findViewById(R.id.fab_change);
 
@@ -67,6 +76,7 @@ public class OverviewFragment extends Fragment {
 
         mRecyclerView.setAdapter(adaper);
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
+        new DateHandler().checkLastDate(mStatsViewModel);
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
             public void onChanged(@Nullable List<Stats> stats) {
