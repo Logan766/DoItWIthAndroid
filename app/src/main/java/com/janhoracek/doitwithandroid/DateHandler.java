@@ -29,20 +29,27 @@ public class DateHandler {
     Calendar mCalendar;
 
 
-    public DateHandler(StatsViewModel statsViewModel) {
-        mStatsViewModel = statsViewModel;
+    public DateHandler() {
         mCalendar = Calendar.getInstance();
         mCurrentDate = Calendar.getInstance().get(Calendar.YEAR) * 10000 + (Calendar.getInstance().get(Calendar.MONTH)+1) * 100 + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
-    public int getCurrentDateForStats() {
+    public int getCurrentDateForStats(StatsViewModel statsViewModel) {
+        mStatsViewModel = statsViewModel;
         Log.d(TAG, "Velikost lasDate= " + String.valueOf(mStatsViewModel.getLastDate().size()));
         Log.d(TAG, "Current date: " + String.valueOf(mCurrentDate));
         //checkLastDate();
         return mCurrentDate;
     }
 
-    public void checkLastDate() {
+    public long getCurrentDateTimeInMilisec() {
+        long currentDate = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
+
+        return currentDate;
+    }
+
+    public void checkLastDate(StatsViewModel statsViewModel) {
+        mStatsViewModel = statsViewModel;
         if(mStatsViewModel.getLastDate().size() == 0) {
             Log.d(TAG, "Prazdny staty");
             mStatsViewModel.insert(new Stats(mCurrentDate));
@@ -62,5 +69,13 @@ public class DateHandler {
         } else {
             Log.d(TAG, "Stats are present");
         }
+    }
+
+    public String getDateFromMilisecs(long milliSeconds) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliSeconds);
+
+
+        return String.valueOf(cal.getTime());
     }
 }

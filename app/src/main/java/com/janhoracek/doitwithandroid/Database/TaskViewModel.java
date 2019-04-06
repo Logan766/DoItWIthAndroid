@@ -8,6 +8,7 @@ import com.janhoracek.doitwithandroid.Database.Taskers;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -41,4 +42,17 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<Taskers>> getAllTasks() {
         return allTasks;
     }
+
+    public List<Taskers> getTasksToday(List<Taskers> allTasks) {
+        List<Taskers> todayTasks = new ArrayList<>();
+        for(int i= 0; i<= allTasks.size() - 1; i++) {
+            if(allTasks.get(i).getPriority() == 1) {
+                todayTasks.add(allTasks.get(i));
+            }
+        }
+
+        return todayTasks;
+    }
+
+
 }

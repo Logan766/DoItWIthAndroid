@@ -67,7 +67,7 @@ public class StatsViewModel extends AndroidViewModel {
     }
 
     public int completeTask(Taskers task, StatsViewModel statsViewModel) {
-        int idToday = new DateHandler(statsViewModel).getCurrentDateForStats();
+        int idToday = new DateHandler().getCurrentDateForStats(statsViewModel);
         Stats stat = getPrioritiesExp(idToday).get(0);
         int priorityDone = task.getPriority();
         int xpEarned = task.getExp();

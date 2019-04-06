@@ -181,6 +181,7 @@ public class FragmentCurrentTasks extends Fragment {
             calendar.setTime(deadline);
 
             Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
+
             taskViewModel.insert(task);
 
             Toast.makeText(getActivity(), "Task added successfully", Toast.LENGTH_SHORT).show();
@@ -203,6 +204,7 @@ public class FragmentCurrentTasks extends Fragment {
 
             Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
             task.setId(id);
+
             taskViewModel.update(task);
 
             Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();

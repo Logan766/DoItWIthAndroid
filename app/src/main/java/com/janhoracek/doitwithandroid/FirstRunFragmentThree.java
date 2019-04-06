@@ -2,7 +2,10 @@ package com.janhoracek.doitwithandroid;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +24,12 @@ import androidx.fragment.app.Fragment;
 
 public class FirstRunFragmentThree extends Fragment {
     private static final String TAG = "FIRSTRUNN";
+    private final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+    private final String START_HOUR = "com.janhoracek.doitwithandroid.StartHour";
+    private final String START_MINUTE = "com.janhoracek.doitwithandroid.Start_Minute";
+    private final String END_HOUR = "com.janhoracek.doitwithandroid.EndHour";
+    private final String END_MINUTE = "com.janhoracek.doitwithandroid.EndMinute";
+    private final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.ProductvityTime";
 
     private Button mButton;
     private SingleDateAndTimePicker mDateAndTimePickerStart;
@@ -30,6 +39,8 @@ public class FirstRunFragmentThree extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.first_run_third_screen, container, false);
+        final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
         mButton = v.findViewById(R.id.button_first_run_complete);
         mDateAndTimePickerStart = v.findViewById(R.id.first_run_time_pick_start);
         mDateAndTimePickerEnd = v.findViewById(R.id.first_run_time_pick_end);
@@ -39,10 +50,10 @@ public class FirstRunFragmentThree extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int startHour;
-                int startMinute;
-                int endHour;
-                int endMinute;
+                final int startHour;
+                final int startMinute;
+                final int endHour;
+                final int endMinute;
                 int prodHours;
                 int prodMinutes;
                 cal.setTime(mDateAndTimePickerStart.getDate());
@@ -66,7 +77,14 @@ public class FirstRunFragmentThree extends Fragment {
                             .setMessage("\nYour productivity time is: \n\n" + prodHours + " hours " + prodMinutes + " minutes\n\nIs that correct?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
+                                    pref.edit().putInt(START_HOUR, startHour).apply();
+                                    pref.edit().putInt(START_MINUTE, startMinute).apply();
+                                    pref.edit().putInt(END_HOUR, endHour).apply();
+                                    pref.edit().putInt(END_MINUTE, endMinute).apply();
+                                    pref.edit().putInt(PRODUCTIVITY_TIME, startHour).apply();
+                                    Intent intent = new Intent(getContext(), ApplicationActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
                                 }
                             })
                             .setNegativeButton(android.R.string.no, null)

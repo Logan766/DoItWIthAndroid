@@ -77,7 +77,15 @@ public class HomeFragment extends Fragment{
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
-                adapter.setTasks(taskers);
+                //adapter.setTasks(taskers);
+                adapter.setTasks(taskViewModel.getTasksToday(taskers));
+                for (int i = 0; i <= taskers.size()-1; i++) {
+                    Log.d(TAG, "Deadline casy z milisecond: " + new DateHandler().getDateFromMilisecs(taskers.get(i).getD_time_milisec()));
+                }
+                Log.d(TAG, "Current time: " + Calendar.getInstance().getTime());
+                //Log.d(TAG, "Test " + (121L / 100));
+                long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
+                Log.d(TAG, "Current time without sec: " + new DateHandler().getDateFromMilisecs(timeMili));
             }
         });
 
