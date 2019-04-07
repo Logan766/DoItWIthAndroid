@@ -23,8 +23,10 @@ public class TaskViewModel extends AndroidViewModel {
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
+    private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
 
     private static final String TAG = "LISTER";
+    private static final String TAG1 = "DOABLE";
 
     private TaskRepository repository;
     private LiveData<List<Taskers>> allTasks;
@@ -56,27 +58,6 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     public List<Taskers> getTasksToday(List<Taskers> allTasks, SharedPreferences pref) {
-        /*long startTime = 0;
-        Calendar calStart = Calendar.getInstance();
-        calStart.set(Calendar.SECOND, 0);
-        calStart.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, 0));
-        calStart.set(Calendar.MINUTE, pref.getInt(START_MINUTE, 0));
-
-        Calendar calEnd = Calendar.getInstance();
-        calEnd.set(Calendar.SECOND, 0);
-        calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
-        calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
-
-
-
-        if(new DateHandler().getCurrentDateTimeInMilisec() < calStart.getTimeInMillis()) {
-            startTime = calStart.getTimeInMillis();
-        } else {
-            startTime = new DateHandler().getCurrentDateTimeInMilisec();
-        }
-
-        long timeRemaining = calEnd.getTimeInMillis() - startTime;
-        */
 
         List<Taskers> todayTasks = new ArrayList<>();
         long timeRemaining = pref.getLong(TIME_REMAINING, -1);
@@ -100,5 +81,93 @@ public class TaskViewModel extends AndroidViewModel {
         return todayTasks;
     }
 
+    public boolean checkAllDoable(List<Taskers> tasks, SharedPreferences pref) {
+        boolean result = true;
+        long deadline;
+        long lastEnd;
+        long start;
+
+        long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+        Calendar calStart = Calendar.getInstance();
+        calStart.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
+        calStart.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
+        calStart.set(Calendar.SECOND, 0);
+
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
+        calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+        calEnd.set(Calendar.SECOND, 0);
+
+        //lastEnd = calEnd.getTimeInMillis() - timeRemaining * 60000;
+
+        Calendar temp = Calendar.getInstance();
+        temp.setTimeInMillis(calEnd.getTimeInMillis());
+        temp.add(Calendar.MINUTE, (int) -timeRemaining);
+
+        Log.d(TAG1, "Time remaining: " + timeRemaining);
+        Log.d(TAG1, "Temp calendar date: " + temp.getTime());
+
+        lastEnd = temp.getTimeInMillis();
+
+        //lastEnd = 60000 * (lastEnd / 60000);
+
+
+        for (int i=0; i<= tasks.size()-1; i++) {
+            deadline = tasks.get(i).getD_time_milisec();
+
+            Calendar lastEndCal = Calendar.getInstance();
+            lastEndCal.setTimeInMillis(lastEnd);
+            Log.d(TAG1, "LatEnd: " + lastEndCal.getTime());
+
+
+            int duration = tasks.get(i).getTime_consumption();
+            int numberDays = duration / (int) pref.getLong(PRODUCTIVITY_TIME, -1);
+            Log.d(TAG1, "Number of days: " + numberDays);
+
+
+            for (int e = 0; e < numberDays; e++) {
+                lastEndCal.add(Calendar.DAY_OF_YEAR, 1);
+                Log.d(TAG1, "adding day...");
+            }
+
+            calEnd.setTimeInMillis(lastEndCal.getTimeInMillis());
+            calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
+            calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+
+            Log.d(TAG1, "Current end date: " + calEnd.getTime());
+
+            if(duration%pref.getLong(PRODUCTIVITY_TIME, -1) > (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis()) / 60000) {
+                Log.d(TAG1, "One more day");
+                long minutesOver = (duration%pref.getLong(PRODUCTIVITY_TIME, -1)) * 60000 - (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis());
+                minutesOver = minutesOver / 60000;
+
+                lastEndCal.add(Calendar.DAY_OF_YEAR, 1);
+                lastEndCal.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
+                lastEndCal.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
+                lastEndCal.set(Calendar.SECOND, 0);
+
+                lastEndCal.add(Calendar.MINUTE, (int) minutesOver);
+                Log.d(TAG1, "Final end date is: " + lastEndCal.getTime());
+
+            } else {
+                int minutes = duration % (int) pref.getLong(PRODUCTIVITY_TIME, -1);
+                calEnd.add(Calendar.MINUTE, minutes);
+                Log.d(TAG1, "Short task final end date: " + calEnd.getTime());
+            }
+
+
+            if (calEnd.getTimeInMillis() > deadline) {
+                Log.d(TAG1, "Over deadline");
+                result = false;
+                break;
+            }
+
+            lastEnd = calEnd.getTimeInMillis();
+            Log.d(TAG, "Not over deadline, next task should begin at: " + calEnd.getTime());
+        }
+
+
+        return result;
+    }
 
 }

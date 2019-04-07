@@ -71,6 +71,7 @@ public class FragmentCurrentTasks extends Fragment {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
                 mAdapterAll.submitList(taskers);
+                //if(taskers.size() != 0) {taskViewModel.checkAllDoable(taskers, pref);}
             }
         });
 

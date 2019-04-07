@@ -30,6 +30,7 @@ public class FirstRunFragmentThree extends Fragment {
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
+    private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
 
     private Button mButton;
     private SingleDateAndTimePicker mDateAndTimePickerStart;
@@ -84,6 +85,7 @@ public class FirstRunFragmentThree extends Fragment {
                                     pref.edit().putInt(END_HOUR, endHour).apply();
                                     pref.edit().putInt(END_MINUTE, endMinute).apply();
                                     pref.edit().putLong(PRODUCTIVITY_TIME, prodTime).apply();
+                                    pref.edit().putLong(TIME_REMAINING, prodTime);
                                     Log.d(TAG, "Productivity time: " + prodTime);
                                     Intent intent = new Intent(getContext(), ApplicationActivity.class);
                                     startActivity(intent);

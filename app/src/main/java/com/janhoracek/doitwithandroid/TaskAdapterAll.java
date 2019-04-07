@@ -39,7 +39,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     oldItem.getDescription().equals(newItem.getDescription()) &&
                     oldItem.getPriority() == newItem.getPriority() &&
                     oldItem.getTime_consumption() == newItem.getTime_consumption() &&
-                    oldItem.getD_time_milisec() == newItem.getD_time_milisec();
+                    oldItem.getD_time_milisec() == newItem.getD_time_milisec() &&
+                    oldItem.getExp() == newItem.getExp() &&
+                    oldItem.getD_day() == newItem.getD_day() &&
+                    oldItem.getD_month() == newItem.getD_month() &&
+                    oldItem.getD_year() == newItem.getD_year() &&
+                    oldItem.getId() == newItem.getId() &&
+                    oldItem.getD_time().equals(newItem.getD_time());
         }
     };
 
