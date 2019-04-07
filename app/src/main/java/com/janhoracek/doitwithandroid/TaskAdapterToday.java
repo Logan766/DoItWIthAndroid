@@ -16,6 +16,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.graphics.Color.rgb;
+
 public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.TaskHolder> {
 
     private List<Taskers> mTasks = new ArrayList<>();
@@ -33,13 +35,13 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         Taskers currentTaskers = mTasks.get(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mPriority.setBackgroundColor(Color.RED);
+                holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
                 break;
             case 2:
-                holder.mPriority.setBackgroundColor(Color.YELLOW);
+                holder.mPriority.setBackgroundColor(rgb(255,202,40));
                 break;
             case 3:
-                holder.mPriority.setBackgroundColor(Color.GREEN);
+                holder.mPriority.setBackgroundColor(rgb(156,204,101));
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());

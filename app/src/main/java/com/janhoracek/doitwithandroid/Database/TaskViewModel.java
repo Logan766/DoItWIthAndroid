@@ -61,6 +61,8 @@ public class TaskViewModel extends AndroidViewModel {
         return allTasks;
     }
 
+    public List<Taskers> getAllTasksListByPriority() {return repository.getAllTasksListByPriority();}
+
     public List<Taskers> getAllTasksList() {
         return repository.getAllTasksList();
     }

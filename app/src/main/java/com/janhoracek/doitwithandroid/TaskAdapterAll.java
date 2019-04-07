@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.graphics.Color.rgb;
+
 public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHolder> {
     private OnTaskClickListener mListener;
     private SimpleDateFormat mDateFormat;
@@ -63,13 +65,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:
-                holder.mPriority.setBackgroundColor(Color.RED);
+                holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
                 break;
             case 2:
-                holder.mPriority.setBackgroundColor(Color.YELLOW);
+                holder.mPriority.setBackgroundColor(rgb(255,202,40));
                 break;
             case 3:
-                holder.mPriority.setBackgroundColor(Color.GREEN);
+                holder.mPriority.setBackgroundColor(rgb(156,204,101));
                 break;
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());

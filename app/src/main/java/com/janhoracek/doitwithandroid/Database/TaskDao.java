@@ -31,4 +31,7 @@ public interface TaskDao {
 
     @Query("SELECT * FROM task_table ORDER BY d_time_milisec ASC")
     List<Taskers> getAllTasksList();
+
+    @Query("SELECT * FROM task_table ORDER BY priority ASC, d_time_milisec ASC")
+    List<Taskers> getAllTasksListByPriority();
 }

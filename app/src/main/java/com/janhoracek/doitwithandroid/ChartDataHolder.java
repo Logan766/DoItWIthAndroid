@@ -23,6 +23,8 @@ import java.util.List;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import static android.graphics.Color.rgb;
+
 public class ChartDataHolder {
 
     private static ChartDataHolder instance;
@@ -113,7 +115,7 @@ public class ChartDataHolder {
         }
 
         BarDataSet set = new BarDataSet(entries, "Tasks done in month");
-        set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
+        set.setColors(rgb(156,204,101), rgb(255,202,40), rgb(239, 83, 80));
         mBarDataMonth = new BarData(set);
     }
 
@@ -132,7 +134,7 @@ public class ChartDataHolder {
         }
 
         BarDataSet set = new BarDataSet(entries, "Tasks done every day");
-        set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
+        set.setColors(rgb(156,204,101), rgb(255,202,40), rgb(239, 83, 80));
         mBarDataDay = new BarData(set);
     }
 
@@ -141,12 +143,12 @@ public class ChartDataHolder {
         mPieOverallData = new PieData();
         List<PieEntry> entries = new ArrayList<>();
 
-        entries.add(new PieEntry(stats.get(0).getLow_done(), "Low Priority Done"));
-        entries.add(new PieEntry(stats.get(0).getMedium_done(), "Medium Priority Done"));
-        entries.add(new PieEntry(stats.get(0).getHigh_done(), "High Priority Done"));
+        entries.add(new PieEntry(stats.get(0).getLow_done(), ""));
+        entries.add(new PieEntry(stats.get(0).getMedium_done(), ""));
+        entries.add(new PieEntry(stats.get(0).getHigh_done(), ""));
 
         PieDataSet set = new PieDataSet(entries, "Tasks done by priority");
-        set.setColors(Color.GREEN, Color.YELLOW, Color.RED);
+        set.setColors(rgb(156,204,101), rgb(255,202,40), rgb(239, 83, 80));
         mPieOverallData = new PieData(set);
     }
 

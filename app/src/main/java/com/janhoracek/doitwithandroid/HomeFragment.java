@@ -108,7 +108,17 @@ public class HomeFragment extends Fragment{
                 calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
                 calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
                 //if (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis() && new DateHandler().getCurrentDateTimeInMilisec() > ) {adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));}
-                adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
+                ChartDataHolder holder = ChartDataHolder.getInstance();
+                if(!holder.getHighTasksDoable()) {
+                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getAllTasksListByPriority(), pref));
+                } else if (!holder.getMediumTasksDoable()) {
+                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getHighPriority(taskers), pref));
+                } else if (!holder.getAllTasksDoable()) {
+                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getMediumHighPriority(taskers), pref));
+                } else {
+                    adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
+                }
+                //adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
                 //long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
 
 

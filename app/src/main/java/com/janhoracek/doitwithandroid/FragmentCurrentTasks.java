@@ -112,13 +112,13 @@ public class FragmentCurrentTasks extends Fragment {
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
-                        .addSwipeLeftActionIcon(R.drawable.ic_add_white_24dp)
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete_sweep_black_24dp)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
                         .addSwipeRightActionIcon(R.drawable.ic_delete_sweep_black_24dp)
                         .addSwipeRightLabel("Doprava")
                         .setSwipeRightLabelColor(Color.WHITE)
-                        .addSwipeLeftLabel("Doleva")
-                        .setSwipeLeftLabelColor(Color.WHITE)
+                        .addSwipeLeftLabel("Delete")
+                        .setSwipeLeftLabelColor(Color.BLACK)
                         .create()
                         .decorate();
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

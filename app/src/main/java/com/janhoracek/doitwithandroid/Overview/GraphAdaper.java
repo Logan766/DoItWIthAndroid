@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -111,6 +112,7 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     item.styleGraph(viewHolder.graph);
 
                     item.setGraphData(ChartDataHolder.getInstance().getmPieOverallData());
+                    chart.getDescription().setEnabled(false);
 
                     chart.invalidate();
                     chart.animate();

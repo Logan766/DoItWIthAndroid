@@ -37,6 +37,10 @@ public class TaskRepository {
         return allTasks;
     }
 
+    public List<Taskers> getAllTasksListByPriority(){
+        return taskDao.getAllTasksListByPriority();
+    }
+
     public List<Taskers> getAllTasksList() {
         return taskDao.getAllTasksList();
     }
