@@ -83,6 +83,7 @@ public class FragmentCurrentTasks extends Fragment {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((TaskFragment)getParentFragment()).test();
                 Intent i = new Intent(getActivity(), AddEditTaskActivity.class);
                 startActivityForResult(i, ADD_TASK_REQUEST);
             }

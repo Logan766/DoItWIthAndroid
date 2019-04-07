@@ -12,11 +12,24 @@
         android:animateLayoutChanges="true"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            >
+
+            <TextView
+                android:id="@+id/textView_Test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test" />
+        </RelativeLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_tasks"
-            android:layout_marginTop="56dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

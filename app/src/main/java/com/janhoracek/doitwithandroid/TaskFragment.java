@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -36,10 +38,17 @@ public class TaskFragment extends Fragment {
     private ViewPager mViewPager;
     private StatsViewModel mStatsViewModel;
 
+    private TextView test;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_task_both, container, false);
+
+
+        test = v.findViewById(R.id.textView_Test);
+
+
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         new DateHandler().checkLastDate(mStatsViewModel);
@@ -53,6 +62,10 @@ public class TaskFragment extends Fragment {
         tabLayout.setupWithViewPager(mViewPager);
 
         return v;
+    }
+
+    public void test() {
+        test.setText("Funguju");
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
