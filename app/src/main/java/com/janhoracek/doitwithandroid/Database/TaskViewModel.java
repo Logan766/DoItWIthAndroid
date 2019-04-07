@@ -8,9 +8,12 @@ import com.janhoracek.doitwithandroid.Database.TaskRepository;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.janhoracek.doitwithandroid.DateHandler;
 
+import org.joda.time.LocalDate;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -85,43 +88,62 @@ public class TaskViewModel extends AndroidViewModel {
         boolean result = true;
         long deadline;
         long lastEnd;
-        long start;
+        long productivityTime = pref.getLong(PRODUCTIVITY_TIME, -1);
+        int startHour = pref.getInt(START_HOUR, -1);
+        int startMinute = pref.getInt(START_MINUTE, -1);
+        int endHour = pref.getInt(END_HOUR, -1);
+        int endMinute = pref.getInt(END_MINUTE, -1);
+        int timeRemaining = (int) pref.getLong(TIME_REMAINING, -1);
 
-        long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+
         Calendar calStart = Calendar.getInstance();
-        calStart.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
-        calStart.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
+        calStart.set(Calendar.HOUR_OF_DAY, startHour);
+        calStart.set(Calendar.MINUTE, startMinute);
         calStart.set(Calendar.SECOND, 0);
 
         Calendar calEnd = Calendar.getInstance();
-        calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
-        calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+        calEnd.set(Calendar.HOUR_OF_DAY, endHour);
+        calEnd.set(Calendar.MINUTE, endMinute);
         calEnd.set(Calendar.SECOND, 0);
 
-        //lastEnd = calEnd.getTimeInMillis() - timeRemaining * 60000;
+        Log.d(TAG1, "StartCal: " + calStart.getTime());
+        Log.d(TAG1, "EndCal: " + calEnd.getTime());
 
         Calendar temp = Calendar.getInstance();
         temp.setTimeInMillis(calEnd.getTimeInMillis());
-        temp.add(Calendar.MINUTE, (int) -timeRemaining);
+        temp.add(Calendar.MINUTE, -timeRemaining);
 
         Log.d(TAG1, "Time remaining: " + timeRemaining);
         Log.d(TAG1, "Temp calendar date: " + temp.getTime());
 
-        lastEnd = temp.getTimeInMillis();
+        if(calEnd.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) {
+            calStart.add(Calendar.DAY_OF_YEAR, 1);
+            lastEnd = calStart.getTimeInMillis();
+            Log.d(TAG1, "Now is after productivity");
+        } else {
+            lastEnd = temp.getTimeInMillis();
+        }
 
         //lastEnd = 60000 * (lastEnd / 60000);
 
+        Log.d(TAG1, "-------------------------------------");
 
         for (int i=0; i<= tasks.size()-1; i++) {
             deadline = tasks.get(i).getD_time_milisec();
+            int duration = tasks.get(i).getTime_consumption();
+
+            Log.d(TAG, "This task duration: " + duration);
+            Calendar deadlines = Calendar.getInstance();
+            deadlines.setTimeInMillis(deadline);
+            Log.d(TAG, "This task deadline" + deadlines.getTime());
 
             Calendar lastEndCal = Calendar.getInstance();
             lastEndCal.setTimeInMillis(lastEnd);
             Log.d(TAG1, "LatEnd: " + lastEndCal.getTime());
 
 
-            int duration = tasks.get(i).getTime_consumption();
-            int numberDays = duration / (int) pref.getLong(PRODUCTIVITY_TIME, -1);
+
+            int numberDays = duration / (int) productivityTime;
             Log.d(TAG1, "Number of days: " + numberDays);
 
 
@@ -130,18 +152,24 @@ public class TaskViewModel extends AndroidViewModel {
                 Log.d(TAG1, "adding day...");
             }
 
-            calEnd.setTimeInMillis(lastEndCal.getTimeInMillis());
-            calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
-            calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+            calEnd.setTime(lastEndCal.getTime());
+            calEnd.set(Calendar.HOUR_OF_DAY, endHour);
+            calEnd.set(Calendar.MINUTE, endMinute);
+            calEnd.set(Calendar.SECOND, 0);
 
-            Log.d(TAG1, "Current end date: " + calEnd.getTime());
+            Log.d(TAG1, "Future productivity end: " + calEnd.getTime());
 
-            if(duration%pref.getLong(PRODUCTIVITY_TIME, -1) > (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis()) / 60000) {
+            long endsDifference = (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis()) / 60000;
+
+            Log.d(TAG1, "Difference between ends: " + endsDifference);
+
+            if(endsDifference <= 0) {
                 Log.d(TAG1, "One more day");
-                long minutesOver = (duration%pref.getLong(PRODUCTIVITY_TIME, -1)) * 60000 - (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis());
-                minutesOver = minutesOver / 60000;
+                long minutesOver = (duration % productivityTime) + endsDifference;
+                Log.d(TAG1, "Minutes over: " + minutesOver);
 
                 lastEndCal.add(Calendar.DAY_OF_YEAR, 1);
+
                 lastEndCal.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
                 lastEndCal.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
                 lastEndCal.set(Calendar.SECOND, 0);
@@ -150,7 +178,7 @@ public class TaskViewModel extends AndroidViewModel {
                 Log.d(TAG1, "Final end date is: " + lastEndCal.getTime());
 
             } else {
-                int minutes = duration % (int) pref.getLong(PRODUCTIVITY_TIME, -1);
+                int minutes = duration % (int) productivityTime;
                 calEnd.add(Calendar.MINUTE, minutes);
                 Log.d(TAG1, "Short task final end date: " + calEnd.getTime());
             }
@@ -160,12 +188,15 @@ public class TaskViewModel extends AndroidViewModel {
                 Log.d(TAG1, "Over deadline");
                 result = false;
                 break;
+            } else {
+                Log.d(TAG1, "Not over deadline, next task should begin at: " + calEnd.getTime());
             }
 
             lastEnd = calEnd.getTimeInMillis();
-            Log.d(TAG, "Not over deadline, next task should begin at: " + calEnd.getTime());
-        }
+            Log.d(TAG1, "////////////////////////////////////////////////\n\n\n\n");
 
+        }
+        Log.d(TAG1, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         return result;
     }

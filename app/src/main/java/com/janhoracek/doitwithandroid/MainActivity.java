@@ -85,11 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
 
             // This is just a normal run
-            /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();*/
-
-            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
 
@@ -104,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putInt(USER_LEVEL, 1).apply();
             prefs.edit().putInt(USER_EXPERIENCE, 0).apply();
             prefs.edit().putInt(NEXT_EXPERIENCE, 1000).apply();
+
+            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+            startActivity(intent);
+            finish();
 
         } else if (currentVersionCode > savedVersionCode) {
 
