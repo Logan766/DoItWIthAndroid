@@ -1,28 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
-
-    <devlight.io.library.ArcProgressStackView
-
-        android:id="@+id/arcProgressStackViewTasks"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerInParent="true"
-
-        app:apsv_animated="true"
-        app:apsv_animation_duration="2000"
-        app:apsv_dragged="false"
-        app:apsv_draw_width="80dp"
-        app:apsv_leveled="false"
-        app:apsv_model_bg_enabled="true"
-        app:apsv_model_offset="-2dp"
+    android:layout_height="350dp"
+    android:gravity="center_vertical"
+    android:background="@color/backgroundNormal">
 
 
-        app:apsv_rounded="true"
-        app:apsv_shadowed="false"
+    <LinearLayout
+        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
-        app:apsv_text_color="#FFFFFF" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minWidth="320dp"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                app:lottie_autoPlay="true"
+                android:id="@+id/lottie_big_all"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/text_lottie_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="You can complete all tasks!"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center_vertical"
+            android:minWidth="320dp"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                app:lottie_autoPlay="true"
+                android:id="@+id/lottie_big_medium"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/text_lottie_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Medium and higher tasks completable"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minWidth="320dp"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                app:lottie_autoPlay="true"
+                android:id="@+id/lottie_big_high"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/text_lottie_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="You can complete all high priority tasks" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
+

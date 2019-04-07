@@ -79,20 +79,7 @@ public class HomeFragment extends Fragment{
         DateChangeChecker.getInstance().CheckDate(pref);
 
 
-        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
-            @Override
-            public void onChanged(@Nullable List<Taskers> taskers) {
-                //adapter.setTasks(taskers);
-                Calendar calEnd = Calendar.getInstance();
-                calEnd.set(Calendar.SECOND, 0);
-                calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
-                calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
-                //if (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis() && new DateHandler().getCurrentDateTimeInMilisec() > ) {adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));}
-                adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
-                //long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
-            }
-        });
+
 
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
@@ -110,6 +97,23 @@ public class HomeFragment extends Fragment{
         mAdapter = new GraphPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mSpringDotsIndicator.setViewPager(mViewPager);
+
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
+            @Override
+            public void onChanged(@Nullable List<Taskers> taskers) {
+                //adapter.setTasks(taskers);
+                Calendar calEnd = Calendar.getInstance();
+                calEnd.set(Calendar.SECOND, 0);
+                calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
+                calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
+                //if (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis() && new DateHandler().getCurrentDateTimeInMilisec() > ) {adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));}
+                adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
+                //long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
+
+
+            }
+        });
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -149,6 +153,7 @@ public class HomeFragment extends Fragment{
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                 Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
+
             }
 
             @Override

@@ -184,9 +184,9 @@ public class TaskFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Fragment 1";
+                    return "Current Tasks";
                 case 1:
-                    return "Fragment 2";
+                    return "Archived Tasks";
             }
             return null;
         }
