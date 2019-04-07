@@ -16,13 +16,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
+            android:background="@color/colorAccent"
             >
 
+            <com.airbnb.lottie.LottieAnimationView
+                app:lottie_autoPlay="true"
+                android:id="@+id/lottie_high"
+                android:layout_width="35dp"
+                android:layout_height="35dp" />
+
             <TextView
-                android:id="@+id/textView_Test"
+                android:id="@+id/text_both_high"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/lottie_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test" />
+                android:textColor="@color/backgroundNormal"
+                android:text="High" />
         </RelativeLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -49,6 +59,6 @@
         android:id="@+id/view_pager_tasks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="146dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -38,7 +38,7 @@ import java.util.List;
 public class ApplicationActivity extends AppCompatActivity {
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
-    private Fragment mTask = new TaskFragment(); ////
+    ///private Fragment mTask = new TaskFragment(); ////
     private StatsViewModel mStatsViewModel;
 
     @Override
@@ -82,7 +82,7 @@ public class ApplicationActivity extends AppCompatActivity {
                         exit = R.anim.exit_to_right;
                         break;
                     case R.id.navigation_task:
-                        selectedFragment = mTask; ////////
+                        selectedFragment = new TaskFragment(); ////////
                         mToolbar.setTitle(R.string.navigation_task);
                         if(mOldMenu == R.id.navigation_home) {
                             enter = R.anim.enter_from_right;

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.janhoracek.doitwithandroid.AddEditTaskActivity;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
-import com.janhoracek.doitwithandroid.R;
-import com.janhoracek.doitwithandroid.TaskAdapterAll;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
@@ -70,7 +68,12 @@ public class FragmentCurrentTasks extends Fragment {
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
-                if(taskers.size() != 0) {taskViewModel.checkAllDoable(taskers, pref);}
+                if(taskers.size() != 0) {
+                    Boolean result;
+                    //result = taskViewModel.checkDoable(taskers, pref);
+                    result = taskViewModel.checkDoable(taskViewModel.getHighPriority(taskers), pref);
+                    Log.d("LOTKA", "Result checku jest: " + result);
+                    ChartDataHolder.getInstance().setAllTasksDoable(result);}
                 mAdapterAll.submitList(taskers);
             }
         });
@@ -84,7 +87,6 @@ public class FragmentCurrentTasks extends Fragment {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((TaskFragment)getParentFragment()).test();
                 Intent i = new Intent(getActivity(), AddEditTaskActivity.class);
                 startActivityForResult(i, ADD_TASK_REQUEST);
             }

@@ -84,7 +84,27 @@ public class TaskViewModel extends AndroidViewModel {
         return todayTasks;
     }
 
-    public boolean checkAllDoable(List<Taskers> tasks, SharedPreferences pref) {
+    public List<Taskers> getHighPriority(List<Taskers> tasks) {
+        List<Taskers> highPriority = new ArrayList<>();
+        for(int i=0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).getPriority() == 1) {
+                highPriority.add(tasks.get(i));
+            }
+        }
+        return highPriority;
+    }
+
+    public List<Taskers> getMediumHighPriority(List<Taskers> tasks) {
+        List<Taskers> mediumHighPriority = new ArrayList<>();
+        for(int i=0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).getPriority() < 3) {
+                mediumHighPriority.add(tasks.get(i));
+            }
+        }
+        return mediumHighPriority;
+    }
+
+    public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref) {
         boolean result = true;
         long deadline;
         long lastEnd;
@@ -122,6 +142,7 @@ public class TaskViewModel extends AndroidViewModel {
             Log.d(TAG1, "Now is after productivity");
         } else {
             lastEnd = temp.getTimeInMillis();
+            Log.d(TAG1, "Ok time to add");
         }
 
         //lastEnd = 60000 * (lastEnd / 60000);
@@ -132,10 +153,10 @@ public class TaskViewModel extends AndroidViewModel {
             deadline = tasks.get(i).getD_time_milisec();
             int duration = tasks.get(i).getTime_consumption();
 
-            Log.d(TAG, "This task duration: " + duration);
+            Log.d(TAG1, "This task duration: " + duration);
             Calendar deadlines = Calendar.getInstance();
             deadlines.setTimeInMillis(deadline);
-            Log.d(TAG, "This task deadline" + deadlines.getTime());
+            Log.d(TAG1, "This task deadline" + deadlines.getTime());
 
             Calendar lastEndCal = Calendar.getInstance();
             lastEndCal.setTimeInMillis(lastEnd);
@@ -179,20 +200,20 @@ public class TaskViewModel extends AndroidViewModel {
 
             } else {
                 int minutes = duration % (int) productivityTime;
-                calEnd.add(Calendar.MINUTE, minutes);
-                Log.d(TAG1, "Short task final end date: " + calEnd.getTime());
+                lastEndCal.add(Calendar.MINUTE, minutes);
+                Log.d(TAG1, "Short task final end date: " + lastEndCal.getTime());
             }
 
 
-            if (calEnd.getTimeInMillis() > deadline) {
+            if (lastEndCal.getTimeInMillis() > deadline) {
                 Log.d(TAG1, "Over deadline");
                 result = false;
-                break;
+                return result;
             } else {
-                Log.d(TAG1, "Not over deadline, next task should begin at: " + calEnd.getTime());
+                Log.d(TAG1, "Not over deadline, next task should begin at: " + lastEndCal.getTime());
             }
 
-            lastEnd = calEnd.getTimeInMillis();
+            lastEnd = lastEndCal.getTimeInMillis();
             Log.d(TAG1, "////////////////////////////////////////////////\n\n\n\n");
 
         }

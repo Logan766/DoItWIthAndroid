@@ -11,22 +11,28 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
+
+import java.io.FileReader;
 
 public class TaskFragment extends Fragment {
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String HOME_FRAG_RUN = "com.janhoracek.doitwithandroid.HOME_FRAG_RUN";
+
+    private static final String TAG = "LOTKA";
 
     private FloatingActionButton mFloatingActionButton;
     private TaskViewModel taskViewModel;
@@ -38,15 +44,27 @@ public class TaskFragment extends Fragment {
     private ViewPager mViewPager;
     private StatsViewModel mStatsViewModel;
 
-    private TextView test;
+
+    private LottieAnimationView mLottieAnimationViewHigh;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_task_both, container, false);
+        mLottieAnimationViewHigh = v.findViewById(R.id.lottie_high);
 
+        if(ChartDataHolder.getInstance().getAllTasksDoable()) {
+            Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewHigh.clearAnimation();
+            mLottieAnimationViewHigh.setAnimation("success.json");
+            mLottieAnimationViewHigh.playAnimation();
+        } else {
+            Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewHigh.clearAnimation();
+            mLottieAnimationViewHigh.setAnimation("not_success.json");
+            mLottieAnimationViewHigh.playAnimation();
+        }
 
-        test = v.findViewById(R.id.textView_Test);
 
 
 
@@ -62,10 +80,6 @@ public class TaskFragment extends Fragment {
         tabLayout.setupWithViewPager(mViewPager);
 
         return v;
-    }
-
-    public void test() {
-        test.setText("Funguju");
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
