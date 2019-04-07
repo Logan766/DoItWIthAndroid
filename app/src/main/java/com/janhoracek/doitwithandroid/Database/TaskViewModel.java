@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.TaskRepository;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.janhoracek.doitwithandroid.DateHandler;
@@ -60,6 +61,10 @@ public class TaskViewModel extends AndroidViewModel {
         return allTasks;
     }
 
+    public List<Taskers> getAllTasksList() {
+        return repository.getAllTasksList();
+    }
+
     public List<Taskers> getTasksToday(List<Taskers> allTasks, SharedPreferences pref) {
 
         List<Taskers> todayTasks = new ArrayList<>();
@@ -102,6 +107,17 @@ public class TaskViewModel extends AndroidViewModel {
             }
         }
         return mediumHighPriority;
+    }
+
+    public void checkAllDoables(List<Taskers> tasks, SharedPreferences pref) {
+        if(tasks.size() == 0) {return;}
+        boolean result;
+        result = checkDoable(tasks, pref);
+        ChartDataHolder.getInstance().setAllTasksDoable(result);
+        result = checkDoable(this.getMediumHighPriority(tasks), pref);
+        ChartDataHolder.getInstance().setMediumTasksDoable(result);
+        result = checkDoable(this.getHighPriority(tasks), pref);
+        ChartDataHolder.getInstance().setHighTasksDoable(result);
     }
 
     public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref) {

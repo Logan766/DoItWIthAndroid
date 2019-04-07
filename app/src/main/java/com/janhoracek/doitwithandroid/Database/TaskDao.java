@@ -28,4 +28,7 @@ public interface TaskDao {
 
     @Query("SElECT * FROM task_table ORDER BY d_time_milisec ASC")
     LiveData<List<Taskers>> getAllNotes();
+
+    @Query("SELECT * FROM task_table ORDER BY d_time_milisec ASC")
+    List<Taskers> getAllTasksList();
 }

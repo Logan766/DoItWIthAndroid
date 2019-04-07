@@ -69,11 +69,15 @@ public class FragmentCurrentTasks extends Fragment {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
                 if(taskers.size() != 0) {
-                    Boolean result;
-                    //result = taskViewModel.checkDoable(taskers, pref);
-                    result = taskViewModel.checkDoable(taskViewModel.getHighPriority(taskers), pref);
-                    Log.d("LOTKA", "Result checku jest: " + result);
-                    ChartDataHolder.getInstance().setAllTasksDoable(result);}
+                    taskViewModel.checkAllDoables(taskers, pref);
+                    ((TaskFragment)getParentFragment()).redrawLottie();
+                } else {
+                    ChartDataHolder.getInstance().setHighTasksDoable(true);
+                    ChartDataHolder.getInstance().setMediumTasksDoable(true);
+                    ChartDataHolder.getInstance().setAllTasksDoable(true);
+                    ((TaskFragment)getParentFragment()).redrawLottie();
+                }
+
                 mAdapterAll.submitList(taskers);
             }
         });

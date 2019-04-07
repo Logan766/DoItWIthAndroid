@@ -37,6 +37,10 @@ public class TaskRepository {
         return allTasks;
     }
 
+    public List<Taskers> getAllTasksList() {
+        return taskDao.getAllTasksList();
+    }
+
     private static class InsertTaskAsyncTask extends AsyncTask<Taskers, Void, Void> {
         private TaskDao taskDao;
 

@@ -34,8 +34,8 @@ public class ChartDataHolder {
     private static PieData mPieOverallData;
 
     private static Boolean allTasksDoable = true;
-    private static Boolean mediumTasksDoable;
-    private static Boolean highTasksDoable;
+    private static Boolean mediumTasksDoable = true;
+    private static Boolean highTasksDoable = true;
 
     private ChartDataHolder() {
 
@@ -160,5 +160,21 @@ public class ChartDataHolder {
 
     public void setAllTasksDoable(Boolean allTasksDoable) {
         ChartDataHolder.allTasksDoable = allTasksDoable;
+    }
+
+    public Boolean getMediumTasksDoable() {
+        return mediumTasksDoable;
+    }
+
+    public void setMediumTasksDoable(Boolean mediumTasksDoable) {
+        ChartDataHolder.mediumTasksDoable = mediumTasksDoable;
+    }
+
+    public Boolean getHighTasksDoable() {
+        return highTasksDoable;
+    }
+
+    public void setHighTasksDoable(Boolean highTasksDoable) {
+        ChartDataHolder.highTasksDoable = highTasksDoable;
     }
 }

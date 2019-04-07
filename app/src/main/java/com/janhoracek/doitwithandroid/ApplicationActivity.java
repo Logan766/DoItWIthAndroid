@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -36,16 +37,24 @@ import java.util.List;
 
 
 public class ApplicationActivity extends AppCompatActivity {
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
     ///private Fragment mTask = new TaskFragment(); ////
     private StatsViewModel mStatsViewModel;
+    private TaskViewModel mTaskViewModel;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_application);
+        pref = getSharedPreferences(PREFS_NAME ,MODE_PRIVATE);
+
+        mTaskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        mTaskViewModel.checkAllDoables(mTaskViewModel.getAllTasksList(), pref);
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         //new DateHandler().checkLastDate(mStatsViewModel);

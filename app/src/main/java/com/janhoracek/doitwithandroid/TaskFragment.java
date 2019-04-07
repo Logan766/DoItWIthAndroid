@@ -45,21 +45,50 @@ public class TaskFragment extends Fragment {
     private StatsViewModel mStatsViewModel;
 
 
+    private LottieAnimationView mLottieAnimationViewAll;
+    private LottieAnimationView mLottieAnimationViewMedium;
     private LottieAnimationView mLottieAnimationViewHigh;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_task_both, container, false);
+        mLottieAnimationViewAll = v.findViewById(R.id.lottie_all);
+        mLottieAnimationViewMedium = v.findViewById(R.id.lottie_medium);
         mLottieAnimationViewHigh = v.findViewById(R.id.lottie_high);
 
+
         if(ChartDataHolder.getInstance().getAllTasksDoable()) {
-            Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewAll.clearAnimation();
+            mLottieAnimationViewAll.setAnimation("success.json");
+            mLottieAnimationViewAll.playAnimation();
+        } else {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewAll.clearAnimation();
+            mLottieAnimationViewAll.setAnimation("not_success.json");
+            mLottieAnimationViewAll.playAnimation();
+        }
+
+        if(ChartDataHolder.getInstance().getMediumTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewMedium.clearAnimation();
+            mLottieAnimationViewMedium.setAnimation("success.json");
+            mLottieAnimationViewMedium.playAnimation();
+        } else {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewMedium.clearAnimation();
+            mLottieAnimationViewMedium.setAnimation("not_success.json");
+            mLottieAnimationViewMedium.playAnimation();
+        }
+
+        if(ChartDataHolder.getInstance().getHighTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
             mLottieAnimationViewHigh.playAnimation();
         } else {
-            Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
@@ -80,6 +109,48 @@ public class TaskFragment extends Fragment {
         tabLayout.setupWithViewPager(mViewPager);
 
         return v;
+    }
+
+    public void redrawLottie() {
+        if(ChartDataHolder.getInstance().getAllTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewAll.clearAnimation();
+            mLottieAnimationViewAll.setAnimation("success.json");
+            mLottieAnimationViewAll.playAnimation();
+        } else {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewAll.clearAnimation();
+            mLottieAnimationViewAll.setAnimation("not_success.json");
+            mLottieAnimationViewAll.playAnimation();
+        }
+
+        if(ChartDataHolder.getInstance().getMediumTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewMedium.clearAnimation();
+            mLottieAnimationViewMedium.setAnimation("success.json");
+            mLottieAnimationViewMedium.playAnimation();
+        } else {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewMedium.clearAnimation();
+            mLottieAnimationViewMedium.setAnimation("not_success.json");
+            mLottieAnimationViewMedium.playAnimation();
+        }
+
+        if(ChartDataHolder.getInstance().getHighTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewHigh.clearAnimation();
+            mLottieAnimationViewHigh.setAnimation("success.json");
+            mLottieAnimationViewHigh.playAnimation();
+        } else {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            mLottieAnimationViewHigh.clearAnimation();
+            mLottieAnimationViewHigh.setAnimation("not_success.json");
+            mLottieAnimationViewHigh.playAnimation();
+        }
+
+        mLottieAnimationViewAll.invalidate();
+        mLottieAnimationViewMedium.invalidate();
+        mLottieAnimationViewHigh.invalidate();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
