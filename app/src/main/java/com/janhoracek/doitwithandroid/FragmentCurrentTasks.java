@@ -85,7 +85,7 @@ public class FragmentCurrentTasks extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapterAll = new TaskAdapterAll();
+        mAdapterAll = new TaskAdapterAll(getActivity()); /////////////////////////////////////////
         mRecyclerView.setAdapter(mAdapterAll);
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.janhoracek.doitwithandroid;
 
 import androidx.annotation.NonNull;
 
+import com.github.mikephil.charting.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
@@ -50,6 +51,8 @@ public class ApplicationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
+        Utils.init(getApplicationContext());
+
         setContentView(R.layout.activity_application);
         pref = getSharedPreferences(PREFS_NAME ,MODE_PRIVATE);
 

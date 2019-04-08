@@ -19,6 +19,8 @@ import com.janhoracek.doitwithandroid.Database.StatsByMonth;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.Color.rgb;
+
 public class BarItem extends ChartItem {
 
     private BarData mBarData;
@@ -67,9 +69,9 @@ public class BarItem extends ChartItem {
         legend.setTextSize(12f);
         legend.setTextColor(Color.BLACK);
         List<LegendEntry> entries = new ArrayList<>();
-        entries.add(new LegendEntry("High priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.RED));
-        entries.add(new LegendEntry("Medium priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.YELLOW));
-        entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, Color.GREEN));
+        entries.add(new LegendEntry("High priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(239, 83, 80)));
+        entries.add(new LegendEntry("Medium priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(255,202,40)));
+        entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(156,204,101)));
         legend.setCustom(entries);
         legend.setXEntrySpace(5f);
 

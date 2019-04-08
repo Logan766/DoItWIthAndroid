@@ -89,12 +89,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new SingleDateAndTimePickerDialog.Builder(v.getContext())
                         //.bottomSheet()
+                        .mainColor(getResources().getColor(R.color.colorPrimaryDark))
                         .curved()
                         //.minutesStep(15)
                         //.todayText("aujourd'hui")
                         //.backgroundColor(Color.BLACK)
-                        //.mainColor(Color.GREEN)
-                        //.titleTextColor(Color.GREEN)
+                        .mainColor(getResources().getColor(R.color.colorPrimaryDark))
+                        .titleTextColor(Color.BLACK)
                         .mustBeOnFuture()
                         .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                             @Override
@@ -103,7 +104,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
                             }
                         })
 
-                        .title("Simple")
+                        .title("Pick deadline")
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {

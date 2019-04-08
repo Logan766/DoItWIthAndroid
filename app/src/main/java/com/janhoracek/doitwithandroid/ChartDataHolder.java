@@ -66,15 +66,14 @@ public class ChartDataHolder {
         }
 
         LineDataSet set = new LineDataSet(yValues, "EXP");
-        //set.setLineWidth(3f);
+        set.setLineWidth(3f);
         //Log.d("GGR", "ted jsem tlusta ");
-        set.setColor(Color.GRAY);
-        set.setCircleHoleColor(Color.GRAY);
-        set.setCircleColor(Color.GRAY);
-        set.setHighLightColor(Color.GRAY);
+        set.setColor(rgb(37, 168, 0));
+        set.setCircleHoleColor(rgb(178, 255, 89));
+        set.setCircleColor(rgb(37, 168, 0));
+        set.setHighLightColor(rgb(37, 168, 0));
         set.setDrawValues(false);
         set.setCircleRadius(5f);
-        set.setCircleColor(Color.GRAY);
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set.setCubicIntensity(0.2f);
         //set.setDrawFilled(true);
