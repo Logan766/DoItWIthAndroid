@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import java.util.List;
 
 public class ApplicationActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+    public static Context contextOfApplication;
 
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
@@ -52,6 +54,8 @@ public class ApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
         Utils.init(getApplicationContext());
+
+        contextOfApplication = getApplicationContext();
 
         setContentView(R.layout.activity_application);
         pref = getSharedPreferences(PREFS_NAME ,MODE_PRIVATE);

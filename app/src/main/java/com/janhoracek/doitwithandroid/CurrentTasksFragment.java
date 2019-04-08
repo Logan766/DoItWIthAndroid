@@ -74,7 +74,7 @@ public class CurrentTasksFragment extends UpdateableFragment{
         } else {
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
-            mTextViewAll.setText("Try skipping low priorities.\n Then you can make it!");
+            mTextViewAll.setText("Try skipping low priorities.\nThen you can make it!");
         }
         if(holder.getMediumTasksDoable()) {
             mLottieAnimationViewMedium.clearAnimation();
@@ -92,7 +92,7 @@ public class CurrentTasksFragment extends UpdateableFragment{
         } else {
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
-            mTextViewHigh.setText("Oh, you cannot complete all high tasks \nConsider changing deadlines");
+            mTextViewHigh.setText("Oh, you cannot complete all high tasks.\nConsider changing deadlines");
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.janhoracek.doitwithandroid;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,14 +13,22 @@ import android.widget.TextView;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.graphics.Color.rgb;
 
 public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.TaskHolder> {
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+    private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
+    private static final String START_MINUTE = "com.janhoracek.doitwithandroid.START_MINUTE";
+    private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
+    private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
+
 
     private List<Taskers> mTasks = new ArrayList<>();
 
@@ -32,6 +42,19 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
+        Context context = ApplicationActivity.contextOfApplication;
+        SharedPreferences pref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        Calendar calStart = Calendar.getInstance();
+        calStart.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
+        calStart.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
+        calStart.set(Calendar.SECOND, 0);
+
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
+        calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+        calEnd.set(Calendar.SECOND, 0);
+
         Taskers currentTaskers = mTasks.get(position);
         switch (currentTaskers.getPriority()) {
             case 1:
@@ -44,6 +67,11 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
                 holder.mPriority.setBackgroundColor(rgb(156,204,101));
                 break;
         }
+
+        if(!((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
+            holder.mBackground.setBackgroundColor(rgb(200, 200, 200));
+        }
+
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()) + " XP");
@@ -69,13 +97,13 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
     class TaskHolder extends  RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
-        private RelativeLayout mRelativeLayout;
+        private CardView mBackground;
         private TextView mTextViewExp;
         private View mPriority;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
-            mRelativeLayout = itemView.findViewById(R.id.task_backgroud);
+            mBackground = itemView.findViewById(R.id.today_background);
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
             mTextViewExp = itemView.findViewById(R.id.exp_task);

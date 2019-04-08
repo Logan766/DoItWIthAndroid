@@ -40,6 +40,17 @@
 
         </com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator>
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_pager"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Nothing to do now"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/backgroundNormal" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
