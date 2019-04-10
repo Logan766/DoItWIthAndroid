@@ -169,6 +169,10 @@ public class TaskViewModel extends AndroidViewModel {
 
         for (int i=0; i<= tasks.size()-1; i++) {
             deadline = tasks.get(i).getD_time_milisec();
+            if(deadline < new DateHandler().getCurrentDateTimeInMilisec()) {
+                Log.d(TAG1, "Skipping task");
+                continue;
+            }
             int duration = tasks.get(i).getTime_consumption();
 
             Log.d(TAG1, "This task duration: " + duration);

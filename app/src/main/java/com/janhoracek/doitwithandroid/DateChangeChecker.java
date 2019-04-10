@@ -4,11 +4,16 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateChangeChecker {
     private static final String CURRENT_DATE = "com.janhoracek.doitwithandroid.CURRENT_DATE";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
     private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
+    private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
+    private static final String START_MINUTE = "com.janhoracek.doitwithandroid.START_MINUTE";
+    private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
+    private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final int NOT_EXIST = -1;
     private static DateChangeChecker instance;
 
@@ -46,5 +51,27 @@ public class DateChangeChecker {
             return;
         }
         Log.d(TAG, "Dates are ok");
+    }
+
+    public Date getTodayStart(SharedPreferences pref) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new DateHandler().getCurrentDateTimeInMilisec());
+        cal.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
+        cal.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return  cal.getTime();
+    }
+
+    public Date getTodayEnd(SharedPreferences pref) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new DateHandler().getCurrentDateTimeInMilisec());
+        cal.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, -1));
+        cal.set(Calendar.MINUTE, pref.getInt(END_MINUTE, -1));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return  cal.getTime();
     }
 }

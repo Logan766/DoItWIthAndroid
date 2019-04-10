@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -48,9 +49,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static android.graphics.Color.rgb;
+
 //public class HomeFragment extends Fragment implements View.OnClickListener
 public class HomeFragment extends Fragment{
-    private static final String TAG = "DIWD1";
+    private static final String TAG = "IMDATE";
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
@@ -167,8 +170,28 @@ public class HomeFragment extends Fragment{
 
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
 
-                //if cas
-                timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
+                /////
+                Calendar calEnd = Calendar.getInstance();
+                calEnd.setTime(DateChangeChecker.getInstance().getTodayEnd(pref));
+                Calendar calStart = Calendar.getInstance();
+                calStart.setTime(DateChangeChecker.getInstance().getTodayStart(pref));
+
+                if(((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
+                    Calendar calRelativeStart = Calendar.getInstance();
+                    calRelativeStart.setTimeInMillis(calEnd.getTimeInMillis() - timeRemaining*60000);
+
+                    long timeConsumed = new DateHandler().getCurrentDateTimeInMilisec() - calRelativeStart.getTimeInMillis();
+                    timeConsumed = timeConsumed / 60000;
+
+                    Log.d(TAG, "new time remaining:" + (timeRemaining - timeConsumed));
+                    timeRemaining = timeRemaining-timeConsumed;
+                }
+
+
+
+                ///////
+
+                //timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
 
                 Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
@@ -176,7 +199,15 @@ public class HomeFragment extends Fragment{
                 mArchiveTaskViewModel.insert(archivTask);
 
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
-                Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
+
+                Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.coord_layout),
+                        "Task done! Good work!", Snackbar.LENGTH_LONG);
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                        snack.getView().getLayoutParams();
+                params.setMargins(0, 0, 0, getActivity().findViewById(R.id.bottom_navigation).getHeight());
+                snack.getView().setLayoutParams(params);
+                snack.show();
+                //Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
 
             }
 
