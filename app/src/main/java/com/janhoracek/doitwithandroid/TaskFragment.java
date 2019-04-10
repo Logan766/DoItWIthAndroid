@@ -168,7 +168,7 @@ public class TaskFragment extends Fragment {
                     Log.d("FRAGS", "Ted se prepnul item ");
                     break;
                 case 1:
-                    fragment = new FragmentCurrentTasks();
+                    fragment = new FragmentArchivedTasks();
                     break;
             }
             return fragment;

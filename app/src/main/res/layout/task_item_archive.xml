@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    app:cardBackgroundColor="@color/colorAccent">
+
+
+    <View
+        android:id="@+id/priority"
+        android:layout_width="25dp"
+        android:layout_height="150dp"
+        android:layout_gravity="right"
+        android:background="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:id="@+id/task_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ellipsize="end"
+
+            android:maxLines="1"
+            android:text="Title"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/backgroundNormal" />
+
+        <TextView
+            android:id="@+id/text_view_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_title"
+            android:layout_marginTop="5dp"
+            android:text="Description"
+            android:textColor="@color/backgroundNormal" />
+
+
+        <TextView
+            android:id="@+id/text_view_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_description"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/ic_whatshot_bckg_white_24dp"
+            android:drawablePadding="4dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/text_view_deadline_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_description"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/text_view_deadline"
+            android:text="1.1.2019"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/backgroundNormal" />
+
+        <TextView
+            android:id="@+id/text_view_time_consumption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/text_view_time_consumption_data"
+            android:drawableLeft="@drawable/ic_access_bckg_white_24dp"
+            android:drawablePadding="4dp" />
+
+        <TextView
+            android:id="@+id/text_view_time_consumption_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="35dp"
+            android:text="75 min."
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/backgroundNormal" />
+
+        <TextView
+            android:id="@+id/text_view_time_completed_ico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_deadline"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/ic_check_bckg_white_24dp"
+            android:drawablePadding="4dp" />
+
+        <TextView
+            android:id="@+id/text_view_time_completed_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_deadline_data"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/text_view_time_completed_ico"
+            android:text="20.8 2019"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/backgroundNormal" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

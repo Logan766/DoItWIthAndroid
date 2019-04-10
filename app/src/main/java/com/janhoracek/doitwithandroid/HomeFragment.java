@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
+import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
@@ -64,6 +66,8 @@ public class HomeFragment extends Fragment{
     private TaskViewModel taskViewModel;
     private RecyclerView mRecyclerView;
 
+    private ArchiveTaskViewModel mArchiveTaskViewModel;
+
     private StatsViewModel mStatsViewModel;
     private List<Stats> mStats = new ArrayList<>();
     private Spotlight spotik;
@@ -79,7 +83,7 @@ public class HomeFragment extends Fragment{
         DateChangeChecker.getInstance().CheckDate(pref);
 
 
-
+        mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
 
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
@@ -155,12 +159,22 @@ public class HomeFragment extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), mStatsViewModel);
+
                 UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
                 if(fragment == null) return;
+
                 fragment.updateProgress(expGain, getContext());
+
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+
+                //if cas
                 timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
+
+                Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
+                ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
+                mArchiveTaskViewModel.insert(archivTask);
+
                 taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                 Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
 
@@ -216,6 +230,7 @@ public class HomeFragment extends Fragment{
 
         return v;
     }
+
 
     private ArrayList<SimpleTarget> buildTargets(View v) {
         ArrayList<SimpleTarget> targets = new ArrayList<>();

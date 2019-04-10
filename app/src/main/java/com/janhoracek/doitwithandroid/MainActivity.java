@@ -21,7 +21,6 @@ import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button mButton;
     private LottieAnimationView lottie;
 
     @Override
@@ -51,17 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        mButton = (Button) findViewById(R.id.button);
-
-
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
@@ -85,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
 
             // This is just a normal run
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, ApplicationActivity.class);
             startActivity(intent);
             finish();
 

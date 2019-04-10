@@ -9,13 +9,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Taskers.class, Stats.class}, version = 2, exportSchema = false)
+@Database(entities = {Taskers.class, Stats.class, ArchivedTasks.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
 
     public abstract TaskDao taskDao();
     public abstract StatsDao statsDao();
+    public abstract ArchiveStatsDao archiveDao();
 
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
@@ -39,10 +40,12 @@ public abstract class AppDatabase extends RoomDatabase {
     private static  class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private TaskDao taskDao;
         private StatsDao statsDao;
+        private ArchiveStatsDao archiveDao;
 
         private PopulateDbAsyncTask(AppDatabase db) {
             taskDao = db.taskDao();
             statsDao = db.statsDao();
+            archiveDao = db.archiveDao();
         }
 
         @Override
