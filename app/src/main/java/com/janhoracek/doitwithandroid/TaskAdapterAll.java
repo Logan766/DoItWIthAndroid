@@ -96,6 +96,8 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             Log.d("FIREEE", "FIREEEEEE");
             //holder.mTextViewFire.getCompoundDrawables()[0].setColorFilter(new PorterDuffColorFilter(mContext.getResources().getColor(R.color.PastelRed), PorterDuff.Mode.SRC_IN));
             holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_red_24dp), null, null, null);
+        } else {
+            holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_black_24dp), null, null, null);
         }
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());

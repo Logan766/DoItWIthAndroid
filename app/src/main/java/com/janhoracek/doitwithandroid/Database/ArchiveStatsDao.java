@@ -24,7 +24,7 @@ public interface ArchiveStatsDao {
     @Query("DELETE FROM archive_stats_table")
     void deleteAllArchives();
 
-    @Query("SElECT * FROM archive_stats_table ORDER BY id ASC")
+    @Query("SElECT * FROM archive_stats_table ORDER BY id DESC")
     LiveData<List<ArchivedTasks>> getAllArchives();
 
 }

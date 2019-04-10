@@ -44,7 +44,6 @@ public class OverviewFragment extends Fragment {
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
 
     private RecyclerView mRecyclerView;
-    private FloatingActionButton mFloatingActionButton;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ChartItem> items = new ArrayList<>();
     private StatsViewModel mStatsViewModel;
@@ -60,7 +59,6 @@ public class OverviewFragment extends Fragment {
         DateChangeChecker.getInstance().CheckDate(pref);
 
         mRecyclerView = v.findViewById(R.id.recycler_view_graphs);
-        mFloatingActionButton = v.findViewById(R.id.fab_change);
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -84,16 +82,6 @@ public class OverviewFragment extends Fragment {
             }
         });
         Log.d("DIWD", "ted cumis na statistiku");
-
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("DIWD", "cudlajz neco dela ");
-                for(int i=0; i<mStatsViewModel.getAllStatsList().size(); i++) {
-                    Log.d("OWUP", "Print: " + mStatsViewModel.getAllStatsList().get(i).toString());
-                }
-            }
-        });
         return v;
     }
 

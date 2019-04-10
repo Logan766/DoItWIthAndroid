@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
@@ -43,19 +44,22 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import static android.app.Activity.RESULT_OK;
 
 public class FragmentArchivedTasks extends Fragment {
+    public static final int REOPEN_TASK_REQUEST = 3;
 
-
-    private ArchiveTaskViewModel archiveTaskViewModel;
+    private ArchiveTaskViewModel mArchiveTaskViewModel;
     private RecyclerView mRecyclerView;
     private TaskAdapterArchive mAdapterArchive;
+    private TaskViewModel mTaskViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_archived_tasks, container, false);
         mRecyclerView = v.findViewById(R.id.task_fragment_recyclerview);
-        archiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
-        archiveTaskViewModel.getAllTasks().observe(this, new Observer<List<ArchivedTasks>>() {
+
+        mTaskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
+        mArchiveTaskViewModel.getAllTasks().observe(this, new Observer<List<ArchivedTasks>>() {
             @Override
             public void onChanged(@Nullable List<ArchivedTasks> taskers) {
                 mAdapterArchive.submitList(taskers);
@@ -69,7 +73,8 @@ public class FragmentArchivedTasks extends Fragment {
         mRecyclerView.setAdapter(mAdapterArchive);
 
 
-        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -77,14 +82,14 @@ public class FragmentArchivedTasks extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                archiveTaskViewModel.delete(mAdapterArchive.getTaskAt(viewHolder.getAdapterPosition()));
+                mArchiveTaskViewModel.delete(mAdapterArchive.getTaskAt(viewHolder.getAdapterPosition()));
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
-                        .addSwipeLeftActionIcon(R.drawable.ic_delete_sweep_black_24dp)
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
                         .addSwipeRightActionIcon(R.drawable.ic_delete_sweep_black_24dp)
                         .addSwipeRightLabel("Doprava")
@@ -99,9 +104,53 @@ public class FragmentArchivedTasks extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        mAdapterArchive.setOnTaskClickListener(new TaskAdapterArchive.OnTaskClickListener() {
+            @Override
+            public void onTaskClick(ArchivedTasks task) {
+                Intent intent = new Intent(getActivity(), AddEditTaskActivity.class);
+                intent.putExtra(AddEditTaskActivity.REOPEN_REQUEST, 3);
+                intent.putExtra(AddEditTaskActivity.EXTRA_ID, task.getId());
+                intent.putExtra(AddEditTaskActivity.EXTRA_TITLE, task.getName());
+                intent.putExtra(AddEditTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
+                intent.putExtra(AddEditTaskActivity.EXTRA_DEADLINE, new Date(task.getD_time_milisec()));
+                intent.putExtra(AddEditTaskActivity.EXTRA_DURATION, task.getTime_consumption());
+                intent.putExtra(AddEditTaskActivity.EXTRA_PRIORITY, task.getPriority());
+                startActivityForResult(intent, REOPEN_TASK_REQUEST);
 
+            }
+        });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REOPEN_TASK_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(AddEditTaskActivity.EXTRA_ID, -1);
+
+            if(id == -1) {
+                Toast.makeText(getActivity(), "Task cannot be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String title = data.getStringExtra(AddEditTaskActivity.EXTRA_TITLE);
+            String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
+            int priority = data.getIntExtra(AddEditTaskActivity.EXTRA_PRIORITY, 1);
+            int duration = data.getIntExtra(AddEditTaskActivity.EXTRA_DURATION, 1);
+            Date deadline = (Date) data.getSerializableExtra(AddEditTaskActivity.EXTRA_DEADLINE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(deadline);
+
+            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
+            mTaskViewModel.insert(task);
+
+            Toast.makeText(getActivity(), "Task reopened successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Task not reopened", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

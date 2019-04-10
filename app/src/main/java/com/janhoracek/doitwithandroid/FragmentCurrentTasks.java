@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import devlight.io.library.ArcProgressStackView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import android.util.Log;
@@ -26,6 +27,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
+import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
+import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
@@ -46,11 +50,16 @@ public class FragmentCurrentTasks extends Fragment {
     public static final int EDIT_TASK_REQUEST = 2;
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String HOME_FRAG_RUN = "com.janhoracek.doitwithandroid.HOME_FRAG_RUN";
+    private static final String USER_LEVEL = "com.janhoracek.doitwithandroid.USER_LEVEL";
+    private static final String USER_EXPERIENCE = "com.janhoracek.doitwithandroid.USER_EXPERIENCE";
+    private static final String NEXT_EXPERIENCE = "com.janhoracek.doitwithandroid.NEXT_EXPERIENCE";
 
     private FloatingActionButton mFloatingActionButton;
     private TaskViewModel taskViewModel;
     private RecyclerView mRecyclerView;
     private TaskAdapterAll mAdapterAll;
+    private StatsViewModel mStatsViewModel;
+    private ArchiveTaskViewModel mArchiveTaskViewModel;
     private boolean FirstRunCheck;
 
     @Nullable
@@ -64,6 +73,8 @@ public class FragmentCurrentTasks extends Fragment {
         mRecyclerView = v.findViewById(R.id.task_fragment_recyclerview);
         mFloatingActionButton = v.findViewById(R.id.add_task_fab);
 
+        mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
+        mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
@@ -97,7 +108,7 @@ public class FragmentCurrentTasks extends Fragment {
         });
 
 
-        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -105,20 +116,40 @@ public class FragmentCurrentTasks extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                if(direction == ItemTouchHelper.LEFT) {
+                    taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                } else if (direction == ItemTouchHelper.RIGHT) {
+                    int expGained = mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()).getExp();
+                    int expNextLevel = pref.getInt(NEXT_EXPERIENCE, -1);
+                    int currExp = pref.getInt(USER_EXPERIENCE, -1);
+
+                    if(((currExp + expGained)/expNextLevel) > 0) {
+                        int oldLevel = pref.getInt(USER_LEVEL, -1);
+                        int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);
+                        pref.edit().putInt(USER_LEVEL, oldLevel + 1).apply();
+                        pref.edit().putInt(NEXT_EXPERIENCE, oldNextExp * 2).apply();
+                        pref.edit().putInt(USER_EXPERIENCE, currExp + expGained - expNextLevel).apply();
+                    } else {
+                        pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
+                    }
+                    mStatsViewModel.completeTask(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                    Taskers helpTask = mAdapterAll.getTaskAt(viewHolder.getAdapterPosition());
+                    mArchiveTaskViewModel.insert(new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
+                    taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                }
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
-                        .addSwipeLeftActionIcon(R.drawable.ic_delete_sweep_black_24dp)
-                        .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-                        .addSwipeRightActionIcon(R.drawable.ic_delete_sweep_black_24dp)
-                        .addSwipeRightLabel("Doprava")
-                        .setSwipeRightLabelColor(Color.WHITE)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.PastelRed))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
                         .addSwipeLeftLabel("Delete")
                         .setSwipeLeftLabelColor(Color.BLACK)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
+                        .addSwipeRightActionIcon(R.drawable.ic_check_black_24dp)
+                        .addSwipeRightLabel("Complete task")
+                        .setSwipeRightLabelColor(Color.BLACK)
                         .create()
                         .decorate();
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

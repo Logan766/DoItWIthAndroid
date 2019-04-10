@@ -34,6 +34,7 @@ import static java.time.format.FormatStyle.LONG;
 import static java.time.format.FormatStyle.MEDIUM;
 
 public class AddEditTaskActivity extends AppCompatActivity {
+    public static final String REOPEN_REQUEST = "com.janhoracek.doitwithandroid.REOPEN_REQUEST";
     public static final String EXTRA_ID = "com.janhoracek.doitwithandroid.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.janhoracek.doitwithandroid.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.janhoracek.doitwithandroid.EXTRA_DESCRIPTION";
@@ -124,8 +125,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+
         if(intent.hasExtra(EXTRA_ID)) {
-            setTitle("Edit Task");
+            if(intent.hasExtra(REOPEN_REQUEST)) {
+                setTitle("Reopen Task");
+            } else {
+                setTitle("Edit Task");
+            }
             mDeadline = (Date) intent.getSerializableExtra(EXTRA_DEADLINE);
             mEditTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             mEditTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
