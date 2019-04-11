@@ -257,7 +257,7 @@ public class HomeFragment extends Fragment{
 
         FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
         //if(FirstRunCheck) {
-        if(false) {
+        if(true) {
             pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
