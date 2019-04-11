@@ -29,13 +29,13 @@ public class Taskers {
         this.time_consumption = time_consumption;
         switch (priority) {
             case 1:
-                exp = 400;
+                exp = 4 * this.time_consumption;
                 break;
             case 2:
-                exp = 200;
+                exp = 2 * this.time_consumption;
                 break;
             case 3:
-                exp = 100;
+                exp = this.time_consumption;
         }
         this.d_day = d_day;
         this.d_month = d_month;
