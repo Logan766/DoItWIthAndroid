@@ -103,6 +103,14 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewEstTime.setText(String.valueOf(currentTaskers.getTime_consumption()));
         holder.mTextViewDeadline.setText(mDateFormat.format(currentTaskers.getD_time_milisec()));
+        if(currentTaskers.getCompleted() > 0) {
+            holder.mTextViewCompleted.setVisibility(View.VISIBLE);
+            holder.mTextViewCompleted.setText(String.valueOf(Math.round(currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption() * 100)) + "%");
+            holder.mTextViewCompletedIco.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTextViewCompletedIco.setVisibility(View.INVISIBLE);
+            holder.mTextViewCompleted.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -118,6 +126,8 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private TextView mTextViewEstTime;
         private View mPriority;
         private TextView mTextViewFire;
+        private TextView mTextViewCompletedIco;
+        private TextView mTextViewCompleted;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +138,8 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewEstTime = itemView.findViewById(R.id.text_view_time_consumption_data);
             mPriority = itemView.findViewById(R.id.priority);
             mTextViewFire = itemView.findViewById(R.id.text_view_deadline);
+            mTextViewCompletedIco = itemView.findViewById(R.id.text_view_completed_ico);
+            mTextViewCompleted = itemView.findViewById(R.id.text_view_completed_data);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

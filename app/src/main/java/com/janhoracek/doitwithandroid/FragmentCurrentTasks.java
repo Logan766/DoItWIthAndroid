@@ -169,6 +169,7 @@ public class FragmentCurrentTasks extends Fragment {
                 intent.putExtra(AddEditTaskActivity.EXTRA_DEADLINE, new Date(task.getD_time_milisec()));
                 intent.putExtra(AddEditTaskActivity.EXTRA_DURATION, task.getTime_consumption());
                 intent.putExtra(AddEditTaskActivity.EXTRA_PRIORITY, task.getPriority());
+                intent.putExtra(AddEditTaskActivity.EXTRA_COMPLETED, task.getCompleted());
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
             }
         });
@@ -217,11 +218,12 @@ public class FragmentCurrentTasks extends Fragment {
             int priority = data.getIntExtra(AddEditTaskActivity.EXTRA_PRIORITY, 1);
             int duration = data.getIntExtra(AddEditTaskActivity.EXTRA_DURATION, 1);
             Date deadline = (Date) data.getSerializableExtra(AddEditTaskActivity.EXTRA_DEADLINE);
+            int completed = data.getIntExtra(AddEditTaskActivity.EXTRA_COMPLETED, 0);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(deadline);
 
-            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
+            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, completed );
 
             taskViewModel.insert(task);
 
@@ -239,11 +241,12 @@ public class FragmentCurrentTasks extends Fragment {
             int priority = data.getIntExtra(AddEditTaskActivity.EXTRA_PRIORITY, 1);
             int duration = data.getIntExtra(AddEditTaskActivity.EXTRA_DURATION, 1);
             Date deadline = (Date) data.getSerializableExtra(AddEditTaskActivity.EXTRA_DEADLINE);
+            int completed = data.getIntExtra(AddEditTaskActivity.EXTRA_COMPLETED, 0);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(deadline);
 
-            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
+            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, completed );
             task.setId(id);
 
             taskViewModel.update(task);

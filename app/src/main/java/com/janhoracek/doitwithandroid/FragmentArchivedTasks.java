@@ -144,7 +144,7 @@ public class FragmentArchivedTasks extends Fragment {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(deadline);
 
-            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime() );
+            Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, 0 );
             mTaskViewModel.insert(task);
 
             Toast.makeText(getActivity(), "Task reopened successfully", Toast.LENGTH_SHORT).show();

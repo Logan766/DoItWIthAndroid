@@ -168,6 +168,7 @@ public class HomeFragment extends Fragment{
 
                 fragment.updateProgress(expGain, getContext());
 
+
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
 
                 /////
@@ -177,13 +178,16 @@ public class HomeFragment extends Fragment{
                 calStart.setTime(DateChangeChecker.getInstance().getTodayStart(pref));
 
                 if(((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
+                    Log.d(TAG, "Task delas v pracovni dobe");
                     Calendar calRelativeStart = Calendar.getInstance();
                     calRelativeStart.setTimeInMillis(calEnd.getTimeInMillis() - timeRemaining*60000);
 
                     long timeConsumed = new DateHandler().getCurrentDateTimeInMilisec() - calRelativeStart.getTimeInMillis();
                     timeConsumed = timeConsumed / 60000;
 
-                    Log.d(TAG, "new time remaining:" + (timeRemaining - timeConsumed));
+                    Log.d(TAG, "Zbyva dneska casu: " + timeRemaining);
+
+                    Log.d(TAG, "Po tom cos dokoncil ukol zbyva dnes casu: " + (timeRemaining - timeConsumed));
                     timeRemaining = timeRemaining-timeConsumed;
                 }
 
@@ -194,11 +198,31 @@ public class HomeFragment extends Fragment{
                 //timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
 
-                Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
-                ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
-                mArchiveTaskViewModel.insert(archivTask);
+                if(adapter.getTaskAt(viewHolder.getAdapterPosition()).getTo_be_done() > 0) {
+                    Log.d(TAG, "Task je pulenej");
+                    Taskers uTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
+                    Log.d(TAG, "Task cela doba: " + uTask.getTime_consumption());
+                    int completed = uTask.getCompleted() + uTask.getTo_be_done();
+                    Log.d(TAG, "Splnena doba: " + completed);
+                    if(completed == uTask.getTime_consumption()) {
+                        Log.d(TAG, "Task je dokoncenej celej");
+                        taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
+                        Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
+                        ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
+                        mArchiveTaskViewModel.insert(archivTask);
+                    } else {
+                        Log.d(TAG, "Tasku jsi splnil cast, nova completed je: " + completed);
+                        uTask.setCompleted(completed);
+                        taskViewModel.update(uTask);
+                    }
 
-                taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
+                } else {
+                    Log.d(TAG, "Task je celej");
+                    taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
+                    Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
+                    ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
+                    mArchiveTaskViewModel.insert(archivTask);
+                }
 
                 Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.coord_layout),
                         "Task done! Good work!", Snackbar.LENGTH_LONG);

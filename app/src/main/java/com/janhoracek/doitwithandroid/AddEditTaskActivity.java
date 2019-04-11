@@ -41,6 +41,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
     public static final String EXTRA_PRIORITY = "com.janhoracek.doitwithandroid.EXTRA_PRIORITY";
     public static final String EXTRA_DURATION = "com.janhoracek.doitwithandroid.EXTRA_DURATION";
     public static final String EXTRA_DEADLINE = "com.janhoracek.doitwithandroid.EXTRA_DEADLINE";
+    public static final String EXTRA_COMPLETED = "com.janhoracek.doitwithandroid.EXTRA_COMPLETED";
 
     private EditText mEditTextTitle;
     private EditText mEditTextDescription;

@@ -21,8 +21,10 @@ public class Taskers {
     private int d_year;
     private String d_time;
     private Long d_time_milisec;
+    private int to_be_done;
+    private int completed;
 
-    public Taskers(String name, String description, int priority,  int time_consumption, int d_day, int d_month, int d_year, String d_time, Long d_time_milisec) {
+    public Taskers(String name, String description, int priority,  int time_consumption, int d_day, int d_month, int d_year, String d_time, Long d_time_milisec, int to_be_done, int completed) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -42,6 +44,8 @@ public class Taskers {
         this.d_year = d_year;
         this.d_time = d_time;
         this.d_time_milisec = d_time_milisec;
+        this.to_be_done = to_be_done;
+        this.completed = completed;
     }
 
     public void setId(int id) {
@@ -94,5 +98,21 @@ public class Taskers {
 
     public Long getD_time_milisec() {
         return d_time_milisec;
+    }
+
+    public int getTo_be_done() {
+        return to_be_done;
+    }
+
+    public void setTo_be_done(int to_be_done) {
+        this.to_be_done = to_be_done;
+    }
+
+    public int getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(int completed) {
+        this.completed = completed;
     }
 }

@@ -12,7 +12,7 @@
     <View
         android:id="@+id/priority_today"
         android:layout_width="25dp"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:layout_gravity="right"
         android:background="@color/colorPrimary" />
 
@@ -24,13 +24,24 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/exp_task"
+        android:id="@+id/exp_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="25dp"
+        android:text="200 XP" />
+
+        <TextView
+            android:id="@+id/completed_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/exp_task"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="25dp"
-            android:text="200 XP" />
+            android:text="50%"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/text_view_title"

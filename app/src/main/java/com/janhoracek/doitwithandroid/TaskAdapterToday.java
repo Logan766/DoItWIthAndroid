@@ -29,6 +29,8 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
 
+    private static final String TAG = "MRDEJ";
+
 
     private List<Taskers> mTasks = new ArrayList<>();
 
@@ -75,7 +77,14 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()) + " XP");
-        Log.d("DIWD", "onBindViewHolder: " + currentTaskers.getExp());
+
+        Log.d(TAG, "To be done: " + currentTaskers.getTo_be_done());
+        if(currentTaskers.getTo_be_done() > 0) {
+            holder.mTextViewCompleted.setVisibility(View.VISIBLE);
+            float partDone = Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * 100);
+            holder.mTextViewCompleted.setText(partDone + "%");
+        }
+
     }
 
     @Override
@@ -100,6 +109,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         private CardView mBackground;
         private TextView mTextViewExp;
         private View mPriority;
+        private TextView mTextViewCompleted;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,6 +118,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
             mTextViewDescription = itemView.findViewById(R.id.text_view_description);
             mTextViewExp = itemView.findViewById(R.id.exp_task);
             mPriority = itemView.findViewById(R.id.priority_today);
+            mTextViewCompleted = itemView.findViewById(R.id.completed_percent);
         }
     }
 }

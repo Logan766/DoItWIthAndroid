@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.TaskRepository;
 import com.janhoracek.doitwithandroid.Database.Taskers;
@@ -74,16 +75,24 @@ public class TaskViewModel extends AndroidViewModel {
         Log.d(TAG, "time remaining " + timeRemaining);
         Log.d(TAG, "alltask.size()-1: " + (allTasks.size()-1));
         for(int i= 0; i<= allTasks.size() - 1; i++) {
-            if(allTasks.get(i).getTime_consumption() <= timeRemaining) {
+            if((allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted()) <= timeRemaining) {
                 Log.d(TAG, "Inserting new task today: " + allTasks.get(i).getName());
-                todayTasks.add(allTasks.get(i));
-                timeRemaining -= allTasks.get(i).getTime_consumption();
+                Taskers tTask = allTasks.get(i);
+                tTask.setTo_be_done(0);
+                todayTasks.add(tTask);
+                timeRemaining -= (allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted());
                 Log.d(TAG, "Time remaining po odectu: " + timeRemaining);
             } else {
-                Log.d(TAG, "Last longer: " + allTasks.get(i).getName());
-                todayTasks.add(allTasks.get(i));
-                timeRemaining -= allTasks.get(i).getTime_consumption();
-                Log.d(TAG, "Time remaining po odectu: " + timeRemaining);
+                Log.d(TAG, "Nevejde se: " + allTasks.get(i).getName());
+                timeRemaining -= (allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted());
+                Log.d(TAG, "Nevejde se tam dneska minut: " + timeRemaining);
+                Taskers tTask = allTasks.get(i);
+                int toBeDone = (tTask.getTime_consumption() - tTask.getCompleted()) + (int) timeRemaining;
+                tTask.setTo_be_done(toBeDone);
+                //this.update(tTask);
+                todayTasks.add(tTask);
+                Log.d(TAG, "Takze to be done jest: " + toBeDone);
+
                 break;
             }
         }
