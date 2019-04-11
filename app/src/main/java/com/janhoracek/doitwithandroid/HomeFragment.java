@@ -161,6 +161,7 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
                 int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()));
 
                 UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);

@@ -108,6 +108,7 @@ public class TaskFragment extends Fragment {
         TabLayout tabLayout = v.findViewById(R.id.tab_layout_tasks);
         tabLayout.setupWithViewPager(mViewPager);
 
+
         return v;
     }
 
