@@ -96,7 +96,7 @@ public class TaskViewModel extends AndroidViewModel {
                 break;
             }
         }
-
+        Log.d(TAG, "/////////////////////////////////////////////");
         return todayTasks;
     }
 

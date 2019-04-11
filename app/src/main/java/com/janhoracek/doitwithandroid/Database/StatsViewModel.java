@@ -67,10 +67,15 @@ public class StatsViewModel extends AndroidViewModel {
     }
 
     public int completeTask(Taskers task) {
+        int xpEarned;
         int idToday = new DateHandler().getCurrentDateForStats(this);
         Stats stat = getPrioritiesExp(idToday).get(0);
         int priorityDone = task.getPriority();
-        int xpEarned = task.getExp();
+        if(task.getTo_be_done() > 0) {
+            xpEarned = Math.round((task.getTo_be_done() / (float) task.getTime_consumption()) * task.getExp());
+        } else {
+            xpEarned = task.getExp();
+        }
         int currentXP = stat.getExp();
         int currentLowPriorityDone = stat.getLow_priority_done();
         int currentMediumPriorityDone = stat.getMedium_priority_done();

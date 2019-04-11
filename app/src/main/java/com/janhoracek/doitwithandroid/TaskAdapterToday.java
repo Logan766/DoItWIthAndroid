@@ -76,13 +76,17 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
 
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
-        holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()) + " XP");
+
 
         Log.d(TAG, "To be done: " + currentTaskers.getTo_be_done());
         if(currentTaskers.getTo_be_done() > 0) {
             holder.mTextViewCompleted.setVisibility(View.VISIBLE);
-            float partDone = Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * 100);
+            int partDone = Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * 100);
             holder.mTextViewCompleted.setText(partDone + "%");
+            holder.mTextViewExp.setText(String.valueOf(Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * currentTaskers.getExp())) + " XP");
+        } else {
+            holder.mTextViewCompleted.setVisibility(View.INVISIBLE);
+            holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()) + " XP");
         }
 
     }

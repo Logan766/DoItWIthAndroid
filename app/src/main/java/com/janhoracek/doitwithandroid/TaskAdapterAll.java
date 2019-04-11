@@ -7,10 +7,13 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -75,12 +78,15 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         switch (currentTaskers.getPriority()) {
             case 1:
                 holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
+                holder.mProgress.getProgressDrawable().setColorFilter(rgb(239, 83, 80), android.graphics.PorterDuff.Mode.SRC_IN);
                 break;
             case 2:
                 holder.mPriority.setBackgroundColor(rgb(255,202,40));
+                holder.mProgress.getProgressDrawable().setColorFilter(rgb(255,202,40), android.graphics.PorterDuff.Mode.SRC_IN);
                 break;
             case 3:
                 holder.mPriority.setBackgroundColor(rgb(156,204,101));
+                holder.mProgress.getProgressDrawable().setColorFilter(rgb(156,204,101), android.graphics.PorterDuff.Mode.SRC_IN);
                 break;
         }
         /*
@@ -107,6 +113,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             holder.mTextViewCompleted.setVisibility(View.VISIBLE);
             holder.mTextViewCompleted.setText(String.valueOf(Math.round(currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption() * 100)) + "%");
             holder.mTextViewCompletedIco.setVisibility(View.VISIBLE);
+            holder.mProgress.setProgress(Math.round(currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption() * 100));
         } else {
             holder.mTextViewCompletedIco.setVisibility(View.INVISIBLE);
             holder.mTextViewCompleted.setVisibility(View.INVISIBLE);
@@ -128,6 +135,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private TextView mTextViewFire;
         private TextView mTextViewCompletedIco;
         private TextView mTextViewCompleted;
+        private ProgressBar mProgress;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,6 +148,8 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewFire = itemView.findViewById(R.id.text_view_deadline);
             mTextViewCompletedIco = itemView.findViewById(R.id.text_view_completed_ico);
             mTextViewCompleted = itemView.findViewById(R.id.text_view_completed_data);
+            mProgress = itemView.findViewById(R.id.progressBar2);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

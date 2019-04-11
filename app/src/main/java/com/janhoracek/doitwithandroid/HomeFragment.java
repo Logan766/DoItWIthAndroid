@@ -170,6 +170,7 @@ public class HomeFragment extends Fragment{
 
 
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+                long timeConsumed = 0;
 
                 /////
                 Calendar calEnd = Calendar.getInstance();
@@ -182,7 +183,7 @@ public class HomeFragment extends Fragment{
                     Calendar calRelativeStart = Calendar.getInstance();
                     calRelativeStart.setTimeInMillis(calEnd.getTimeInMillis() - timeRemaining*60000);
 
-                    long timeConsumed = new DateHandler().getCurrentDateTimeInMilisec() - calRelativeStart.getTimeInMillis();
+                    timeConsumed = new DateHandler().getCurrentDateTimeInMilisec() - calRelativeStart.getTimeInMillis();
                     timeConsumed = timeConsumed / 60000;
 
                     Log.d(TAG, "Zbyva dneska casu: " + timeRemaining);
@@ -220,7 +221,8 @@ public class HomeFragment extends Fragment{
                     Log.d(TAG, "Task je celej");
                     taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                     Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
-                    ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
+                    if(timeConsumed == 0) {timeConsumed = helpTask.getTime_consumption();}
+                    ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), (int) timeConsumed, helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
                     mArchiveTaskViewModel.insert(archivTask);
                 }
 
