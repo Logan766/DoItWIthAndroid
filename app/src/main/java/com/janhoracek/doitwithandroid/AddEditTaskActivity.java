@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -14,7 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.graphics.Color.rgb;
 import static java.time.format.FormatStyle.LONG;
 import static java.time.format.FormatStyle.MEDIUM;
 
@@ -52,6 +56,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
     private TextView mTextViewAddDate;
     private SimpleDateFormat mDateFormat;
     private Date mDeadline;
+    private ImageView mPriorityCircle;
     private SimpleDateFormat mDateFormatIso8601;
 
     @Override
@@ -66,13 +71,34 @@ public class AddEditTaskActivity extends AppCompatActivity {
         mNumberPickerMinutes = findViewById(R.id.number_picker_duration_minutes);
         mToolbar = findViewById(R.id.add_task_toolbar);
         mTextViewAddDate = findViewById(R.id.text_view_add_date);
+        mPriorityCircle = findViewById(R.id.circle_priority);
         mDateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
 
         mNumberPickerPriority.setMinValue(1);
         mNumberPickerPriority.setMaxValue(3);
+        mNumberPickerPriority.setDisplayedValues(new String[] {"High", "Medium", "Low"});
+        mNumberPickerPriority.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+        mNumberPickerPriority.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                switch (newVal){
+                    case 1:
+                        mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelRed), PorterDuff.Mode.SRC_IN);
+                        break;
+                    case 2:
+                        mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelYellow), PorterDuff.Mode.SRC_IN);
+                        break;
+                    case 3:
+                        mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelGreen), PorterDuff.Mode.SRC_IN);
+                        break;
+                }
+            }
+        });
 
         mNumberPickerHours.setMinValue(0);
         mNumberPickerHours.setMaxValue(72);
+        mNumberPickerHours.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
             @Override
@@ -85,6 +111,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
         mNumberPickerMinutes.setMinValue(0);
         mNumberPickerMinutes.setMaxValue(3);
+        mNumberPickerMinutes.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         mTextViewAddDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +159,18 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 setTitle("Reopen Task");
             } else {
                 setTitle("Edit Task");
+            }
+
+            switch (intent.getIntExtra(EXTRA_PRIORITY, 1)){
+                case 1:
+                    mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelRed), PorterDuff.Mode.SRC_IN);
+                    break;
+                case 2:
+                    mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelYellow), PorterDuff.Mode.SRC_IN);
+                    break;
+                case 3:
+                    mPriorityCircle.getDrawable().setColorFilter(getResources().getColor(R.color.PastelGreen), PorterDuff.Mode.SRC_IN);
+                    break;
             }
             mDeadline = (Date) intent.getSerializableExtra(EXTRA_DEADLINE);
             mEditTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));

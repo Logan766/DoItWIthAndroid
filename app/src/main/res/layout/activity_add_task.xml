@@ -91,6 +91,16 @@
                     android:text="Priority"
                     android:textSize="20sp" />
 
+                <ImageView
+                    android:src="@drawable/circle"
+                    android:id="@+id/circle_priority"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/number_pickser_priority" />
+
+
                 <NumberPicker
                     android:id="@+id/number_pickser_priority"
                     android:layout_width="wrap_content"
