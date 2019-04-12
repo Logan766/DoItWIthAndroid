@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.google.android.gms.tasks.Task;
 import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.TaskRepository;
@@ -129,6 +130,8 @@ public class TaskViewModel extends AndroidViewModel {
         ChartDataHolder.getInstance().setMediumTasksDoable(result);
         result = checkDoable(this.getHighPriority(tasks), pref);
         ChartDataHolder.getInstance().setHighTasksDoable(result);
+        result = checkDeadline(tasks);
+        ChartDataHolder.getInstance().setDeadlinesDoable(result);
     }
 
     public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref) {
@@ -253,4 +256,15 @@ public class TaskViewModel extends AndroidViewModel {
         return result;
     }
 
+    public Boolean checkDeadline(List<Taskers> tasks) {
+        Boolean result = true;
+        long currentDateMili = new DateHandler().getCurrentDateTimeInMilisec();
+        for(int i = 0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).getD_time_milisec() < currentDateMili) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
 }

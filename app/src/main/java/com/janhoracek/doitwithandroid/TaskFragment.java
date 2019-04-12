@@ -48,6 +48,7 @@ public class TaskFragment extends Fragment {
     private LottieAnimationView mLottieAnimationViewAll;
     private LottieAnimationView mLottieAnimationViewMedium;
     private LottieAnimationView mLottieAnimationViewHigh;
+    private LottieAnimationView mLottieAnimationViewDeadline;
 
     @Nullable
     @Override
@@ -56,6 +57,8 @@ public class TaskFragment extends Fragment {
         mLottieAnimationViewAll = v.findViewById(R.id.lottie_all);
         mLottieAnimationViewMedium = v.findViewById(R.id.lottie_medium);
         mLottieAnimationViewHigh = v.findViewById(R.id.lottie_high);
+        mLottieAnimationViewDeadline = v.findViewById(R.id.lottie_deadline);
+
 
 
         if(ChartDataHolder.getInstance().getAllTasksDoable()) {
@@ -92,6 +95,12 @@ public class TaskFragment extends Fragment {
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
+        }
+
+        if(ChartDataHolder.getInstance().getDeadlinesDoable()) {
+            mLottieAnimationViewDeadline.setVisibility(View.GONE);
+        } else {
+            mLottieAnimationViewDeadline.setVisibility(View.VISIBLE);
         }
 
 
@@ -149,6 +158,14 @@ public class TaskFragment extends Fragment {
             mLottieAnimationViewHigh.playAnimation();
         }
 
+        if(ChartDataHolder.getInstance().getDeadlinesDoable()) {
+            mLottieAnimationViewDeadline.setVisibility(View.GONE);
+        } else {
+            mLottieAnimationViewDeadline.setVisibility(View.VISIBLE);
+            mLottieAnimationViewDeadline.playAnimation();
+        }
+
+        mLottieAnimationViewDeadline.invalidate();
         mLottieAnimationViewAll.invalidate();
         mLottieAnimationViewMedium.invalidate();
         mLottieAnimationViewHigh.invalidate();

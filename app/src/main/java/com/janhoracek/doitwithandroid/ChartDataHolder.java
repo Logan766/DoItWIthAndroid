@@ -38,6 +38,7 @@ public class ChartDataHolder {
     private static Boolean allTasksDoable = true;
     private static Boolean mediumTasksDoable = true;
     private static Boolean highTasksDoable = true;
+    private static Boolean deadlinesDoable = true;
 
     private ChartDataHolder() {
 
@@ -177,5 +178,13 @@ public class ChartDataHolder {
 
     public void setHighTasksDoable(Boolean highTasksDoable) {
         ChartDataHolder.highTasksDoable = highTasksDoable;
+    }
+
+    public Boolean getDeadlinesDoable() {
+        return deadlinesDoable;
+    }
+
+    public void setDeadlinesDoable(Boolean deadlinesDoable) {
+        ChartDataHolder.deadlinesDoable = deadlinesDoable;
     }
 }
