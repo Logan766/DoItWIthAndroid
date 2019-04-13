@@ -93,16 +93,15 @@ public class HomeFragment extends Fragment{
 
         DateChangeChecker.getInstance().CheckDate(pref);
 
-
-        mScrollView = v.findViewById(R.id.scroll_view_home);
-
-
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
-
-
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         new DateHandler().checkLastDate(mStatsViewModel);
 
+        Log.d("PRDEL", "time remain " + pref.getLong(TIME_REMAINING, -1));
+        DateChangeChecker.getInstance().checkTimeRemaining(taskViewModel.getAllTasksList(), pref);
+
+        mScrollView = v.findViewById(R.id.scroll_view_home);
         mRecyclerView = v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
@@ -116,7 +115,7 @@ public class HomeFragment extends Fragment{
         mViewPager.setAdapter(mAdapter);
         mSpringDotsIndicator.setViewPager(mViewPager);
 
-        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
@@ -136,9 +135,6 @@ public class HomeFragment extends Fragment{
                 } else {
                     adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
                 }
-                //adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
-                //long timeMili = 60000 * ((Calendar.getInstance().getTimeInMillis() + 60000) / 60000);
-
 
             }
         });

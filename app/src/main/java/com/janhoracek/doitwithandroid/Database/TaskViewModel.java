@@ -177,8 +177,9 @@ public class TaskViewModel extends AndroidViewModel {
 
         //lastEnd = 60000 * (lastEnd / 60000);
 
-        if(tasks.size() == 0) {
-
+        if(tasks.size() == 1) {
+            Log.d(TAG1, "First task");
+            lastEnd = new DateHandler().getCurrentDateTimeInMilisec();
         }
 
         Log.d(TAG1, "-------------------------------------");

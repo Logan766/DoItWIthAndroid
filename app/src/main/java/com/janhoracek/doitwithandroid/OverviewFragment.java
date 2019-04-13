@@ -64,9 +64,9 @@ public class OverviewFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), "Experience gained", 1));
-        items.add(new BarItem(new DataFetcher().tuMasBare2(), "Tasks completed per day", 1));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), "Tasks completed per day", 1));
         items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), "Tasks completed per month", 2));
-        items.add(new PieItem(new DataFetcher().tuMas(), "Tasks priority ratio", 1));
+        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), "Tasks priority ratio", 1));
 
         final GraphAdaper adaper = new GraphAdaper();
         adaper.setGraphs(items);

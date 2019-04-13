@@ -3,8 +3,11 @@ package com.janhoracek.doitwithandroid;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.janhoracek.doitwithandroid.Database.Taskers;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateChangeChecker {
     private static final String CURRENT_DATE = "com.janhoracek.doitwithandroid.CURRENT_DATE";
@@ -73,5 +76,24 @@ public class DateChangeChecker {
         cal.set(Calendar.MILLISECOND, 0);
 
         return  cal.getTime();
+    }
+
+    public void checkTimeRemaining(List<Taskers> tasks, SharedPreferences pref) {
+        long timeRemaining = pref.getLong(TIME_REMAINING, -1);
+        long currTime = new DateHandler().getCurrentDateTimeInMilisec();
+        Calendar calStart = Calendar.getInstance();
+        Calendar calEnd = Calendar.getInstance();
+
+        calStart.setTime(getTodayStart(pref));
+        calEnd.setTime(getTodayEnd(pref));
+
+        long minToEnd = (calEnd.getTimeInMillis() - currTime) / 60000;
+
+        if((tasks.size() == 0) && (calStart.getTimeInMillis() < currTime) && (currTime < calEnd.getTimeInMillis())) {
+            if(minToEnd < timeRemaining) {
+                Log.d("PRDEL", "Time remaining by mel bejt: " + minToEnd);
+                pref.edit().putLong(TIME_REMAINING, minToEnd).apply();
+            }
+        }
     }
 }
