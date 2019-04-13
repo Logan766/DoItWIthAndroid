@@ -90,6 +90,7 @@
                     app:lottie_autoPlay="true"
                     app:lottie_fileName="deadline.json"
                     app:lottie_loop="true" />
+
             </RelativeLayout>
 
 

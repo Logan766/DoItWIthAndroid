@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
+import com.tooltip.Tooltip;
 
 import java.io.FileReader;
 
@@ -49,10 +50,12 @@ public class TaskFragment extends Fragment {
     private LottieAnimationView mLottieAnimationViewMedium;
     private LottieAnimationView mLottieAnimationViewHigh;
     private LottieAnimationView mLottieAnimationViewDeadline;
+    private Tooltip mTooltip;
+
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_task_both, container, false);
         mLottieAnimationViewAll = v.findViewById(R.id.lottie_all);
         mLottieAnimationViewMedium = v.findViewById(R.id.lottie_medium);
@@ -60,6 +63,24 @@ public class TaskFragment extends Fragment {
         mLottieAnimationViewDeadline = v.findViewById(R.id.lottie_deadline);
 
 
+
+        mTooltip = new Tooltip.Builder(mLottieAnimationViewDeadline)
+                .setText("Some tasks are after their deadline")
+                .setBackgroundColor(getResources().getColor(R.color.backgroundNormal))
+                .setTextColor(getResources().getColor(R.color.colorAccent))
+                .setDismissOnClick(true)
+                .setCornerRadius(20f)
+                .setCancelable(true)
+                .build();
+
+
+        mLottieAnimationViewDeadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    mTooltip.show();
+
+            }
+        });
 
         if(ChartDataHolder.getInstance().getAllTasksDoable()) {
             //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
@@ -102,6 +123,7 @@ public class TaskFragment extends Fragment {
         } else {
             mLottieAnimationViewDeadline.setVisibility(View.VISIBLE);
         }
+
 
 
 
