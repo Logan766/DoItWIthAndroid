@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
+    android:layout_height="320dp">
 
     <devlight.io.library.ArcProgressStackView
 
         android:id="@+id/arcProgressStackViewLevel"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
 
         app:apsv_animated="true"
         app:apsv_animation_duration="2000"
@@ -20,7 +21,6 @@
         app:apsv_model_offset="2dp"
         app:apsv_rounded="true"
         app:apsv_shadowed="false"
-
 
 
         app:apsv_start_angle="135"

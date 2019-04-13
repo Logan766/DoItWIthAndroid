@@ -17,7 +17,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="320dp"
             android:layout_marginTop="56dp"
             android:background="@color/backgroundNormal">
 
@@ -41,6 +41,24 @@
 
         </com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator>
 
+
+        <RelativeLayout
+            android:id="@+id/time_remaining"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/view_pager"
+            android:background="@color/colorPrimaryDark">
+
+            <TextView
+                android:id="@+id/text_view_time_remaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="1:35"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/colorPrimaryText" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -57,7 +75,7 @@
             android:minHeight="110dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view_pager"
+            android:layout_below="@+id/time_remaining"
             android:background="@color/colorAccent"
             android:paddingBottom="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"

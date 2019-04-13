@@ -177,6 +177,10 @@ public class TaskViewModel extends AndroidViewModel {
 
         //lastEnd = 60000 * (lastEnd / 60000);
 
+        if(tasks.size() == 0) {
+
+        }
+
         Log.d(TAG1, "-------------------------------------");
 
         for (int i=0; i<= tasks.size()-1; i++) {

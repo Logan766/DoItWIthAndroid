@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment{
 
         FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
         //if(FirstRunCheck) {
-        if(true) {
+        if(false) {
             pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -295,6 +295,7 @@ public class HomeFragment extends Fragment{
                                 @Override
                                 public void onEnded() {
                                     Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                    taskViewModel.deleteAllTasks();
                                     reloadTasks();
                                 }
                             });
