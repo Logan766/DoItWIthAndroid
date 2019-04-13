@@ -180,6 +180,9 @@ public class TaskFragment extends Fragment {
             mLottieAnimationViewHigh.playAnimation();
         }
 
+
+        Log.d("DDLINE", "Deadline doable: " + ChartDataHolder.getInstance().getDeadlinesDoable());
+
         if(ChartDataHolder.getInstance().getDeadlinesDoable()) {
             mLottieAnimationViewDeadline.setVisibility(View.GONE);
         } else {

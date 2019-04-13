@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
@@ -86,6 +87,7 @@ public class FragmentCurrentTasks extends Fragment {
                     ChartDataHolder.getInstance().setHighTasksDoable(true);
                     ChartDataHolder.getInstance().setMediumTasksDoable(true);
                     ChartDataHolder.getInstance().setAllTasksDoable(true);
+                    ChartDataHolder.getInstance().setDeadlinesDoable(true);
                     ((TaskFragment)getParentFragment()).redrawLottie();
                 }
 

@@ -72,6 +72,8 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
 
         if(!((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
             holder.mBackground.setBackgroundColor(rgb(200, 200, 200));
+        } else {
+            holder.mBackground.setBackgroundColor(Color.WHITE);
         }
 
         holder.mTextViewTitle.setText(currentTaskers.getName());
@@ -110,7 +112,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
     class TaskHolder extends  RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
-        private CardView mBackground;
+        public CardView mBackground;
         private TextView mTextViewExp;
         private View mPriority;
         private TextView mTextViewCompleted;
@@ -124,5 +126,10 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
             mPriority = itemView.findViewById(R.id.priority_today);
             mTextViewCompleted = itemView.findViewById(R.id.completed_percent);
         }
+
+        public void neco() {
+
+        }
+
     }
 }

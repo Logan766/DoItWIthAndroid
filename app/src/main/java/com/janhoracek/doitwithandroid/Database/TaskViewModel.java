@@ -258,6 +258,7 @@ public class TaskViewModel extends AndroidViewModel {
 
     public Boolean checkDeadline(List<Taskers> tasks) {
         Boolean result = true;
+        //if(tasks.size() == 0) {return result;}
         long currentDateMili = new DateHandler().getCurrentDateTimeInMilisec();
         for(int i = 0; i<=tasks.size()-1; i++) {
             if(tasks.get(i).getD_time_milisec() < currentDateMili) {

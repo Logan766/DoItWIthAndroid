@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -25,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -69,9 +72,14 @@ public class HomeFragment extends Fragment{
     private TaskViewModel taskViewModel;
     private RecyclerView mRecyclerView;
 
+    private ScrollView mScrollView;
+
     private ArchiveTaskViewModel mArchiveTaskViewModel;
 
     private StatsViewModel mStatsViewModel;
+
+    List<Taskers> tempSave = new ArrayList<>();
+
     private List<Stats> mStats = new ArrayList<>();
     private Spotlight spotik;
 
@@ -84,6 +92,9 @@ public class HomeFragment extends Fragment{
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         DateChangeChecker.getInstance().CheckDate(pref);
+
+
+        mScrollView = v.findViewById(R.id.scroll_view_home);
 
 
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
@@ -262,6 +273,7 @@ public class HomeFragment extends Fragment{
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
+                    List<Taskers> tempSave = new ArrayList<>();
                     v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     final Spotlight spot = Spotlight.with(getActivity())
                             .setOverlayColor(R.color.background)
@@ -273,11 +285,17 @@ public class HomeFragment extends Fragment{
                                 @Override
                                 public void onStarted() {
                                     Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+                                    saveTempTasks();
+                                    taskViewModel.deleteAllTasks();
+                                    taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+                                    taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+                                    taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 1440, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
                                 }
 
                                 @Override
                                 public void onEnded() {
                                     Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                    reloadTasks();
                                 }
                             });
                     spot.start();
@@ -289,22 +307,162 @@ public class HomeFragment extends Fragment{
         return v;
     }
 
+    private void saveTempTasks() {
+        tempSave = taskViewModel.getAllTasksList();
+    }
+
+    private void reloadTasks() {
+        for(int i = 0; i <= tempSave.size()-1; i++) {
+            taskViewModel.insert(tempSave.get(i));
+        }
+    }
 
     private ArrayList<SimpleTarget> buildTargets(View v) {
         ArrayList<SimpleTarget> targets = new ArrayList<>();
+
+        SimpleTarget welcomeTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Welcome")
+                .setDescription("Welcome to DoItWithAndroid, since this is your first run, lets take a look on how to use this awesome app")
+                .setShape(new Circle(0f))
+                .setOverlayPoint(0, v.getHeight() / 2f)
+                .build();
+
+       targets.add(welcomeTarget);
+
+        SimpleTarget menuTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Menu")
+                .setDescription("This is the main menu, use it to go through application")
+                .setPoint(v.getRootView().findViewById(R.id.bottom_navigation))
+                .setShape(new RoundedRectangle(v.getRootView().findViewById(R.id.bottom_navigation).getHeight(), v.getWidth(), 5f))
+                .setOverlayPoint(0, v.getHeight() / 2f)
+                .build();
+
+        targets.add(menuTarget);
+
+        SimpleTarget levelTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Overall level")
+                .setDescription("This is your level. You will earn experience by completing your tasks. Try to complete as many tasks as you can a become a high level effective person!")
+                .setOverlayPoint(0, v.findViewById(R.id.recycler_view).getY())
+                .setPoint(v.findViewById(R.id.arcProgressStackViewLevel))
+                .setShape(new Circle(((v.findViewById(R.id.arcProgressStackViewLevel).getWidth() / 2f)) + 10))
+                .build();
+
+        targets.add(levelTarget);
+
+        SimpleTarget experienceTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Experience")
+                .setDescription("This is your current experience and experience you need to reach new level. Every new level will require more experience than the last, it will get harder over time, but you can do it!")
+                .setOverlayPoint(0, v.findViewById(R.id.recycler_view).getY())
+                .setPoint(v.findViewById(R.id.experience_layout))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.experience_layout).getHeight(), v.findViewById(R.id.experience_layout).getWidth(), 5f))
+                .build();
+
+        targets.add(experienceTarget);
+
+        SimpleTarget normalTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+
+                        mScrollView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectAnimator.ofInt(mScrollView, "scrollY",  mScrollView.getBottom()).setDuration(6000).start();
+                                //mScrollView.smoothScrollTo(0, mScrollView.getBottom());
+                            }
+                        },100);
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+
+                    }
+                })
+                .setTitle("Tasks to do today")
+                .setDescription("There you can find tasks you should do today. You do not have to complete them in given order, order is just recommended. Every task have its own color based on its priority. RED means high, YELLOW is medium and GREEN is low. Experience gained per task is based on priority and its duration. When you complete task, simply swipe left to mark it as done.")
+                .setOverlayPoint(0f, 100f)
+                .setPoint(v.findViewById(R.id.recycler_view))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight() * 2, v.getWidth(), 5f))
+                .build();
+
+        targets.add(normalTaskTarget);
+
+        SimpleTarget grayTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        //taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+                        //taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+                        //taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 15, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+                        mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
+                        mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
+                        mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
+
+                        /*
+                        mScrollView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            }
+                        },100);*/
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+
+                    }
+                })
+                .setTitle("Gray tasks")
+                .setDescription("Gray tasks are same as normal tasks, only difference is that when your tasks are grayed out, the current time is not within you working time. You can still complete task as usual, but planner will not count their duration to your working time left today, also their completion time will be same as their estimated time. Feel free to complete task out of your working time, planner will recalculate your working plan :) ")
+                .setOverlayPoint(0f, 100f)
+                .setPoint(v.findViewById(R.id.recycler_view))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
+                .build();
+
+        targets.add(grayTaskTarget);
+
+        SimpleTarget partedTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                        Taskers tempTask = taskViewModel.getAllTasksListByPriority().get(0);
+                        Taskers updated = new Taskers(tempTask.getName(), tempTask.getDescription(), tempTask.getPriority(), 1440, tempTask.getD_day(), tempTask.getD_month(), tempTask.getD_year(), tempTask.getD_time(), tempTask.getD_time_milisec(), tempTask.getTo_be_done(), tempTask.getCompleted());
+                        updated.setId(tempTask.getId());
+                        taskViewModel.update(updated);
+
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        //taskViewModel.deleteAllTasks();
+                    }
+                })
+                .setTitle("Tasks on more parts")
+                .setDescription("If you do not have enough working time left today to fit in the whole task or you have task that is longer than you daily hours, you will still see this task on this list. Difference is, that you will this task with number of percent, which represents the part that will be completed when you mark this task as done")
+                .setOverlayPoint(0f, 100f)
+                .setPoint(v.findViewById(R.id.recycler_view))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
+                .build();
+
+        targets.add(partedTaskTarget);
+
+
+        /*
         int[] location = new int[2];
 
         mRecyclerView.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
 
-        SimpleTarget simpleTarget = new SimpleTarget.Builder(getActivity())
-                .setPoint(x + v.getWidth() / 2 , y)
+        SimpleTarget mRecyclerViewTarget = new SimpleTarget.Builder(getActivity())
+                .setPoint(mRecyclerView)
+                //.setPoint(x + v.getWidth() / 2 , y)
                 .setShape(new RoundedRectangle(100f, v.getWidth(), 5f)) // or RoundedRectangle()
                 .setDuration(1000L)
                 .setTitle("Tasks to do today")
                 .setDescription("Here you can see tasks that you should do today, simply swipe in any direction to mark them as completed")
-                .setOverlayPoint(mRecyclerView.getX(), mRecyclerView.getY())
+                //.setOverlayPoint(mRecyclerView.getX(), mRecyclerView.getY())
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
                     public void onStarted(SimpleTarget target) {
@@ -316,7 +474,9 @@ public class HomeFragment extends Fragment{
                     }
                 })
                 .build();
-        targets.add(simpleTarget);
+
+
+        targets.add(mRecyclerViewTarget); */
 
         return targets;
     }
