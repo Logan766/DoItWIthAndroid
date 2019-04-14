@@ -153,7 +153,7 @@ public class FragmentCurrentTasks extends Fragment {
                     } else {
                         pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
                     }
-                    mStatsViewModel.completeTask(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                    mStatsViewModel.completeTask(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()), true);
                     Taskers helpTask = mAdapterAll.getTaskAt(viewHolder.getAdapterPosition());
                     mArchiveTaskViewModel.insert(new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
                     taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));

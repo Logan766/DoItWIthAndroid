@@ -168,12 +168,7 @@ public class HomeFragment extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
-                int expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()));
 
-                UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
-                if(fragment == null) return;
-
-                fragment.updateProgress(expGain, getContext());
 
 
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
@@ -205,7 +200,7 @@ public class HomeFragment extends Fragment{
 
                 //timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
-
+                int expGain = 0;
                 if(adapter.getTaskAt(viewHolder.getAdapterPosition()).getTo_be_done() > 0) {
                     Log.d(TAG, "Task je pulenej");
                     Taskers uTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
@@ -213,12 +208,14 @@ public class HomeFragment extends Fragment{
                     int completed = uTask.getCompleted() + uTask.getTo_be_done();
                     Log.d(TAG, "Splnena doba: " + completed);
                     if(completed == uTask.getTime_consumption()) {
+                        expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), true);
                         Log.d(TAG, "Task je dokoncenej celej");
                         taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                         Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
                         ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
                         mArchiveTaskViewModel.insert(archivTask);
                     } else {
+                        expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), false);
                         Log.d(TAG, "Tasku jsi splnil cast, nova completed je: " + completed);
                         uTask.setCompleted(completed);
                         taskViewModel.update(uTask);
@@ -226,12 +223,18 @@ public class HomeFragment extends Fragment{
 
                 } else {
                     Log.d(TAG, "Task je celej");
+                    expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), true);
                     taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                     Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
                     if(timeConsumed == 0) {timeConsumed = helpTask.getTime_consumption();}
                     ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), (int) timeConsumed, helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
                     mArchiveTaskViewModel.insert(archivTask);
                 }
+
+                UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
+                if(fragment == null) return;
+                fragment.updateProgress(expGain, getContext());
+
 
                 Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.coord_layout),
                         "Task done! Good work!", Snackbar.LENGTH_LONG);

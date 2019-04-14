@@ -88,7 +88,8 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
             holder.mTextViewExp.setText(String.valueOf(Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * currentTaskers.getExp())) + " XP");
         } else {
             holder.mTextViewCompleted.setVisibility(View.INVISIBLE);
-            holder.mTextViewExp.setText(String.valueOf(currentTaskers.getExp()) + " XP");
+            int partLeft = currentTaskers.getExp() - Math.round((currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption()) * currentTaskers.getExp());
+            holder.mTextViewExp.setText(String.valueOf(partLeft + " XP"));
         }
 
     }

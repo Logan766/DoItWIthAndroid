@@ -66,7 +66,7 @@ public class StatsViewModel extends AndroidViewModel {
         return mRepository.getLastDate();
     }
 
-    public int completeTask(Taskers task) {
+    public int completeTask(Taskers task, boolean wholeTask) {
         int xpEarned;
         int idToday = new DateHandler().getCurrentDateForStats(this);
         Stats stat = getPrioritiesExp(idToday).get(0);
@@ -74,25 +74,26 @@ public class StatsViewModel extends AndroidViewModel {
         if(task.getTo_be_done() > 0) {
             xpEarned = Math.round((task.getTo_be_done() / (float) task.getTime_consumption()) * task.getExp());
         } else {
-            xpEarned = task.getExp();
+            xpEarned = task.getExp() - Math.round((task.getCompleted() / (float) task.getTime_consumption()) * task.getExp());
         }
         int currentXP = stat.getExp();
         int currentLowPriorityDone = stat.getLow_priority_done();
         int currentMediumPriorityDone = stat.getMedium_priority_done();
         int currentHighPriorityDone = stat.getHigh_priority_done();
 
-        switch (priorityDone) {
-            case 1:
-                currentHighPriorityDone += 1;
-                break;
-            case 2:
-                currentMediumPriorityDone +=1;
-                break;
-            case 3:
-                currentLowPriorityDone +=1;
-                break;
+        if(wholeTask) {
+            switch (priorityDone) {
+                case 1:
+                    currentHighPriorityDone += 1;
+                    break;
+                case 2:
+                    currentMediumPriorityDone += 1;
+                    break;
+                case 3:
+                    currentLowPriorityDone += 1;
+                    break;
+            }
         }
-
         currentXP += xpEarned;
         update(currentLowPriorityDone, currentMediumPriorityDone, currentHighPriorityDone, currentXP, idToday);
         return xpEarned;
