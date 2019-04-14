@@ -135,7 +135,6 @@ public class TaskFragment extends Fragment {
         mViewPager = v.findViewById(R.id.view_pager_tasks);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
         TabLayout tabLayout = v.findViewById(R.id.tab_layout_tasks);
         tabLayout.setupWithViewPager(mViewPager);
 
