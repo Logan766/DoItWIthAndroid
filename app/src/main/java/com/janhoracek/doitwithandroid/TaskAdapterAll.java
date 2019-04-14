@@ -92,10 +92,20 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         }
 
 
-        if(currentTaskers.isDoable_all()) {
-            holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+        if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+            if(currentTaskers.getPriority() == 1) {
+                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            } else {
+                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+            }
+        } else if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+            if(currentTaskers.getPriority() < 3) {
+                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            } else {
+                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+            }
         } else {
-            holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
         }
 
 
