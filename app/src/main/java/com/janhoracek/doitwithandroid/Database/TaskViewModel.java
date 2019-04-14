@@ -31,9 +31,9 @@ public class TaskViewModel extends AndroidViewModel {
     private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
 
-    private static final int PRIORITY_TAG_ALL = 1;
+    private static final int PRIORITY_TAG_ALL = 3;
     private static final int PRIORITY_TAG_MEDIUM = 2;
-    private static final int PRIORITY_TAG_HIGH = 3;
+    private static final int PRIORITY_TAG_HIGH = 1;
 
     private static final String TAG = "LISTER";
     private static final String TAG1 = "DOABLE";
@@ -105,6 +105,50 @@ public class TaskViewModel extends AndroidViewModel {
         return todayTasks;
     }
 
+    /*
+    public List<Taskers> getHighPriorityForToday(List<Taskers> tasks) {
+        List<Taskers> highPriorityToday = new ArrayList<>();
+        for(int i=0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).getPriority() == 1 && tasks.get(i).isDoable_high()) {
+                highPriorityToday.add(tasks.get(i));
+            }
+        }
+        return highPriorityToday;
+    }*/
+
+    public List<Taskers> getMediumLowPriorityForToday(List<Taskers> tasks) {
+        List<Taskers> mediumPriorityToday = new ArrayList<>();
+        for(int i=0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).isDoable_all()) {
+                mediumPriorityToday.add(tasks.get(i));
+            }
+        }
+        if(mediumPriorityToday.size() == 0) {
+            mediumPriorityToday = tasks;
+        }
+        return mediumPriorityToday;
+    }
+
+    public List<Taskers> getMedHighPriorityForToday(List<Taskers> tasks) {
+        List<Taskers> highPriorityToday = new ArrayList<>();
+        for(int i=0; i<=tasks.size()-1; i++) {
+            if(tasks.get(i).getPriority() < 3 && tasks.get(i).isDoable_medium()) {
+                highPriorityToday.add(tasks.get(i));
+            }
+        }
+        if(highPriorityToday.size() == 0) {
+            for(int i=0; i<=tasks.size()-1; i++) {
+                if(tasks.get(i).getPriority() < 3) {
+                    highPriorityToday.add(tasks.get(i));
+                }
+            }
+        }
+        if(highPriorityToday.size() == 0) {
+            highPriorityToday = tasks;
+        }
+        return highPriorityToday;
+    }
+
     public List<Taskers> getHighPriority(List<Taskers> tasks) {
         List<Taskers> highPriority = new ArrayList<>();
         for(int i=0; i<=tasks.size()-1; i++) {
@@ -169,6 +213,7 @@ public class TaskViewModel extends AndroidViewModel {
         calEnd.set(Calendar.MINUTE, endMinute);
         calEnd.set(Calendar.SECOND, 0);
 
+        Log.d(TAG1, "This is by priority: " + PRIORITY_TAG);
         Log.d(TAG1, "StartCal: " + calStart.getTime());
         Log.d(TAG1, "EndCal: " + calEnd.getTime());
 
@@ -195,7 +240,7 @@ public class TaskViewModel extends AndroidViewModel {
             lastEnd = new DateHandler().getCurrentDateTimeInMilisec();
         }
 
-        Log.d(TAG1, "-------------------------------------");
+        Log.d(TAG1, "--------------" + tasks.size() + "-----------------------");
 
         for (int i=0; i<= tasks.size()-1; i++) {
             deadline = tasks.get(i).getD_time_milisec();

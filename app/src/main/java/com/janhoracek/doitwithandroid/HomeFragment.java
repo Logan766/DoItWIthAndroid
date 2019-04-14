@@ -28,6 +28,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -75,6 +76,9 @@ public class HomeFragment extends Fragment{
     private ScrollView mScrollView;
     private ArchiveTaskViewModel mArchiveTaskViewModel;
     private StatsViewModel mStatsViewModel;
+    private TextView mTextViewTimeRemaining;
+    private int minutesRemaining;
+    private int hoursRemaining;
 
     List<Taskers> tempSave = new ArrayList<>();
 
@@ -100,6 +104,7 @@ public class HomeFragment extends Fragment{
         Log.d("PRDEL", "time remain " + pref.getLong(TIME_REMAINING, -1));
         DateChangeChecker.getInstance().checkTimeRemaining(taskViewModel.getAllTasksList(), pref);
 
+        mTextViewTimeRemaining = v.findViewById(R.id.text_view_time_remaining);
         mScrollView = v.findViewById(R.id.scroll_view_home);
         mRecyclerView = v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -114,6 +119,7 @@ public class HomeFragment extends Fragment{
         mViewPager.setAdapter(mAdapter);
         mSpringDotsIndicator.setViewPager(mViewPager);
 
+        mTextViewTimeRemaining.setText(getTimeRemaining(pref));
 
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
@@ -128,13 +134,13 @@ public class HomeFragment extends Fragment{
                 if(!holder.getHighTasksDoable()) {
                     adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getAllTasksListByPriority(), pref));
                 } else if (!holder.getMediumTasksDoable()) {
-                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getHighPriority(taskers), pref));
+                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getMedHighPriorityForToday(taskers), pref));
                 } else if (!holder.getAllTasksDoable()) {
-                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getMediumHighPriority(taskers), pref));
+                    adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getMediumLowPriorityForToday(taskers), pref));
                 } else {
                     adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
                 }
-
+                mTextViewTimeRemaining.setText(getTimeRemaining(pref));
             }
         });
 
@@ -304,6 +310,13 @@ public class HomeFragment extends Fragment{
         }
 
         return v;
+    }
+
+    private String getTimeRemaining(SharedPreferences pref) {
+        long minutes = pref.getLong(TIME_REMAINING, -1) % 60;
+        long hours = pref.getLong(TIME_REMAINING, -1) / 60;
+        String time = hours + "h " + minutes + "min";
+        return time;
     }
 
     private void saveTempTasks() {

@@ -1,6 +1,7 @@
 package com.janhoracek.doitwithandroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,25 +14,34 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.charts.Chart;
+import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 
 import java.util.ArrayList;
 
+import androidx.lifecycle.ViewModelProviders;
 import devlight.io.library.ArcProgressStackView;
 
 
 public class CurrentTasksFragment extends UpdateableFragment{
-    LottieAnimationView mLottieAnimationViewAll;
-    LottieAnimationView mLottieAnimationViewMedium;
-    LottieAnimationView mLottieAnimationViewHigh;
-    TextView mTextViewAll;
-    TextView mTextViewMedium;
-    TextView mTextViewHigh;
+
+    private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
+
+    private LottieAnimationView mLottieAnimationViewAll;
+    private LottieAnimationView mLottieAnimationViewMedium;
+    private LottieAnimationView mLottieAnimationViewHigh;
+    private TextView mTextViewAll;
+    private TextView mTextViewMedium;
+    private TextView mTextViewHigh;
+    private TaskViewModel mTaskViewModel;
+    private SharedPreferences pref;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_current_tasks, container, false);
+        pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
         mLottieAnimationViewAll = v.findViewById(R.id.lottie_big_all);
         mLottieAnimationViewMedium = v.findViewById(R.id.lottie_big_medium);
         mLottieAnimationViewHigh = v.findViewById(R.id.lottie_big_high);
@@ -39,6 +49,9 @@ public class CurrentTasksFragment extends UpdateableFragment{
         mTextViewAll = v.findViewById(R.id.text_lottie_all);
         mTextViewMedium = v.findViewById(R.id.text_lottie_medium);
         mTextViewHigh = v.findViewById(R.id.text_lottie_high);
+
+        mTaskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        DateChangeChecker.getInstance().checkTimeRemaining(mTaskViewModel.getAllTasksList(), pref);
 
         checkerAll();
         update();
