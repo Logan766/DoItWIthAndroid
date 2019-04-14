@@ -260,9 +260,51 @@ public class TaskViewModel extends AndroidViewModel {
 
             if (lastEndCal.getTimeInMillis() > deadline) {
                 Log.d(TAG1, "Over deadline");
+                Taskers doableTask = tasks.get(i);
+                switch (PRIORITY_TAG) {
+                    case PRIORITY_TAG_ALL:
+                        if(doableTask.isDoable_all()) {
+                            doableTask.setDoable_all(false);
+                            this.update(doableTask);
+                        }
+                        break;
+                    case PRIORITY_TAG_MEDIUM:
+                        if(doableTask.isDoable_medium()) {
+                            doableTask.setDoable_medium(false);
+                            this.update(doableTask);
+                        }
+                        break;
+                    case PRIORITY_TAG_HIGH:
+                        if(doableTask.isDoable_high()) {
+                            doableTask.setDoable_high(false);
+                            this.update(doableTask);
+                        }
+                        break;
+                }
                 result = false;
                 //return result;
             } else {
+                Taskers doableTask = tasks.get(i);
+                switch (PRIORITY_TAG) {
+                    case PRIORITY_TAG_ALL:
+                        if(!doableTask.isDoable_all()) {
+                            doableTask.setDoable_all(true);
+                            this.update(doableTask);
+                        }
+                        break;
+                    case PRIORITY_TAG_MEDIUM:
+                        if(!doableTask.isDoable_medium()) {
+                            doableTask.setDoable_medium(true);
+                            this.update(doableTask);
+                        }
+                        break;
+                    case PRIORITY_TAG_HIGH:
+                        if(!doableTask.isDoable_high()) {
+                            doableTask.setDoable_high(true);
+                            this.update(doableTask);
+                        }
+                        break;
+                }
                 Log.d(TAG1, "Not over deadline, next task should begin at: " + lastEndCal.getTime());
             }
 
