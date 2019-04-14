@@ -1,6 +1,9 @@
 package com.janhoracek.doitwithandroid;
 
 import android.content.Context;
+import android.os.Vibrator;
+import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.tooltip.Tooltip;
 
 import java.text.SimpleDateFormat;
 
@@ -205,9 +209,11 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private ProgressBar mProgress;
         private LinearLayout mLinearLayoutDoableAll;
         private LottieAnimationView mLottieUndoable;
+        private Tooltip mTooltipDeadline;
+        private Tooltip mTooltipFocus;
 
 
-        public TaskHolder(@NonNull View itemView) {
+        public TaskHolder(@NonNull final View itemView) {
             super(itemView);
             mRelativeLayout = itemView.findViewById(R.id.task_backgroud);
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
@@ -222,14 +228,53 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mLinearLayoutDoableAll = itemView.findViewById(R.id.lin_layout_all);
             mLottieUndoable = itemView.findViewById(R.id.lottie_unodable_task);
 
+            final Vibrator vibe = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE) ;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     int position = getAdapterPosition();
                     if (mListener != null && position != RecyclerView.NO_POSITION) {
                         mListener.onTaskClick(getItem(position));
+                        vibe.vibrate(50);
                     }
+                    return true;
+                }
+            });
+
+            mTooltipDeadline = new Tooltip.Builder(mLottieUndoable)
+                    .setText("This deadline cannot be met!")
+                    .setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent))
+                    .setTextColor(mContext.getResources().getColor(R.color.backgroundNormal))
+                    .setDismissOnClick(true)
+                    .setCornerRadius(20f)
+                    .setCancelable(true)
+                    .setGravity(Gravity.RIGHT)
+                    .build();
+
+
+            mLottieUndoable.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTooltipDeadline.show();
+                }
+            });
+
+            mTooltipFocus = new Tooltip.Builder(mLinearLayoutDoableAll)
+                    .setText("You should focus on this task")
+                    .setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent))
+                    .setTextColor(mContext.getResources().getColor(R.color.backgroundNormal))
+                    .setDismissOnClick(true)
+                    .setCornerRadius(20f)
+                    .setCancelable(true)
+                    .setGravity(Gravity.LEFT)
+                    .build();
+
+
+            mLinearLayoutDoableAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTooltipFocus.show();
                 }
             });
         }
