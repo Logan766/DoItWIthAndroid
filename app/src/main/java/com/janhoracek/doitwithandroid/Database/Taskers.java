@@ -1,6 +1,8 @@
 package com.janhoracek.doitwithandroid.Database;
 
 
+import android.util.Log;
+
 import java.util.Date;
 
 import androidx.room.Entity;
@@ -23,6 +25,9 @@ public class Taskers {
     private Long d_time_milisec;
     private int to_be_done;
     private int completed;
+    private boolean doable_all;
+    private boolean doable_medium;
+    private boolean doable_high;
 
     public Taskers(String name, String description, int priority,  int time_consumption, int d_day, int d_month, int d_year, String d_time, Long d_time_milisec, int to_be_done, int completed) {
         this.name = name;
@@ -46,6 +51,9 @@ public class Taskers {
         this.d_time_milisec = d_time_milisec;
         this.to_be_done = to_be_done;
         this.completed = completed;
+        this.doable_all = true;
+        this.doable_medium= true;
+        this.doable_high = true;
     }
 
     public void setId(int id) {
@@ -114,5 +122,33 @@ public class Taskers {
 
     public void setCompleted(int completed) {
         this.completed = completed;
+    }
+
+    public boolean isDoable_all() {
+        return doable_all;
+    }
+
+    public void setDoable_all(boolean doable_all) {
+        this.doable_all = doable_all;
+    }
+
+    public boolean isDoable_medium() {
+        return doable_medium;
+    }
+
+    public void setDoable_medium(boolean doable_medium) {
+        this.doable_medium = doable_medium;
+    }
+
+    public boolean isDoable_high() {
+        return doable_high;
+    }
+
+    public void setDoable_high(boolean doable_high) {
+        this.doable_high = doable_high;
+    }
+
+    public void getDoableToText() {
+        Log.d("TASKERDBL", "Name " + this.name + " Priority: " + this.priority + "\nDoable all: " + this.doable_all  + "\nDoable medium: " + this.doable_medium + "\nDoable high: " + this.doable_all);
     }
 }

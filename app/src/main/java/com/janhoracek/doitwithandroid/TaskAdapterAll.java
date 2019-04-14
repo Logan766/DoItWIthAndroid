@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
 import java.text.SimpleDateFormat;
@@ -89,14 +90,49 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(156,204,101), android.graphics.PorterDuff.Mode.SRC_IN);
                 break;
         }
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.mImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_close_black_24dp));
-        }*/
-        Log.d("FIREEE", "task deadline " + currentTaskers.getD_time_milisec());
-        Log.d("FIREEE", "current time " + new DateHandler().getCurrentDateTimeInMilisec());
 
-        Log.d("FIREEE", "odpoved je " + (currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()));
+        if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
+            if((currentTaskers.getPriority() == 1) && (currentTaskers.isDoable_high())) {
+                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+            } else {
+                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            }
+        } else if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+            if(((currentTaskers.getPriority() == 2) && (!currentTaskers.isDoable_medium())) || ((currentTaskers.getPriority()==3) && (!currentTaskers.isDoable_all()))) {
+                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            } else {
+                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+            }
+        } else if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+            if((currentTaskers.getPriority() == 3) && (!currentTaskers.isDoable_all())) {
+                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+            } else {
+                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+            }
+        } else {
+            holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+        }
+
+
+        /*
+        if(currentTaskers.isDoable_all()) {
+            holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
+        } else {
+            holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
+        }
+*/
+        /*
+        if(currentTaskers.isDoable_medium()) {
+            holder.mLinearLayoutDoableMedium.setVisibility(View.GONE);
+        } else {
+            holder.mLinearLayoutDoableMedium.setVisibility(View.VISIBLE);
+        }
+
+        if(currentTaskers.isDoable_high()) {
+            holder.mLinearLayoutDoableHigh.setVisibility(View.GONE);
+        } else {
+            holder.mLinearLayoutDoableHigh.setVisibility(View.VISIBLE);
+        }*/
 
         if(currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) {
             Log.d("FIREEE", "FIREEEEEE");
@@ -109,6 +145,8 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewEstTime.setText(String.valueOf(currentTaskers.getTime_consumption()));
         holder.mTextViewDeadline.setText(mDateFormat.format(currentTaskers.getD_time_milisec()));
+
+
         if(currentTaskers.getCompleted() > 0) {
             holder.mTextViewCompleted.setVisibility(View.VISIBLE);
             holder.mTextViewCompleted.setText(String.valueOf(Math.round(currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption() * 100)) + "%");
@@ -131,11 +169,14 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private RelativeLayout mRelativeLayout;
         private TextView mTextViewDeadline;
         private TextView mTextViewEstTime;
-        private View mPriority;
+        private LinearLayout mPriority;
         private TextView mTextViewFire;
         private TextView mTextViewCompletedIco;
         private TextView mTextViewCompleted;
         private ProgressBar mProgress;
+        private LinearLayout mLinearLayoutDoableAll;
+        private LinearLayout mLinearLayoutDoableMedium;
+        private LinearLayout mLinearLayoutDoableHigh;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -149,6 +190,9 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewCompletedIco = itemView.findViewById(R.id.text_view_completed_ico);
             mTextViewCompleted = itemView.findViewById(R.id.text_view_completed_data);
             mProgress = itemView.findViewById(R.id.progressBar2);
+            mLinearLayoutDoableAll = itemView.findViewById(R.id.lin_layout_all);
+            mLinearLayoutDoableMedium = itemView.findViewById(R.id.lin_layout_medium);
+            mLinearLayoutDoableHigh = itemView.findViewById(R.id.lin_layout_high);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

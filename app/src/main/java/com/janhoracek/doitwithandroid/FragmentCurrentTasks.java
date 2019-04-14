@@ -92,6 +92,9 @@ public class FragmentCurrentTasks extends Fragment {
                 }
 
                 mAdapterAll.submitList(taskers);
+                for(int i = 0; i<=taskers.size()-1; i++) {
+                    taskers.get(i).getDoableToText();
+                }
             }
         });
 
