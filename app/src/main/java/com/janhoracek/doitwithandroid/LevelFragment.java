@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
@@ -38,12 +39,14 @@ public class LevelFragment extends UpdateableFragment {
     private static final String NEXT_EXPERIENCE = "com.janhoracek.doitwithandroid.NEXT_EXPERIENCE";
     private static final String TAG = "LVL";
 
-    ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
-    ArcProgressStackView mGraph;
-    TextView mUserLevel;
-    TextView mCurrentExperience;
-    TextView mNextExperience;
-    SharedPreferences pref;
+    private  ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
+    private ArcProgressStackView mGraph;
+    private TextView mUserLevel;
+    private TextView mCurrentExperience;
+    private TextView mNextExperience;
+    private SharedPreferences pref;
+
+    private LottieAnimationView mLottieFireworks;
 
     //private TaskViewModel taskViewModel;
 
@@ -54,6 +57,7 @@ public class LevelFragment extends UpdateableFragment {
         mUserLevel = v.findViewById(R.id.text_level_number);
         mCurrentExperience = v.findViewById(R.id.text_current_exp);
         mNextExperience = v.findViewById(R.id.text_exp_next_level);
+        mLottieFireworks = v.findViewById(R.id.lottie_fireworks);
         pref = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         mGraph = v.findViewById(R.id.arcProgressStackViewLevel);
 
@@ -82,6 +86,7 @@ public class LevelFragment extends UpdateableFragment {
         int expNextLevel = pref.getInt(NEXT_EXPERIENCE, -1);
 
         if(((currExp + expGained)/expNextLevel) > 0) {
+            mLottieFireworks.playAnimation();
             Log.d(TAG, "level up");
             int oldLevel = pref.getInt(USER_LEVEL, -1);
             int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);

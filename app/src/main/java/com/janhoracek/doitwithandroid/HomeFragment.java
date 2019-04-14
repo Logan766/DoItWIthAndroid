@@ -30,6 +30,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
@@ -71,11 +72,8 @@ public class HomeFragment extends Fragment{
     private TaskAdapterToday adapter;
     private TaskViewModel taskViewModel;
     private RecyclerView mRecyclerView;
-
     private ScrollView mScrollView;
-
     private ArchiveTaskViewModel mArchiveTaskViewModel;
-
     private StatsViewModel mStatsViewModel;
 
     List<Taskers> tempSave = new ArrayList<>();
@@ -92,6 +90,7 @@ public class HomeFragment extends Fragment{
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         DateChangeChecker.getInstance().CheckDate(pref);
+
 
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);

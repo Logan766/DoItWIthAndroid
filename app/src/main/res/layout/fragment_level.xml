@@ -87,4 +87,12 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_fireworks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="fireworks.json"
+        app:lottie_loop="false" />
+
 </RelativeLayout>
