@@ -128,16 +128,16 @@ public class TaskViewModel extends AndroidViewModel {
     public void checkAllDoables(List<Taskers> tasks, SharedPreferences pref) {
         if(tasks.size() == 0) {return;}
         boolean result;
-        result = checkDoable(tasks, pref, PRIORITY_TAG_ALL);
+        result = checkDoable(tasks, pref);
         ChartDataHolder.getInstance().setAllTasksDoable(result);
         if(!result) {
-            result = checkDoable(this.getMediumHighPriority(tasks), pref, PRIORITY_TAG_MEDIUM);
+            result = checkDoable(this.getMediumHighPriority(tasks), pref);
             ChartDataHolder.getInstance().setMediumTasksDoable(result);
         } else {
             ChartDataHolder.getInstance().setMediumTasksDoable(true);
         }
         if(!result) {
-            result = checkDoable(this.getHighPriority(tasks), pref, PRIORITY_TAG_HIGH);
+            result = checkDoable(this.getHighPriority(tasks), pref);
             ChartDataHolder.getInstance().setHighTasksDoable(result);
         } else {
             ChartDataHolder.getInstance().setHighTasksDoable(true);
@@ -147,7 +147,7 @@ public class TaskViewModel extends AndroidViewModel {
         ChartDataHolder.getInstance().setDeadlinesDoable(result);
     }
 
-    public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref, int priorityTag) {
+    public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref) {
         boolean result = true;
         long deadline;
         long lastEnd;
@@ -261,55 +261,17 @@ public class TaskViewModel extends AndroidViewModel {
             if (lastEndCal.getTimeInMillis() > deadline) {
                 Log.d(TAG1, "Over deadline");
                 Taskers undoableTask = tasks.get(i);
-                switch (priorityTag) {
-                    case PRIORITY_TAG_ALL:
-                        if(undoableTask.isDoable_all()) {
-                            undoableTask.setDoable_all(false);
-                            this.update(undoableTask);
-                        }
-                        break;
-                    case PRIORITY_TAG_MEDIUM:
-                        if(undoableTask.isDoable_medium()) {
-                            undoableTask.setDoable_medium(false);
-                            undoableTask.setDoable_all(false);
-                            this.update(undoableTask);
-                        }
-                        break;
-                    case PRIORITY_TAG_HIGH:
-                        if(undoableTask.isDoable_high()) {
-                            undoableTask.setDoable_all(false);
-                            undoableTask.setDoable_medium(false);
-                            undoableTask.setDoable_high(false);
-                            this.update(undoableTask);
-                        }
-                        break;
+                if(undoableTask.isDoable_all()) {
+                    undoableTask.setDoable_all(false);
+                    this.update(undoableTask);
                 }
                 result = false;
                 //return result;
             } else {
                 Taskers undoableTask = tasks.get(i);
-                switch (priorityTag) {
-                    case PRIORITY_TAG_ALL:
-                        if(!undoableTask.isDoable_all()) {
-                            undoableTask.setDoable_all(true);
-                            this.update(undoableTask);
-                        }
-                        break;
-                    case PRIORITY_TAG_MEDIUM:
-                        if(!undoableTask.isDoable_medium()) {
-                            undoableTask.setDoable_medium(true);
-                            undoableTask.setDoable_all(true);
-                            this.update(undoableTask);
-                        }
-                        break;
-                    case PRIORITY_TAG_HIGH:
-                        if(!undoableTask.isDoable_high()) {
-                            undoableTask.setDoable_high(true);
-                            undoableTask.setDoable_medium(true);
-                            undoableTask.setDoable_all(true);
-                            this.update(undoableTask);
-                        }
-                        break;
+                if(!undoableTask.isDoable_all()) {
+                    undoableTask.setDoable_all(true);
+                    this.update(undoableTask);
                 }
                 Log.d(TAG1, "Not over deadline, next task should begin at: " + lastEndCal.getTime());
             }

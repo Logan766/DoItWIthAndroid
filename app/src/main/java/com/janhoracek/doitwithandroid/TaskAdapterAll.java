@@ -91,48 +91,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                 break;
         }
 
-        if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
-            if((currentTaskers.getPriority() == 1) && (currentTaskers.isDoable_high())) {
-                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
-            } else {
-                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
-            }
-        } else if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
-            if(((currentTaskers.getPriority() == 2) && (!currentTaskers.isDoable_medium())) || ((currentTaskers.getPriority()==3) && (!currentTaskers.isDoable_all()))) {
-                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
-            } else {
-                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
-            }
-        } else if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
-            if((currentTaskers.getPriority() == 3) && (!currentTaskers.isDoable_all())) {
-                holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
-            } else {
-                holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
-            }
-        } else {
-            holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
-        }
 
-
-        /*
         if(currentTaskers.isDoable_all()) {
             holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
         } else {
             holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
         }
-*/
-        /*
-        if(currentTaskers.isDoable_medium()) {
-            holder.mLinearLayoutDoableMedium.setVisibility(View.GONE);
-        } else {
-            holder.mLinearLayoutDoableMedium.setVisibility(View.VISIBLE);
-        }
 
-        if(currentTaskers.isDoable_high()) {
-            holder.mLinearLayoutDoableHigh.setVisibility(View.GONE);
-        } else {
-            holder.mLinearLayoutDoableHigh.setVisibility(View.VISIBLE);
-        }*/
 
         if(currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) {
             Log.d("FIREEE", "FIREEEEEE");
@@ -175,8 +140,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private TextView mTextViewCompleted;
         private ProgressBar mProgress;
         private LinearLayout mLinearLayoutDoableAll;
-        private LinearLayout mLinearLayoutDoableMedium;
-        private LinearLayout mLinearLayoutDoableHigh;
+
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -191,8 +155,6 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewCompleted = itemView.findViewById(R.id.text_view_completed_data);
             mProgress = itemView.findViewById(R.id.progressBar2);
             mLinearLayoutDoableAll = itemView.findViewById(R.id.lin_layout_all);
-            mLinearLayoutDoableMedium = itemView.findViewById(R.id.lin_layout_medium);
-            mLinearLayoutDoableHigh = itemView.findViewById(R.id.lin_layout_high);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

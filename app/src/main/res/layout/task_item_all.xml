@@ -120,7 +120,7 @@
             android:gravity="center"
             android:minWidth="25dp"
             android:orientation="vertical"
-            android:paddingStart="5dp">
+            android:paddingStart="0dp">
 
             <LinearLayout
                 android:id="@+id/lin_layout_all"
@@ -133,66 +133,16 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_task_doable_all"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/circle"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:visibility="visible"
                     app:lottie_autoPlay="true"
                     app:lottie_fileName="deadline.json"
                     app:lottie_loop="true" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lin_layout_medium"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="2dp"
-                    android:text="M:"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottie_task_doable_medium"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:visibility="visible"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="deadline.json"
-                    app:lottie_loop="true" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lin_layout_high"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="2dp"
-                    android:text="H: "
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottie_task_doable_high"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:visibility="visible"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="deadline.json"
-                    app:lottie_loop="true" />
-            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
