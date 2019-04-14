@@ -5,19 +5,20 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/task_fragment_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_pager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/task_item_all" />
+
     <androidx.core.widget.NestedScrollView
 
+        android:id="@+id/scrollview_current_tasks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/task_fragment_recyclerview"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/task_item_all"/>
 
     </androidx.core.widget.NestedScrollView>
 

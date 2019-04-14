@@ -1,17 +1,9 @@
 package com.janhoracek.doitwithandroid;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,11 +13,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,8 +49,15 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     oldItem.getD_month() == newItem.getD_month() &&
                     oldItem.getD_year() == newItem.getD_year() &&
                     oldItem.getId() == newItem.getId() &&
-                    oldItem.getD_time().equals(newItem.getD_time());
+                    oldItem.getD_time().equals(newItem.getD_time()) &&
+                    oldItem.isDoable_all() == newItem.isDoable_all() &&
+                    oldItem.isDoable_medium() == newItem.isDoable_medium() &&
+                    oldItem.isDoable_high() == oldItem.isDoable_high() &&
+                    (oldItem.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) == (newItem.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec());
+
         }
+
+
     };
 
     @NonNull
@@ -80,14 +76,37 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             case 1:
                 holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(239, 83, 80), android.graphics.PorterDuff.Mode.SRC_IN);
+                if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
+                    if(!currentTaskers.isDoable_high()) {
+                        holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                        holder.mTextViewFire.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.mLottieUndoable.setVisibility(View.GONE);
+                        holder.mTextViewFire.setVisibility(View.VISIBLE);
+                    }
+                }
                 break;
             case 2:
                 holder.mPriority.setBackgroundColor(rgb(255,202,40));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(255,202,40), android.graphics.PorterDuff.Mode.SRC_IN);
+                if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+                    if(!currentTaskers.isDoable_medium()) {
+                        holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.mLottieUndoable.setVisibility(View.GONE);
+                    }
+                }
                 break;
             case 3:
                 holder.mPriority.setBackgroundColor(rgb(156,204,101));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(156,204,101), android.graphics.PorterDuff.Mode.SRC_IN);
+                if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+                    if(!currentTaskers.isDoable_all()) {
+                        holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.mLottieUndoable.setVisibility(View.GONE);
+                    }
+                }
                 break;
         }
 
@@ -110,12 +129,47 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
 
 
         if(currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) {
-            Log.d("FIREEE", "FIREEEEEE");
-            //holder.mTextViewFire.getCompoundDrawables()[0].setColorFilter(new PorterDuffColorFilter(mContext.getResources().getColor(R.color.PastelRed), PorterDuff.Mode.SRC_IN));
             holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_red_24dp), null, null, null);
         } else {
+            switch (currentTaskers.getPriority()) {
+                case 1:
+                    if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
+                        if(!currentTaskers.isDoable_high()) {
+                            holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                            holder.mTextViewFire.setVisibility(View.INVISIBLE);
+                        } else {
+                            holder.mLottieUndoable.setVisibility(View.GONE);
+                            holder.mTextViewFire.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    break;
+                case 2:
+                    if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+                        if(!currentTaskers.isDoable_medium()) {
+                            holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                            holder.mTextViewFire.setVisibility(View.INVISIBLE);
+                        } else {
+                            holder.mLottieUndoable.setVisibility(View.GONE);
+                            holder.mTextViewFire.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    break;
+                case 3:
+                    if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+                        if(!currentTaskers.isDoable_all()) {
+                            holder.mLottieUndoable.setVisibility(View.VISIBLE);
+                            holder.mTextViewFire.setVisibility(View.INVISIBLE);
+                        } else {
+                            holder.mLottieUndoable.setVisibility(View.GONE);
+                            holder.mTextViewFire.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    break;
+            }
             holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_black_24dp), null, null, null);
         }
+
+
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewEstTime.setText(String.valueOf(currentTaskers.getTime_consumption()));
@@ -150,6 +204,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         private TextView mTextViewCompleted;
         private ProgressBar mProgress;
         private LinearLayout mLinearLayoutDoableAll;
+        private LottieAnimationView mLottieUndoable;
 
 
         public TaskHolder(@NonNull View itemView) {
@@ -165,6 +220,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             mTextViewCompleted = itemView.findViewById(R.id.text_view_completed_data);
             mProgress = itemView.findViewById(R.id.progressBar2);
             mLinearLayoutDoableAll = itemView.findViewById(R.id.lin_layout_all);
+            mLottieUndoable = itemView.findViewById(R.id.lottie_unodable_task);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

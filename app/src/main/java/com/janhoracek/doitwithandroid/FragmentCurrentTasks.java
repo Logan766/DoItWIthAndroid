@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -61,6 +62,7 @@ public class FragmentCurrentTasks extends Fragment {
     private TaskAdapterAll mAdapterAll;
     private StatsViewModel mStatsViewModel;
     private ArchiveTaskViewModel mArchiveTaskViewModel;
+    private NestedScrollView mScrollView;
     private boolean FirstRunCheck;
 
     @Nullable
@@ -73,6 +75,7 @@ public class FragmentCurrentTasks extends Fragment {
 
         mRecyclerView = v.findViewById(R.id.task_fragment_recyclerview);
         mFloatingActionButton = v.findViewById(R.id.add_task_fab);
+        //mScrollView = v.findViewById(R.id.scrollview_current_tasks);
 
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
@@ -112,6 +115,18 @@ public class FragmentCurrentTasks extends Fragment {
                 startActivityForResult(i, ADD_TASK_REQUEST);
             }
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    mFloatingActionButton.hide();
+                else if (dy < 0)
+                    mFloatingActionButton.show();
+            }
+        });
+
+        mAdapterAll.submitList(taskViewModel.getAllTasksList());
 
 
         ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
