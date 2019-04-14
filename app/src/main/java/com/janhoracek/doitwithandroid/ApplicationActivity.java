@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -48,6 +50,7 @@ public class ApplicationActivity extends AppCompatActivity {
     private StatsViewModel mStatsViewModel;
     private TaskViewModel mTaskViewModel;
     private SharedPreferences pref;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,7 @@ public class ApplicationActivity extends AppCompatActivity {
         });
 
         BottomNavigationView mBottomNavigationView = findViewById(R.id.bottom_navigation);
-        final Toolbar mToolbar = findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         mToolbar.setTitle(R.string.navigation_home);
@@ -136,12 +139,23 @@ public class ApplicationActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(ApplicationActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }
-
-
 
 }

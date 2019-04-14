@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/settings_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ScrollView
+        android:layout_below="@id/settings_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="2dp"
+                android:text="Start Time"
+                android:textSize="20sp" />
+
+            <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                android:id="@+id/time_pick_start_settings"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_below="@+id/text_view_first_run_third_1"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:paddingEnd="65dp"
+
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="false"
+                app:picker_displayHours="true"
+                app:picker_displayMinutes="true"
+                app:picker_displayMonth="false"
+                app:picker_displayMonthNumbers="false"
+                app:picker_displayYears="false"
+                app:picker_visibleItemCount="3" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:text="End TIme"
+                android:textSize="20sp" />
+
+            <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                android:id="@+id/time_pick_end_settings"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:paddingEnd="65dp"
+
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="false"
+                app:picker_displayHours="true"
+                app:picker_displayMinutes="true"
+                app:picker_displayMonth="false"
+                app:picker_displayMonthNumbers="false"
+                app:picker_displayYears="false"
+                app:picker_visibleItemCount="3" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="?android:attr/listDivider" />
+
+
+            <Button
+                android:id="@+id/button_settings_tutoral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Run tutorial again" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="?android:attr/listDivider" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -186,6 +186,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             holder.mTextViewCompletedIco.setVisibility(View.VISIBLE);
             holder.mProgress.setProgress(Math.round(currentTaskers.getCompleted() / (float) currentTaskers.getTime_consumption() * 100));
         } else {
+            holder.mProgress.setProgress(0);
             holder.mTextViewCompletedIco.setVisibility(View.INVISIBLE);
             holder.mTextViewCompleted.setVisibility(View.INVISIBLE);
         }
