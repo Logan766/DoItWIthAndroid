@@ -83,11 +83,12 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                 if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
                     if(!currentTaskers.isDoable_high()) {
                         holder.mLottieUndoable.setVisibility(View.VISIBLE);
-                        holder.mTextViewFire.setVisibility(View.INVISIBLE);
                     } else {
                         holder.mLottieUndoable.setVisibility(View.GONE);
-                        holder.mTextViewFire.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    holder.mLottieUndoable.setVisibility(View.GONE);
+                    holder.mTextViewFire.setVisibility(View.VISIBLE);
                 }
                 break;
             case 2:
@@ -99,6 +100,9 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     } else {
                         holder.mLottieUndoable.setVisibility(View.GONE);
                     }
+                } else {
+                    holder.mLottieUndoable.setVisibility(View.GONE);
+                    holder.mTextViewFire.setVisibility(View.VISIBLE);
                 }
                 break;
             case 3:
@@ -110,6 +114,9 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     } else {
                         holder.mLottieUndoable.setVisibility(View.GONE);
                     }
+                } else {
+                    holder.mLottieUndoable.setVisibility(View.GONE);
+                    holder.mTextViewFire.setVisibility(View.VISIBLE);
                 }
                 break;
         }

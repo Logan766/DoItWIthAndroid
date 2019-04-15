@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout_over"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="350dp"
@@ -19,6 +20,7 @@
         android:paddingBottom="20dp">
 
         <LinearLayout
+            android:id="@+id/quick_over_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -42,6 +44,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/quick_over_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -67,6 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/quick_over_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

@@ -29,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
     private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
+    private static final String HOME_FRAG_RUN = "com.janhoracek.doitwithandroid.HOME_FRAG_RUN";
+    private static final String TASKS_FRAG_RUN = "com.janhoracek.doitwithandroid.TASKS_FRAG_RUN";
 
     private Toolbar mToolbar;
     private SingleDateAndTimePicker mPickerStart;
@@ -65,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
                         .setMessage("\nThis action will close settings and will enable tutorial to run once again.\n\nDo you really want to play tutorial again?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                pref.edit().putBoolean(HOME_FRAG_RUN, true).apply();
                                 Intent intent = new Intent(SettingsActivity.this, ApplicationActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -111,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity {
                             pref.edit().putInt(END_HOUR, endHour).apply();
                             pref.edit().putInt(END_MINUTE, endMinute).apply();
                             pref.edit().putLong(PRODUCTIVITY_TIME, prodTime).apply();
-                            pref.edit().putLong(TIME_REMAINING, prodTime);
+                            pref.edit().putLong(TIME_REMAINING, prodTime).apply();
                             Intent intent = new Intent(SettingsActivity.this, ApplicationActivity.class);
                             startActivity(intent);
                             finish();

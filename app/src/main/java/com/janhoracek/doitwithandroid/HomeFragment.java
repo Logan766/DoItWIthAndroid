@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -173,10 +175,6 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-
-
-
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
                 long timeConsumed = 0;
 
@@ -268,12 +266,14 @@ public class HomeFragment extends Fragment{
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-
-
         FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
         //if(FirstRunCheck) {
-        if(false) {
-            pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
+        if(FirstRunCheck) {
+            saveTempTasks();
+            taskViewModel.deleteAllTasks();
+            taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+            taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+            taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 1440, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -289,18 +289,15 @@ public class HomeFragment extends Fragment{
                                 @Override
                                 public void onStarted() {
                                     Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
-                                    saveTempTasks();
-                                    taskViewModel.deleteAllTasks();
-                                    taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-                                    taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-                                    taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 1440, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
                                 }
 
                                 @Override
                                 public void onEnded() {
                                     Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
                                     taskViewModel.deleteAllTasks();
+                                    mViewPager.setCurrentItem(0);
                                     reloadTasks();
+                                    pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
                                 }
                             });
                     spot.start();
@@ -371,6 +368,16 @@ public class HomeFragment extends Fragment{
 
         targets.add(experienceTarget);
 
+        SimpleTarget timeRemainingTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Time remaining")
+                .setDescription("This is your time remaining today. It is how much working hours you have till the end of your day. Timer will stop when you add task, because application assumes that you gave started working. When you complete task, timer will recalculate how much time left.")
+                .setOverlayPoint(0, 250f)
+                .setPoint(v.findViewById(R.id.text_view_time_remaining))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.text_view_time_remaining).getHeight(), v.findViewById(R.id.text_view_time_remaining).getWidth() + 50f, 5f))
+                .build();
+
+        targets.add(timeRemainingTarget);
+
         SimpleTarget normalTaskTarget = new SimpleTarget.Builder(getActivity())
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
@@ -394,7 +401,7 @@ public class HomeFragment extends Fragment{
                 })
                 .setTitle("Tasks to do today")
                 .setDescription("There you can find tasks you should do today. You do not have to complete them in given order, order is just recommended. Every task have its own color based on its priority. RED means high, YELLOW is medium and GREEN is low. Experience gained per task is based on priority and its duration. When you complete task, simply swipe left to mark it as done.")
-                .setOverlayPoint(0f, 100f)
+                .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight() * 2, v.getWidth(), 5f))
                 .build();
@@ -412,13 +419,14 @@ public class HomeFragment extends Fragment{
                         mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
 
-                        /*
+
                         mScrollView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                                ObjectAnimator.ofInt(mScrollView, "scrollY",  mScrollView.getTop()).setDuration(3000).start();
+                                //mScrollView.smoothScrollTo(0, mScrollView.getBottom());
                             }
-                        },100);*/
+                        },300);
                     }
                     @Override
                     public void onEnded(SimpleTarget target) {
@@ -427,7 +435,7 @@ public class HomeFragment extends Fragment{
                 })
                 .setTitle("Gray tasks")
                 .setDescription("Gray tasks are same as normal tasks, only difference is that when your tasks are grayed out, the current time is not within you working time. You can still complete task as usual, but planner will not count their duration to your working time left today, also their completion time will be same as their estimated time. Feel free to complete task out of your working time, planner will recalculate your working plan :) ")
-                .setOverlayPoint(0f, 100f)
+                .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
                 .build();
@@ -451,44 +459,67 @@ public class HomeFragment extends Fragment{
                     }
                 })
                 .setTitle("Tasks on more parts")
-                .setDescription("If you do not have enough working time left today to fit in the whole task or you have task that is longer than you daily hours, you will still see this task on this list. Difference is, that you will this task with number of percent, which represents the part that will be completed when you mark this task as done")
-                .setOverlayPoint(0f, 100f)
+                .setDescription("If you do not have enough working time left today to fit in the whole task or you have task that is longer than you daily hours, you will still see this task on today list if its relevant. Difference is, that you will see this task with number of percent, which represents the part that will be completed when you mark this task as done")
+                .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
                 .build();
 
         targets.add(partedTaskTarget);
 
-
-        /*
-        int[] location = new int[2];
-
-        mRecyclerView.getLocationOnScreen(location);
-        int x = location[0];
-        int y = location[1];
-
-        SimpleTarget mRecyclerViewTarget = new SimpleTarget.Builder(getActivity())
-                .setPoint(mRecyclerView)
-                //.setPoint(x + v.getWidth() / 2 , y)
-                .setShape(new RoundedRectangle(100f, v.getWidth(), 5f)) // or RoundedRectangle()
-                .setDuration(1000L)
-                .setTitle("Tasks to do today")
-                .setDescription("Here you can see tasks that you should do today, simply swipe in any direction to mark them as completed")
-                //.setOverlayPoint(mRecyclerView.getX(), mRecyclerView.getY())
+        SimpleTarget overviewTarget = new SimpleTarget.Builder(getActivity())
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
                     public void onStarted(SimpleTarget target) {
-                        // do something
+                        mViewPager.setCurrentItem(1);
+
                     }
                     @Override
                     public void onEnded(SimpleTarget target) {
-                        // do something
+                        //taskViewModel.deleteAllTasks();
                     }
                 })
+                .setTitle("Quick overview")
+                .setDescription("If you swipe left on you current level, you will get to quick overview of your tasks. Here you cas see if you are able to get everything done within your deadlines.")
+                .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY())
+                .setPoint(v.findViewById(R.id.view_pager))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.view_pager).getHeight(), v.getWidth(), 5f))
                 .build();
 
+        targets.add(overviewTarget);
 
-        targets.add(mRecyclerViewTarget); */
+
+        SimpleTarget allTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("All tasks")
+                .setDescription("If you see this line with green check - Great! You are able to complete all your tasks and do not miss any deadline. Try to complete tasks as soon as possible to see this one green as often as you can.")
+                .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY())
+                .setPoint(v.getWidth() / 2f, v.findViewById(R.id.view_pager).getHeight() * 0.45f)
+                .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))
+                .build();
+
+        targets.add(allTaskTarget);
+
+        SimpleTarget mediumTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Medium priority tasks")
+                .setDescription("If all tasks overview goes to red and this line is still green, you do not have to worry much. This means that you are still able to complete all medium and high priority task and Do It With Android will prepare plan how to complete them with ease :). However if you see this line red, that means you are not able to complete all medium priority task, so you should start working more effectively or consider changin you priorities or deadlines.")
+                .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY() - 200f)
+                .setPoint(v.getWidth() / 2f, v.findViewById(R.id.view_pager).getHeight() * 0.7f)
+                .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))
+                .build();
+
+        targets.add(mediumTaskTarget);
+
+        SimpleTarget highTaskTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("High priority tasks")
+                .setDescription("If all other goes to red and high priority stays green, there is still hope. That means you are able to complete at least all your high priority tasks, planner will ignore lower priority tasks and will make you a plan to complete your important things. If you see this red, you are in a problem. Red means that you are not able to complete all your high priority tasks no matter what you do. You will have to work out of your working hours or you will have to change deadlines/priorities")
+                .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY() - 200f)
+                .setPoint(v.getWidth() /2f, v.findViewById(R.id.view_pager).getHeight() * 0.95f)
+                .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))
+                .build();
+
+        targets.add(highTaskTarget);
+
+
 
         return targets;
     }
