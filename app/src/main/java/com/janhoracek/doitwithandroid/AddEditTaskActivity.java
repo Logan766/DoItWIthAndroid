@@ -59,6 +59,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
     private ImageView mPriorityCircle;
     private SimpleDateFormat mDateFormatIso8601;
 
+    private int mCompleted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +182,10 @@ public class AddEditTaskActivity extends AppCompatActivity {
             mNumberPickerHours.setValue(intent.getIntExtra(EXTRA_DURATION, 1)/60);
             mNumberPickerMinutes.setValue((intent.getIntExtra(EXTRA_DURATION, 1) % 60) / 15 );
 
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            mCompleted = intent.getIntExtra(EXTRA_COMPLETED, 0);
+
+
             //bug fix
             try {
                 Method method = mNumberPickerMinutes.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
@@ -223,6 +229,10 @@ public class AddEditTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_DURATION, duration_time);
         data.putExtra(EXTRA_DEADLINE, deadline);
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        data.putExtra(EXTRA_COMPLETED, mCompleted);
+
+
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
         if (id != -1) {
             data.putExtra(EXTRA_ID, id);
@@ -237,6 +247,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
         Log.d("DIWD", "date month: " + calendar.get(Calendar.MONTH));
         Log.d("DIWD", "date day: " + calendar.get(Calendar.DAY_OF_MONTH) + 1);
         Log.d("DIWD", "time: " + calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE));
+
+        Log.d("Saving", "Completed is: " + mCompleted);
 
 
         finish();

@@ -64,13 +64,14 @@ public class FragmentCurrentTasks extends Fragment {
     private StatsViewModel mStatsViewModel;
     private ArchiveTaskViewModel mArchiveTaskViewModel;
     private NestedScrollView mScrollView;
+    private SharedPreferences pref;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_tasks_current, container, false);
-        final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         DateChangeChecker.getInstance().CheckDate(pref);
 
@@ -142,23 +143,7 @@ public class FragmentCurrentTasks extends Fragment {
                 if(direction == ItemTouchHelper.LEFT) {
                     taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
                 } else if (direction == ItemTouchHelper.RIGHT) {
-                    int expGained = mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()).getExp();
-                    int expNextLevel = pref.getInt(NEXT_EXPERIENCE, -1);
-                    int currExp = pref.getInt(USER_EXPERIENCE, -1);
-
-                    if(((currExp + expGained)/expNextLevel) > 0) {
-                        int oldLevel = pref.getInt(USER_LEVEL, -1);
-                        int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);
-                        pref.edit().putInt(USER_LEVEL, oldLevel + 1).apply();
-                        pref.edit().putInt(NEXT_EXPERIENCE, oldNextExp * 2).apply();
-                        pref.edit().putInt(USER_EXPERIENCE, currExp + expGained - expNextLevel).apply();
-                    } else {
-                        pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
-                    }
-                    mStatsViewModel.completeTask(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()), true);
-                    Taskers helpTask = mAdapterAll.getTaskAt(viewHolder.getAdapterPosition());
-                    mArchiveTaskViewModel.insert(new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
-                    taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
+                    completeTask(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
                 }
             }
 
@@ -200,6 +185,35 @@ public class FragmentCurrentTasks extends Fragment {
 
 
         return v;
+    }
+
+    private void completeTask(Taskers task) {
+        int expNextLevel = pref.getInt(NEXT_EXPERIENCE, -1);
+        int currExp = pref.getInt(USER_EXPERIENCE, -1);
+        int timeConsumption = task.getTime_consumption();
+        int completedTime = task.getCompleted();
+        int taskExp = task.getExp();
+        int expGained;
+
+        if(completedTime >= timeConsumption) {
+            expGained = 0;
+        } else {
+            expGained = Math.round(taskExp * (completedTime/(float) timeConsumption));
+        }
+
+
+        if(((currExp + expGained)/expNextLevel) > 0) {
+            int oldLevel = pref.getInt(USER_LEVEL, -1);
+            int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);
+            pref.edit().putInt(USER_LEVEL, oldLevel + 1).apply();
+            pref.edit().putInt(NEXT_EXPERIENCE, oldNextExp * 2).apply();
+            pref.edit().putInt(USER_EXPERIENCE, currExp + expGained - expNextLevel).apply();
+        } else {
+            pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
+        }
+        mStatsViewModel.completeTask(task, true);
+        mArchiveTaskViewModel.insert(new ArchivedTasks(task.getName(),task.getDescription(), task.getPriority(), task.getTime_consumption(), task.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
+        taskViewModel.delete(task);
     }
 
 
@@ -244,9 +258,14 @@ public class FragmentCurrentTasks extends Fragment {
             Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, completed );
             task.setId(id);
 
-            taskViewModel.update(task);
-
-            Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();
+            if(task.getCompleted() >= task.getTime_consumption()) {
+                completeTask(task);
+                Toast.makeText(getActivity(), "Task completed since its completion was over 100% ", Toast.LENGTH_SHORT).show();
+            } else {
+                taskViewModel.update(task);
+                Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();
+            }
+            
         } else {
             Toast.makeText(getActivity(), "Task not saved", Toast.LENGTH_SHORT).show();
         }
