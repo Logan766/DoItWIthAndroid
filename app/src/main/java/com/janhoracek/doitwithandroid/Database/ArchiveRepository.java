@@ -38,6 +38,10 @@ public class ArchiveRepository {
         return allTasks;
     }
 
+    public List<ArchivedTasks> getAllArchivesList(){
+        return archiveDao.getAllArchivesList();
+    }
+
 
     private static class InsertTaskAsyncTask extends AsyncTask<ArchivedTasks, Void, Void> {
         private ArchiveStatsDao aTaskDao;

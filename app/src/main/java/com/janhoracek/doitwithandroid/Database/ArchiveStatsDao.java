@@ -27,4 +27,7 @@ public interface ArchiveStatsDao {
     @Query("SElECT * FROM archive_stats_table ORDER BY id DESC")
     LiveData<List<ArchivedTasks>> getAllArchives();
 
+    @Query("SElECT * FROM archive_stats_table ORDER BY id DESC")
+    List<ArchivedTasks> getAllArchivesList();
+
 }

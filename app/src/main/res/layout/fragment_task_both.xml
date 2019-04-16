@@ -13,23 +13,23 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <RelativeLayout
+            android:id="@+id/fragment_both_status"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
-            android:background="@color/colorAccent"
-            >
+            android:background="@color/colorAccent">
 
             <RelativeLayout
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_all"
-                    android:layout_marginEnd="5dp"
-                    android:padding="3dp"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="5dp"
+                    android:padding="3dp"
                     app:lottie_autoPlay="true" />
 
                 <TextView
@@ -44,11 +44,11 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_medium"
-                    android:padding="3dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_toEndOf="@+id/text_both_all"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/text_both_all"
+                    android:padding="3dp"
                     app:lottie_autoPlay="true" />
 
                 <TextView
@@ -63,11 +63,11 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_high"
-                    android:layout_marginEnd="5dp"
-                    android:padding="3dp"
-                    android:layout_toEndOf="@+id/text_both_medium"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/text_both_medium"
+                    android:padding="3dp"
                     app:lottie_autoPlay="true" />
 
                 <TextView
@@ -92,7 +92,6 @@
                     app:lottie_loop="true" />
 
             </RelativeLayout>
-
 
 
         </RelativeLayout>

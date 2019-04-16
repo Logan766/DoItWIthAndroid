@@ -44,4 +44,8 @@ public class ArchiveTaskViewModel extends AndroidViewModel {
     public LiveData<List<ArchivedTasks>> getAllTasks() {
         return allTasks;
     }
+
+    public List<ArchivedTasks> getAllTasksList() {
+        return repository.getAllArchivesList();
+    }
 }

@@ -1,7 +1,9 @@
 package com.janhoracek.doitwithandroid;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +27,13 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
+import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
+import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.shape.RoundedRectangle;
@@ -55,6 +60,7 @@ public class TaskFragment extends Fragment {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private StatsViewModel mStatsViewModel;
+    private ArchiveTaskViewModel mArchiveTaskViewModel;
 
 
     private LottieAnimationView mLottieAnimationViewAll;
@@ -66,6 +72,7 @@ public class TaskFragment extends Fragment {
     private boolean FirstRunCheck;
 
     List<Taskers> tempSave = new ArrayList<>();
+    List<ArchivedTasks> tempSaveArchive = new ArrayList<>();
 
 
     @Nullable
@@ -79,6 +86,8 @@ public class TaskFragment extends Fragment {
         mLottieAnimationViewDeadline = v.findViewById(R.id.lottie_deadline);
 
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
+        mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
 
         mTooltip = new Tooltip.Builder(mLottieAnimationViewDeadline)
                 .setText("Some tasks are after their deadline")
@@ -141,10 +150,6 @@ public class TaskFragment extends Fragment {
         }
 
 
-
-
-
-        mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         new DateHandler().checkLastDate(mStatsViewModel);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
@@ -156,10 +161,10 @@ public class TaskFragment extends Fragment {
 
         FirstRunCheck = pref.getBoolean(TASKS_FRAG_RUN, true);
         //if(FirstRunCheck) {
-        if(true) {
+        if(FirstRunCheck) {
             saveTempTasks();
             taskViewModel.deleteAllTasks();
-            taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 660000, 0, 0));
+            taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 3600000, 0, 0));
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -180,9 +185,10 @@ public class TaskFragment extends Fragment {
                                 public void onEnded() {
                                     Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
                                     taskViewModel.deleteAllTasks();
+                                    mArchiveTaskViewModel.deleteAllTasks();
                                     //mViewPager.setCurrentItem(0);
                                     reloadTasks();
-                                    //pref.edit().putBoolean(TASKS_FRAG_RUN, false).apply();
+                                    pref.edit().putBoolean(TASKS_FRAG_RUN, false).apply();
                                 }
                             });
                     spot.start();
@@ -204,28 +210,188 @@ public class TaskFragment extends Fragment {
                 .setOverlayPoint(0, v.getHeight() / 2f)
                 .build();
 
-        //targets.add(welcomeTarget);
+        targets.add(welcomeTarget);
 
         SimpleTarget currentTasksTarget = new SimpleTarget.Builder(getActivity())
                 .setTitle("Tasks")
-                .setDescription("Here you can see all of your unfinished tasks. You can see their title, description, deadline and on some of them there is more information. You will learn about this in short time.")
-                .setOverlayPoint(0, v.getHeight() / 2f)
-                .setPoint(v.findViewById(R.id.view_pager_tasks))
+                .setDescription("Here you can see all of your unfinished tasks. You can see their title, description, deadline (fire icon), estimated duration (clock icon) and on some of them there is more information. You will learn about this in short time.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        taskViewModel.deleteAllTasks();
+                        taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 3600000, 0, 15));
+                    }
+                })
                 .build();
 
         targets.add(currentTasksTarget);
+
+        SimpleTarget partedTasksTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Partly completed tasks")
+                .setDescription("When you complete just a part of your task (as you learnt on home screen) you will see how many percent of this task is completed as number with percentage and small progress under task.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .build();
+
+        targets.add(partedTasksTarget);
+
+        SimpleTarget swipingTasksTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Complete/delete/edit")
+                .setDescription("If you want to edit task long press on it. To complete task from this screen simply swipe RIGHT and to delete task swipe LEFT.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        taskViewModel.deleteAllTasks();
+                        taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 3600, 0, 0));
+                    }
+                })
+                .build();
+
+        targets.add(swipingTasksTarget);
+
+        SimpleTarget deadlineTasksTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Tasks after deadline")
+                .setDescription("When you see the deadline icon (fire) with red color, that means that this task is after its deadline. You should revisit it, since planner do not count it in your current tasks plan.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        taskViewModel.deleteAllTasks();
+                        taskViewModel.insert(new Taskers("Pay bills", "Pay bill for electricity", 2, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 3600, 0, 0));
+                    }
+                })
+                .build();
+
+        targets.add(deadlineTasksTarget);
+
+        SimpleTarget deadlineUndoableTasksTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Undoable tasks")
+                .setDescription("When fire turns into red flashing exclamation mark, that means this task can never meet its deadline, even if you skip lower priority tasks. There task will not show on your daily tasks, since we think that it is better to complete at least something within its deadline, than more tasks after deadlines. Try to revisit these tasks.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        taskViewModel.deleteAllTasks();
+                    }
+                })
+                .build();
+
+        targets.add(deadlineUndoableTasksTarget);
+
+        SimpleTarget focusTasksTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Focus recommendation")
+                .setDescription("If you see warning sign on tasks priority strip, that means you cannot complete all tasks within their deadlines. This warning sign shows by tasks that you should focus on as they have higher priority")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() *2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 15, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 1000000, 0, 0));
+                        taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 150, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 1000000, 0, 0));
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+
+                    }
+                })
+                .build();
+
+        targets.add(focusTasksTarget);
+
+        SimpleTarget archiveTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Archive")
+                .setDescription("When you tap on archive tab, you will get to archive. All completed tasks are stored here, you can see info about these tasks as when you completed it and what was its real duration (tasks completed out of your working time will have their estimated time written here). If you want to reopen task (in case that new task is similar or the task is repeating) simply tap on that task and change relevant data. If you swipe RIGHT you can delete task from archive.")
+                .setOverlayPoint(0, v.findViewById(R.id.task_fragment_recyclerview).getY() + v.findViewById(R.id.task_fragment_recyclerview).getHeight() * 2)
+                .setPoint(v.findViewById(R.id.task_fragment_recyclerview))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.task_fragment_recyclerview).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        mViewPager.setCurrentItem(1);
+                        mArchiveTaskViewModel.insert(new ArchivedTasks("Call mom", "Tell mom to have a nice day", 1, 120, new DateHandler().getCurrentDateTimeInMilisec(), new DateHandler().getCurrentDateTimeInMilisec() + 7200000));
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+                        mViewPager.setCurrentItem(0);
+                    }
+                })
+                .build();
+
+        targets.add(archiveTarget);
+
+        SimpleTarget topScreenTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Top screen info")
+                .setDescription("On top of the screen, you can see quick status of your tasks (same as on home screen) so you do not have to switch back to home to see status of your tasks")
+                .setOverlayPoint(0, v.getWidth() /2f)
+                .setPoint(v.findViewById(R.id.fragment_both_status))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.fragment_both_status).getHeight(), v.getWidth(), 5f))
+                .build();
+
+        targets.add(topScreenTarget);
+
+        SimpleTarget topScreenDeadlineTarget = new SimpleTarget.Builder(getActivity())
+                .setTitle("Deadline alert")
+                .setDescription("If red exclamation mark appears in top status bar, that means some of your tasks are already after deadline so you should be aware of that.")
+                .setOverlayPoint(0, v.getWidth() /2f)
+                .setPoint(v.findViewById(R.id.fragment_both_status))
+                .setShape(new RoundedRectangle(v.findViewById(R.id.fragment_both_status).getHeight(), v.getWidth(), 5f))
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+                        taskViewModel.deleteAllTasks();
+                        taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 15, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 3600, 0, 0));
+                    }
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+
+                    }
+                })
+                .build();
+
+        targets.add(topScreenDeadlineTarget);
 
         return targets;
     }
 
     private void saveTempTasks() {
         tempSave = taskViewModel.getAllTasksList();
+        tempSaveArchive = mArchiveTaskViewModel.getAllTasksList();
     }
 
     private void reloadTasks() {
         for(int i = 0; i <= tempSave.size()-1; i++) {
             taskViewModel.insert(tempSave.get(i));
+        }
+        for(int i = 0; i <= tempSaveArchive.size()-1; i++) {
+            mArchiveTaskViewModel.insert(tempSaveArchive.get(i));
         }
     }
 
