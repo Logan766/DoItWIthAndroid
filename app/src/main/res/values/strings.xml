@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">DoItWithAndroid</string>
+    <string name="app_name" translatable="false">DoItWithAndroid</string>
     <string name="action_settings">Settings</string>
     <string name="navigation_task">Tasks</string>
     <string name="navigation_home">Home</string>
     <string name="navigation_graphs">Stats</string>
     <string name="action_about">About</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="add_edit_task_date_format">d.M.yyyy    HH:mm</string>
+    <string name="add_edit_task_date_format" translatable="false">d.M.yyyy    HH:mm</string>
     <string name="add_edit_task_priority_high">High</string>
     <string name="add_edit_task_priority_medium">Medium</string>
     <string name="add_edit_task_priority_low">Low</string>
@@ -36,8 +36,8 @@
     <string name="tutorial_buy_milk_des">Buy the freshest milk I can get</string>
     <string name="tutorial_go_to_work_title">Go to work</string>
     <string name="tutorial_go_to_work_des">Make some money</string>
-    <string name="hours_short">h</string>
-    <string name="minutes_short">min</string>
+    <string name="hours_short" translatable="false">h</string>
+    <string name="minutes_short" translatable="false">min</string>
     <string name="home_fragment_tutorial_welcome_title">Welcome</string>
     <string name="home_fragment_tutorial_welcome_des">Welcome to DoItWithAndroid, since this is your first run, lets take a look on how to use this awesome app</string>
     <string name="home_fragment_tutorial_menu_title">Menu</string>
@@ -88,7 +88,7 @@
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
     <string name="start_time">Start Time</string>
-    <string name="end_time">End TIme</string>
+    <string name="end_time">End Time</string>
     <string name="run_tutorial_again">Run tutorial again</string>
     <string name="welcome_and_do_it_with_android">Welcome and Do It With Android!</string>
     <string name="first_run_1_des">Thank you for installing this app. It will help you to do things more effectively and also it will help to stop procrastinating. Since this is your first run, we have to Do some things first to get you started.  I hope you will enjoy and you will improve your time management</string>
@@ -118,7 +118,7 @@
     <string name="tasks_fragment_tutorial_udnoable_title">Undoable tasks</string>
     <string name="tasks_fragment_tutorial_undoable_des">When fire turns into red flashing exclamation mark, that means this task can never meet its deadline, even if you skip lower priority tasks. There task will not show on your daily tasks, since we think that it is better to complete at least something within its deadline, than more tasks after deadlines. Try to revisit these tasks.</string>
     <string name="tasks_fragment_tutorial_focus_title">Focus recommendation</string>
-    <string name="tasks_fragment_tutorial_focus_des">If you see warning sign on tasks priority strip, that means you cannot complete all tasks within their deadlines. This warning sign shows by tasks that you should focus on as they have higher priority</string>
+    <string name="tasks_fragment_tutorial_focus_des">If you see warning sign on tasks priority strip, that means you cannot complete all tasks within their deadlines. This warning sign shown by tasks means that you should focus on them as they have higher priority</string>
     <string name="tasks_fragment_tutorial_archive_title">Archive</string>
     <string name="tasks_fragment_tutorial_archive_des">When you tap on archive tab, you will get to archive. All completed tasks are stored here, you can see info about these tasks as when you completed it and what was its real duration (tasks completed out of your working time will have their estimated time written here). If you want to reopen task (in case that new task is similar or the task is repeating) simply tap on that task and change relevant data. If you swipe RIGHT you can delete task from archive.</string>
     <string name="tasks_fragment_tutorial_top_screen_title">Top screen info</string>
@@ -135,12 +135,12 @@
     <string name="graph_legend_priority_medium">Medium priority</string>
     <string name="graph_legend_priority_low">Low priority</string>
     <string name="graph_no_data">No data</string>
-    <string name="do_it_with_android">Do It With Android</string>
+    <string name="do_it_with_android" translatable="false">Do It With Android</string>
     <string name="about_version">Version:</string>
     <string name="about_author_label">Author:</string>
-    <string name="me">Jan Horáček</string>
+    <string name="me" translatable="false">Jan Horáček</string>
     <string name="about_contact">Contact:</string>
-    <string name="me_mail">horacek.94@gmail.com</string>
+    <string name="me_mail" translatable="false">horacek.94@gmail.com</string>
     <string name="about_awareness_title">Diclaimer</string>
     <string name="about_awareness_data">Please be aware that author is not responsible for any missed deadline using this application. Use this application at your own risk as you can still miss any of your deadlines with no author responsibility.</string>
     <string name="mail_subject">Do It With Android Feedback</string>
