@@ -26,12 +26,14 @@ public class LineItem extends  ChartItem {
     private String mTitle;
     private LineChart mLineChart;
     private int mLineGraphKind;
+    private Context mContext;
 
-    public LineItem(ChartData<?> chartData, String title, int lineGraphKind) {
+    public LineItem(ChartData<?> chartData, String title, int lineGraphKind, Context context) {
         super(chartData);
         mLineData = (LineData) chartData;
         this.mTitle = title;
         this.mLineGraphKind = lineGraphKind;
+        this.mContext = context;
     }
 
     @Override

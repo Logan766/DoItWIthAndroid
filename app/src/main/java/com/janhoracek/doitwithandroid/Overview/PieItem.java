@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid.Overview;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.Chart;
@@ -8,6 +9,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
+import com.janhoracek.doitwithandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +22,14 @@ public class PieItem extends ChartItem {
     private String mTitle;
     private PieChart mPieChart;
     private int mPieGraphKind;
+    private Context mContext;
 
-    public PieItem(ChartData<?> chartData, String title, int pieGraphKind) {
+    public PieItem(ChartData<?> chartData, String title, int pieGraphKind, Context context) {
         super(chartData);
         this.mPieData = (PieData) chartData;
         this.mTitle = title;
         this.mPieGraphKind = pieGraphKind;
+        this.mContext = context;
     }
 
     @Override
@@ -58,9 +62,9 @@ public class PieItem extends ChartItem {
         legend.setTextSize(12f);
         legend.setTextColor(Color.BLACK);
         List<LegendEntry> entries = new ArrayList<>();
-        entries.add(new LegendEntry("High priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(239, 83, 80)));
-        entries.add(new LegendEntry("Medium priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(255,202,40)));
-        entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(156,204,101)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_high), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(239, 83, 80)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_medium), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(255,202,40)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_low), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(156,204,101)));
         legend.setCustom(entries);
         legend.setXEntrySpace(5f);
     }

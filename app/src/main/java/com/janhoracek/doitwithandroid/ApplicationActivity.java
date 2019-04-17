@@ -36,7 +36,6 @@ public class ApplicationActivity extends AppCompatActivity {
 
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
-    ///private Fragment mTask = new FragmentTasks(); ////
     private StatsViewModel mStatsViewModel;
     private TaskViewModel mTaskViewModel;
     private SharedPreferences pref;
@@ -57,12 +56,9 @@ public class ApplicationActivity extends AppCompatActivity {
         mTaskViewModel.checkAllDoables(mTaskViewModel.getAllTasksList(), pref);
 
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
-        //new DateHandler().checkLastDate(mStatsViewModel);
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
             public void onChanged(@Nullable List<Stats> stats) {
-                Log.d("GGR", "Graf updated");
-                Log.d("GGR", "Velikost stats: " + stats.size());
                 ChartDataHolder.getInstance().setmLineChartData(stats);
                 ChartDataHolder.getInstance().setmBarDataMonth(mStatsViewModel.getTasksDoneByMonths());
                 ChartDataHolder.getInstance().setmBarDataDay(stats);
@@ -115,10 +111,8 @@ public class ApplicationActivity extends AppCompatActivity {
                 }
                 if(mOldMenu == menuItem.getItemId()) return true;
                 if((mOldMenu == R.id.navigation_home) && (menuItem.getItemId() == R.id.navigation_graphs)) {
-                    Log.d("DIWD", "Z home na grafy");
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right_short, R.anim.exit_to_left_short).replace(R.id.fragment_container,selectedFragment).commit();
                 } else if((mOldMenu == R.id.navigation_graphs) && (menuItem.getItemId() == R.id.navigation_home)) {
-                    Log.d("DIWD", "Z grafu na home");
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_left_short, R.anim.exit_to_right_short).replace(R.id.fragment_container,selectedFragment).commit();
                 } else {getSupportFragmentManager().beginTransaction().setCustomAnimations(enter, exit).replace(R.id.fragment_container,selectedFragment).commit();}
                 mOldMenu = menuItem.getItemId();
@@ -130,9 +124,14 @@ public class ApplicationActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(ApplicationActivity.this, SettingsActivity.class);
+                intent = new Intent(ApplicationActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_about:
+                intent = new Intent(ApplicationActivity.this, AboutActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -143,7 +142,6 @@ public class ApplicationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }

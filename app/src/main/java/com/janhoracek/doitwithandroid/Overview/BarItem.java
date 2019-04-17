@@ -1,5 +1,6 @@
 package com.janhoracek.doitwithandroid.Overview;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsByMonth;
+import com.janhoracek.doitwithandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,14 @@ public class BarItem extends ChartItem {
     private String mTitle;
     private BarChart mBarChart;
     private int mBarGraphKind;
+    private Context mContext;
 
-    public BarItem(ChartData<?> chartData, String title, int barGraphKind) {
+    public BarItem(ChartData<?> chartData, String title, int barGraphKind, Context context) {
         super(chartData);
         this.mBarData = (BarData) chartData;
         this.mTitle = title;
         this.mBarGraphKind = barGraphKind;
+        this.mContext = context;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class BarItem extends ChartItem {
         // apply styling
 
         mBarChart = (BarChart) chart;
-        mBarChart.setNoDataText("No data");
+        mBarChart.setNoDataText(mContext.getString(R.string.graph_no_data));
         mBarChart.getDescription().setEnabled(false);
         mBarChart.setDrawGridBackground(false);
         mBarChart.setDrawBarShadow(false);
@@ -69,9 +73,9 @@ public class BarItem extends ChartItem {
         legend.setTextSize(12f);
         legend.setTextColor(Color.BLACK);
         List<LegendEntry> entries = new ArrayList<>();
-        entries.add(new LegendEntry("High priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(239, 83, 80)));
-        entries.add(new LegendEntry("Medium priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(255,202,40)));
-        entries.add(new LegendEntry("Low priority", Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(156,204,101)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_high), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(239, 83, 80)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_medium), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(255,202,40)));
+        entries.add(new LegendEntry(mContext.getString(R.string.graph_legend_priority_low), Legend.LegendForm.CIRCLE, 10f, Float.NaN, null, rgb(156,204,101)));
         legend.setCustom(entries);
         legend.setXEntrySpace(5f);
 

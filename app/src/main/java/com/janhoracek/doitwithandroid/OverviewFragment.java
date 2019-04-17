@@ -73,10 +73,10 @@ public class OverviewFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), getString(R.string.fragment_overview_line_experience), 1));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2));
-        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1));
+        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), getString(R.string.fragment_overview_line_experience), 1, getActivity()));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1, getActivity()));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2, getActivity()));
+        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1, getActivity()));
 
         final GraphAdaper adaper = new GraphAdaper();
         adaper.setGraphs(items);
