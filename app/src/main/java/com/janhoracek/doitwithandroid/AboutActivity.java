@@ -47,11 +47,20 @@ public class AboutActivity extends AppCompatActivity {
         mTextViewMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                /*Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                         "mailto",getString(R.string.me_mail), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.mail_subject);
                 intent.putExtra(Intent.EXTRA_TEXT, R.string.mail_text);
-                startActivity(Intent.createChooser(intent, getString(R.string.mail_choose)));
+                startActivity(Intent.createChooser(intent, getString(R.string.mail_choose)));*/
+
+                Intent send = new Intent(Intent.ACTION_SENDTO);
+                String uriText = "mailto:" + Uri.encode(getString(R.string.me_mail)) +
+                        "?subject=" + Uri.encode(getString(R.string.mail_subject)) +
+                        "&body=" + Uri.encode(getString(R.string.mail_text));
+                Uri uri = Uri.parse(uriText);
+
+                send.setData(uri);
+                startActivity(Intent.createChooser(send, getString(R.string.mail_choose)));
             }
         });
 
