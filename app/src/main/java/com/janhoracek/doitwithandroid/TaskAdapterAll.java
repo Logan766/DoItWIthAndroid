@@ -27,7 +27,6 @@ import static android.graphics.Color.rgb;
 
 public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHolder> {
     private OnTaskClickListener mListener;
-    private SimpleDateFormat mDateFormat;
     private Context mContext;
 
     public TaskAdapterAll(Context context) {
@@ -74,7 +73,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-        mDateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
         Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:
@@ -184,7 +183,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
         holder.mTextViewEstTime.setText(String.valueOf(currentTaskers.getTime_consumption()));
-        holder.mTextViewDeadline.setText(mDateFormat.format(currentTaskers.getD_time_milisec()));
+        holder.mTextViewDeadline.setText(dateFormat.format(currentTaskers.getD_time_milisec()));
 
 
         if(currentTaskers.getCompleted() > 0) {
@@ -251,7 +250,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             });
 
             mTooltipDeadline = new Tooltip.Builder(mLottieUndoable)
-                    .setText("This deadline cannot be met!")
+                    .setText(mContext.getString(R.string.task_adapter_deadline_not_completable))
                     .setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent))
                     .setTextColor(mContext.getResources().getColor(R.color.backgroundNormal))
                     .setDismissOnClick(true)
@@ -269,7 +268,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             });
 
             mTooltipFocus = new Tooltip.Builder(mLinearLayoutDoableAll)
-                    .setText("You should focus on this task")
+                    .setText(mContext.getString(R.string.task_adapter_focus_task))
                     .setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent))
                     .setTextColor(mContext.getResources().getColor(R.color.backgroundNormal))
                     .setDismissOnClick(true)

@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -25,17 +24,8 @@ import androidx.lifecycle.ViewModelProviders;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.Days;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -46,7 +36,7 @@ public class ApplicationActivity extends AppCompatActivity {
 
     private int mOldMenu;
     private Fragment mHome = new HomeFragment();
-    ///private Fragment mTask = new TaskFragment(); ////
+    ///private Fragment mTask = new FragmentTasks(); ////
     private StatsViewModel mStatsViewModel;
     private TaskViewModel mTaskViewModel;
     private SharedPreferences pref;
@@ -101,7 +91,7 @@ public class ApplicationActivity extends AppCompatActivity {
                         exit = R.anim.exit_to_right;
                         break;
                     case R.id.navigation_task:
-                        selectedFragment = new TaskFragment(); ////////
+                        selectedFragment = new FragmentTasks(); ////////
                         mToolbar.setTitle(R.string.navigation_task);
                         if(mOldMenu == R.id.navigation_home) {
                             enter = R.anim.enter_from_right;

@@ -13,7 +13,7 @@
         android:fontFamily="sans-serif-thin"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="Welcome\nand\nDo It With Android!"
+        android:text="@string/welcome_and_do_it_with_android"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="36sp" />
@@ -25,7 +25,7 @@
         android:layout_below="@+id/text_view_first_run_header"
         android:layout_marginTop="30dp"
         android:padding="10dp"
-        android:text="Thank you for installing this app. It will help you to do things more effectively and also it will help to stop procrastinating. Since this is your first run, we have to Do some things first to get you started.\n I hope you will enjoy and you will improve your time management"
+        android:text="@string/first_run_1_des"
         android:textSize="18sp" />
 
     <ImageView

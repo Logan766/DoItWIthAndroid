@@ -39,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/lottie_all"
-                    android:text="All tasks"
+                    android:text="@string/fragment_tasks_all"
                     android:textColor="@color/backgroundNormal" />
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -58,7 +58,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/lottie_medium"
-                    android:text="Medium"
+                    android:text="@string/fragment_tasks_medium"
                     android:textColor="@color/backgroundNormal" />
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/lottie_high"
-                    android:text="High"
+                    android:text="@string/fragment_tasks_high"
                     android:textColor="@color/backgroundNormal" />
 
                 <com.airbnb.lottie.LottieAnimationView

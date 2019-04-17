@@ -109,7 +109,6 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
 
     }
 
-
     class TaskHolder extends  RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
@@ -127,10 +126,5 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
             mPriority = itemView.findViewById(R.id.priority_today);
             mTextViewCompleted = itemView.findViewById(R.id.completed_percent);
         }
-
-        public void neco() {
-
-        }
-
     }
 }

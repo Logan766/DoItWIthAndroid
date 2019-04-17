@@ -12,5 +12,5 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="145dp"
         android:layout_marginTop="200dp"
-        android:text="Information" />
+        android:text="@string/first_run2_des" />
 </RelativeLayout>

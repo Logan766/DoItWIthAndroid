@@ -13,7 +13,7 @@
         android:layout_marginEnd="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Please set the time you normally start working, that means when you are ready to start working, e.g. after you eat your breakfast and or you drink your first coffee. " />
+        android:text="@string/first_run3_start_des" />
 
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/first_run_time_pick_start"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/text_view_first_run_third_1"
         android:layout_marginTop="170dp"
         android:layout_centerHorizontal="true"
-        android:text="Enter the time you normally stop being productive, it should not be just before you go to bed, but the time you stop working e.g. before you have your dinner and go watch TV or even before you go to brush your teeth for someone who is really productive!" />
+        android:text="@string/first_run3_end_des" />
 
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/first_run_time_pick_end"
@@ -73,6 +73,6 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
-        android:text="Complete" />
+        android:text="@string/complete" />
 
 </RelativeLayout>

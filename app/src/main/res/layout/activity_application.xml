@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/background_gradient"
-            app:title="Ahoj"></androidx.appcompat.widget.Toolbar>
+            app:title="Placeholder" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout

@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="You can complete all tasks!"
+                android:text="@string/fragment_home_overview_all_task_succ"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="Medium and higher tasks completable"
+                android:text="@string/fragment_home_overview_med_task_succ"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="You can complete all high priority tasks" />
+                android:text="@string/fragment_home_overview_high_task_succ" />
         </LinearLayout>
 
     </LinearLayout>

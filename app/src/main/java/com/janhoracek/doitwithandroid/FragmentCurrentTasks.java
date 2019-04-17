@@ -16,32 +16,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import devlight.io.library.ArcProgressStackView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
-import com.takusemba.spotlight.OnSpotlightStateChangedListener;
-import com.takusemba.spotlight.OnTargetStateChangedListener;
-import com.takusemba.spotlight.Spotlight;
-import com.takusemba.spotlight.shape.Circle;
-import com.takusemba.spotlight.shape.RoundedRectangle;
-import com.takusemba.spotlight.target.SimpleTarget;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,13 +76,13 @@ public class FragmentCurrentTasks extends Fragment {
             public void onChanged(@Nullable List<Taskers> taskers) {
                 if(taskers.size() != 0) {
                     taskViewModel.checkAllDoables(taskers, pref);
-                    ((TaskFragment)getParentFragment()).redrawLottie();
+                    ((FragmentTasks)getParentFragment()).redrawLottie();
                 } else {
                     ChartDataHolder.getInstance().setHighTasksDoable(true);
                     ChartDataHolder.getInstance().setMediumTasksDoable(true);
                     ChartDataHolder.getInstance().setAllTasksDoable(true);
                     ChartDataHolder.getInstance().setDeadlinesDoable(true);
-                    ((TaskFragment)getParentFragment()).redrawLottie();
+                    ((FragmentTasks)getParentFragment()).redrawLottie();
                 }
 
                 mAdapterAll.submitList(taskers);
