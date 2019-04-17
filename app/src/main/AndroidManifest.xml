@@ -20,10 +20,6 @@
             android:name=".AddEditTaskActivity"
             android:parentActivityName=".ApplicationActivity" />
         <activity
-            android:name=".ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ApplicationActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

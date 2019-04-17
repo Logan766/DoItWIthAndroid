@@ -73,10 +73,10 @@ public class OverviewFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), "Experience gained", 1));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), "Tasks completed per day", 1));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), "Tasks completed per month", 2));
-        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), "Tasks priority ratio", 1));
+        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), getString(R.string.fragment_overview_line_experience), 1));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1));
+        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2));
+        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1));
 
         final GraphAdaper adaper = new GraphAdaper();
         adaper.setGraphs(items);
@@ -129,8 +129,8 @@ public class OverviewFragment extends Fragment {
 
         SimpleTarget welcomeTarget = new SimpleTarget.Builder(getActivity())
                 .setShape(new Circle(0))
-                .setTitle("Statistics")
-                .setDescription("Statistics screen is exactly what it sounds to be. You can see statistics about your progress, completed tasks and more. Just scroll down and look at your statistics :)")
+                .setTitle(getString(R.string.overview_fragment_tutorial_statistics_title))
+                .setDescription(getString(R.string.fragment_overview_statistics_des))
                 .setOverlayPoint(0, v.getHeight() / 2f)
                 .build();
 

@@ -94,7 +94,7 @@ public class FragmentArchivedTasks extends Fragment {
                         .addSwipeRightActionIcon(R.drawable.ic_delete_sweep_black_24dp)
                         .addSwipeRightLabel("Doprava")
                         .setSwipeRightLabelColor(Color.WHITE)
-                        .addSwipeLeftLabel("Delete")
+                        .addSwipeLeftLabel(getString(R.string.task_delete))
                         .setSwipeLeftLabelColor(Color.BLACK)
                         .create()
                         .decorate();
@@ -131,7 +131,7 @@ public class FragmentArchivedTasks extends Fragment {
             int id = data.getIntExtra(AddEditTaskActivity.EXTRA_ID, -1);
 
             if(id == -1) {
-                Toast.makeText(getActivity(), "Task cannot be updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.fragment_archived_tasks_cannot_update_task), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -147,9 +147,9 @@ public class FragmentArchivedTasks extends Fragment {
             Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, 0 );
             mTaskViewModel.insert(task);
 
-            Toast.makeText(getActivity(), "Task reopened successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.fragment_archived_tasks_reopen_task), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), "Task not reopened", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.fragment_archived_tasks_task_not_reopen), Toast.LENGTH_SHORT).show();
         }
     }
 

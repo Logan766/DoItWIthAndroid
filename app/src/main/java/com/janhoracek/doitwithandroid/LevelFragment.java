@@ -62,7 +62,7 @@ public class LevelFragment extends UpdateableFragment {
         mGraph = v.findViewById(R.id.arcProgressStackViewLevel);
 
         float progress = (((float) pref.getInt(USER_EXPERIENCE, -1)) / pref.getInt(NEXT_EXPERIENCE, -1)) * 100;
-        models.add(new ArcProgressStackView.Model("Progress", progress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
+        models.add(new ArcProgressStackView.Model(getString(R.string.level_fragment_progress), progress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
         mGraph.setModels(models);
         update();
         return v;
@@ -96,7 +96,7 @@ public class LevelFragment extends UpdateableFragment {
 
             ArrayList<ArcProgressStackView.Model> progress = new ArrayList<>();
             float newProgress = (((float) pref.getInt(USER_EXPERIENCE, -1)) / (pref.getInt(NEXT_EXPERIENCE, -1))) * 100;
-            progress.add(new ArcProgressStackView.Model("Progress", newProgress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
+            progress.add(new ArcProgressStackView.Model(getString(R.string.level_fragment_progress), newProgress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
             //progress.add(new ArcProgressStackView.Model("Progress", newProgress, Color.RED, Color.GRAY));
             mGraph.setModels(progress);
             mGraph.animateProgress();
@@ -110,7 +110,7 @@ public class LevelFragment extends UpdateableFragment {
             Log.d(TAG, "new Progress: " + newProgress);
 
             ArrayList<ArcProgressStackView.Model> progress = new ArrayList<>();
-            progress.add(new ArcProgressStackView.Model("Progress", newProgress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
+            progress.add(new ArcProgressStackView.Model(getString(R.string.level_fragment_progress), newProgress, getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.LevelBar)));
             mGraph.setModels(progress);
             long progressTime = (long) (mGraph.getAnimationDuration() * (oldProgress / newProgress));
             Log.d(TAG, "Progress time: " + progressTime);

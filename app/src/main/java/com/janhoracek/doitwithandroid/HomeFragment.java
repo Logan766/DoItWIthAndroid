@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment{
 
                 //timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
-                int expGain = 0;
+                int expGain;
                 if(adapter.getTaskAt(viewHolder.getAdapterPosition()).getTo_be_done() > 0) {
                     Log.d(TAG, "Task je pulenej");
                     Taskers uTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment{
 
 
                 Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.coord_layout),
-                        "Task done! Good work!", Snackbar.LENGTH_LONG);
+                        getString(R.string.home_fragment_task_done), Snackbar.LENGTH_LONG);
                 CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
                         snack.getView().getLayoutParams();
                 params.setMargins(0, 0, 0, getActivity().findViewById(R.id.bottom_navigation).getHeight());
@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment{
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
                         .addSwipeLeftActionIcon(R.drawable.ic_check_black_24dp)
-                        .addSwipeLeftLabel("Complete task")
+                        .addSwipeLeftLabel(getString(R.string.complete_task))
                         .setSwipeLeftLabelColor(Color.BLACK)
                         .create()
                         .decorate();
@@ -271,13 +271,12 @@ public class HomeFragment extends Fragment{
         if(FirstRunCheck) {
             saveTempTasks();
             taskViewModel.deleteAllTasks();
-            taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-            taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-            taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 1440, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+            taskViewModel.insert(new Taskers(getString(R.string.tutorial_title_call_mom), getString(R.string.tutorial_title_call_mom_des), 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+            taskViewModel.insert(new Taskers(getString(R.string.tutorial_buy_milk_title), getString(R.string.tutorial_buy_milk_des), 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
+            taskViewModel.insert(new Taskers(getString(R.string.tutorial_go_to_work_title), getString(R.string.tutorial_go_to_work_des), 3, 1440, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    List<Taskers> tempSave = new ArrayList<>();
                     v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     final Spotlight spot = Spotlight.with(getActivity())
                             .setOverlayColor(R.color.background)
@@ -312,8 +311,7 @@ public class HomeFragment extends Fragment{
     private String getTimeRemaining(SharedPreferences pref) {
         long minutes = pref.getLong(TIME_REMAINING, -1) % 60;
         long hours = pref.getLong(TIME_REMAINING, -1) / 60;
-        String time = hours + "h " + minutes + "min";
-        return time;
+        return hours + getString(R.string.hours_short) + " " +  minutes + getString(R.string.minutes_short);
     }
 
     private void saveTempTasks() {
@@ -330,8 +328,8 @@ public class HomeFragment extends Fragment{
         ArrayList<SimpleTarget> targets = new ArrayList<>();
 
         SimpleTarget welcomeTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Welcome")
-                .setDescription("Welcome to DoItWithAndroid, since this is your first run, lets take a look on how to use this awesome app")
+                .setTitle(getString(R.string.home_fragment_tutorial_welcome_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_welcome_des))
                 .setShape(new Circle(0f))
                 .setOverlayPoint(0, v.getHeight() / 2f)
                 .build();
@@ -339,8 +337,8 @@ public class HomeFragment extends Fragment{
        targets.add(welcomeTarget);
 
         SimpleTarget menuTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Menu")
-                .setDescription("This is the main menu, use it to go through application")
+                .setTitle(getString(R.string.home_fragment_tutorial_menu_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_menu_des))
                 .setPoint(v.getRootView().findViewById(R.id.bottom_navigation))
                 .setShape(new RoundedRectangle(v.getRootView().findViewById(R.id.bottom_navigation).getHeight(), v.getWidth(), 5f))
                 .setOverlayPoint(0, v.getHeight() / 2f)
@@ -349,8 +347,8 @@ public class HomeFragment extends Fragment{
         targets.add(menuTarget);
 
         SimpleTarget levelTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Overall level")
-                .setDescription("This is your level. You will earn experience by completing your tasks. Try to complete as many tasks as you can a become a high level effective person!")
+                .setTitle(getString(R.string.home_fragment_tutorial_overall_lvl_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_overall_lvl_des))
                 .setOverlayPoint(0, v.findViewById(R.id.recycler_view).getY())
                 .setPoint(v.findViewById(R.id.arcProgressStackViewLevel))
                 .setShape(new Circle(((v.findViewById(R.id.arcProgressStackViewLevel).getWidth() / 2f)) + 10))
@@ -359,8 +357,8 @@ public class HomeFragment extends Fragment{
         targets.add(levelTarget);
 
         SimpleTarget experienceTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Experience")
-                .setDescription("This is your current experience and experience you need to reach new level. Every new level will require more experience than the last, it will get harder over time, but you can do it!")
+                .setTitle(getString(R.string.home_fragment_tutorial_exp_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_exp_des))
                 .setOverlayPoint(0, v.findViewById(R.id.recycler_view).getY())
                 .setPoint(v.findViewById(R.id.experience_layout))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.experience_layout).getHeight(), v.findViewById(R.id.experience_layout).getWidth(), 5f))
@@ -369,8 +367,8 @@ public class HomeFragment extends Fragment{
         targets.add(experienceTarget);
 
         SimpleTarget timeRemainingTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Time remaining")
-                .setDescription("This is your time remaining today. It is how much working hours you have till the end of your day. Timer will stop when you add task, because application assumes that you gave started working. When you complete task, timer will recalculate how much time left.")
+                .setTitle(getString(R.string.home_fragment_tutorial_time_remaining_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_time_remaining_des))
                 .setOverlayPoint(0, 250f)
                 .setPoint(v.findViewById(R.id.text_view_time_remaining))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.text_view_time_remaining).getHeight(), v.findViewById(R.id.text_view_time_remaining).getWidth() + 50f, 5f))
@@ -399,8 +397,8 @@ public class HomeFragment extends Fragment{
 
                     }
                 })
-                .setTitle("Tasks to do today")
-                .setDescription("There you can find tasks you should do today. You do not have to complete them in given order, order is just recommended. Every task have its own color based on its priority. RED means high, YELLOW is medium and GREEN is low. Experience gained per task is based on priority and its duration. When you complete task, simply swipe left to mark it as done.")
+                .setTitle(getString(R.string.home_fragment_tutorial_todo_tasks_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_todo_tasks_des))
                 .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight() * 2, v.getWidth(), 5f))
@@ -412,9 +410,6 @@ public class HomeFragment extends Fragment{
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
                     public void onStarted(SimpleTarget target) {
-                        //taskViewModel.insert(new Taskers("Call mom", "Tell mom to have a nice day", 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-                        //taskViewModel.insert(new Taskers("Buy milk", "Buy the freshest milk I can get", 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
-                        //taskViewModel.insert(new Taskers("Go to work", "Make some money", 3, 15, 5, 8, 2019, "8:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
                         mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
@@ -433,8 +428,8 @@ public class HomeFragment extends Fragment{
 
                     }
                 })
-                .setTitle("Gray tasks")
-                .setDescription("Gray tasks are same as normal tasks, only difference is that when your tasks are grayed out, the current time is not within you working time. You can still complete task as usual, but planner will not count their duration to your working time left today, also their completion time will be same as their estimated time. Feel free to complete task out of your working time, planner will recalculate your working plan :) ")
+                .setTitle(getString(R.string.home_fragment_tutorial_gray_tasks_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_gray_tasks_des))
                 .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
@@ -458,8 +453,8 @@ public class HomeFragment extends Fragment{
                         //taskViewModel.deleteAllTasks();
                     }
                 })
-                .setTitle("Tasks on more parts")
-                .setDescription("If you do not have enough working time left today to fit in the whole task or you have task that is longer than you daily hours, you will still see this task on today list if its relevant. Difference is, that you will see this task with number of percent, which represents the part that will be completed when you mark this task as done")
+                .setTitle(getString(R.string.home_fragment_tutorial_more_parts_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_more_parts_des))
                 .setOverlayPoint(0f, 250f)
                 .setPoint(v.findViewById(R.id.recycler_view))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.recycler_view).getHeight(), v.getWidth(), 5f))
@@ -479,8 +474,8 @@ public class HomeFragment extends Fragment{
                         //taskViewModel.deleteAllTasks();
                     }
                 })
-                .setTitle("Quick overview")
-                .setDescription("If you swipe left on you current level, you will get to quick overview of your tasks. Here you cas see if you are able to get everything done within your deadlines.")
+                .setTitle(getString(R.string.home_fragment_tutorial_overview_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_overview_des))
                 .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY())
                 .setPoint(v.findViewById(R.id.view_pager))
                 .setShape(new RoundedRectangle(v.findViewById(R.id.view_pager).getHeight(), v.getWidth(), 5f))
@@ -490,8 +485,8 @@ public class HomeFragment extends Fragment{
 
 
         SimpleTarget allTaskTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("All tasks")
-                .setDescription("If you see this line with green check - Great! You are able to complete all your tasks and do not miss any deadline. Try to complete tasks as soon as possible to see this one green as often as you can.")
+                .setTitle(getString(R.string.home_fragment_tutorial_overview_all_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_overview_all_des))
                 .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY())
                 .setPoint(v.getWidth() / 2f, v.findViewById(R.id.view_pager).getHeight() * 0.45f)
                 .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))
@@ -500,8 +495,8 @@ public class HomeFragment extends Fragment{
         targets.add(allTaskTarget);
 
         SimpleTarget mediumTaskTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("Medium priority tasks")
-                .setDescription("If all tasks overview goes to red and this line is still green, you do not have to worry much. This means that you are still able to complete all medium and high priority task and Do It With Android will prepare plan how to complete them with ease :). However if you see this line red, that means you are not able to complete all medium priority task, so you should start working more effectively or consider changin you priorities or deadlines.")
+                .setTitle(getString(R.string.home_fragment_tutorial_overview_med_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_overview_med_des))
                 .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY() - 200f)
                 .setPoint(v.getWidth() / 2f, v.findViewById(R.id.view_pager).getHeight() * 0.7f)
                 .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))
@@ -510,8 +505,8 @@ public class HomeFragment extends Fragment{
         targets.add(mediumTaskTarget);
 
         SimpleTarget highTaskTarget = new SimpleTarget.Builder(getActivity())
-                .setTitle("High priority tasks")
-                .setDescription("If all other goes to red and high priority stays green, there is still hope. That means you are able to complete at least all your high priority tasks, planner will ignore lower priority tasks and will make you a plan to complete your important things. If you see this red, you are in a problem. Red means that you are not able to complete all your high priority tasks no matter what you do. You will have to work out of your working hours or you will have to change deadlines/priorities")
+                .setTitle(getString(R.string.home_fragment_tutorial_overview_high_title))
+                .setDescription(getString(R.string.home_fragment_tutorial_overview_high_des))
                 .setOverlayPoint(0f ,v.findViewById(R.id.recycler_view).getY() - 200f)
                 .setPoint(v.getWidth() /2f, v.findViewById(R.id.view_pager).getHeight() * 0.95f)
                 .setShape(new RoundedRectangle(240f, v.getWidth(), 5f))

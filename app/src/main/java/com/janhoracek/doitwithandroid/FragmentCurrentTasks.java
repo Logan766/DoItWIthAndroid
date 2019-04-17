@@ -265,7 +265,7 @@ public class FragmentCurrentTasks extends Fragment {
                 taskViewModel.update(task);
                 Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();
             }
-            
+
         } else {
             Toast.makeText(getActivity(), "Task not saved", Toast.LENGTH_SHORT).show();
         }

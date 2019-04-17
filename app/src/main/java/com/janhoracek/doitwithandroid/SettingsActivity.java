@@ -57,15 +57,15 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
 
-        setTitle("Settings");
+        setTitle(R.string.activity_settings_title);
 
         mButtonRunTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(SettingsActivity.this)
                         .setIcon(null)
-                        .setTitle("Run tutorial again?")
-                        .setMessage("\nThis action will close settings and will enable tutorial to run once again.\n\nDo you really want to play tutorial again?")
+                        .setTitle(getString(R.string.activity_settings_butt_tutorial_title))
+                        .setMessage(getString(R.string.activity_settings_dialog_tutorial))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 pref.edit().putBoolean(HOME_FRAG_RUN, true).apply();
@@ -108,8 +108,8 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setIcon(null)
-                    .setTitle("Confirm your productivity time")
-                    .setMessage("\nYour productivity time is: \n\n" + prodHours + " hours " + prodMinutes + " minutes\n\nIs that correct?")
+                    .setTitle(getString(R.string.activity_settings_dialog_prod_time_title))
+                    .setMessage(getString(R.string.activity_settings_dialog_prod_time_p1) + prodHours + getString(R.string.activity_settings_dialog_prod_time_p2) + prodMinutes + getString(R.string.activity_settings_dialog_prod_time_p3))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             pref.edit().putInt(START_HOUR, startHour).apply();

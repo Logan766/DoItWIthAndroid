@@ -74,11 +74,11 @@ public class AddEditTaskActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.add_task_toolbar);
         mTextViewAddDate = findViewById(R.id.text_view_add_date);
         mPriorityCircle = findViewById(R.id.circle_priority);
-        mDateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
+        mDateFormat = new SimpleDateFormat(getString(R.string.add_edit_task_date_format));
 
         mNumberPickerPriority.setMinValue(1);
         mNumberPickerPriority.setMaxValue(3);
-        mNumberPickerPriority.setDisplayedValues(new String[] {"High", "Medium", "Low"});
+        mNumberPickerPriority.setDisplayedValues(new String[] {getString(R.string.add_edit_task_priority_high), getString(R.string.add_edit_task_priority_medium), getString(R.string.add_edit_task_priority_low)});
         mNumberPickerPriority.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         mNumberPickerPriority.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -135,7 +135,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
                             }
                         })
 
-                        .title("Pick deadline")
+                        .title(getString(R.string.add_edit_task_deadline_pick_header))
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {
@@ -158,9 +158,9 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
         if(intent.hasExtra(EXTRA_ID)) {
             if(intent.hasExtra(REOPEN_REQUEST)) {
-                setTitle("Reopen Task");
+                setTitle(R.string.add_edit_task_title_reopen_task);
             } else {
-                setTitle("Edit Task");
+                setTitle(R.string.add_edit_task_title_edit_task);
             }
 
             switch (intent.getIntExtra(EXTRA_PRIORITY, 1)){
@@ -201,7 +201,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            setTitle("Add Task");
+            setTitle(R.string.add_edit_task_title_add_task);
         }
     }
 
@@ -212,13 +212,23 @@ public class AddEditTaskActivity extends AppCompatActivity {
         Date deadline = mDeadline;
         int duration_time = mNumberPickerHours.getValue() * 60 + mNumberPickerMinutes.getValue() * 15;
 
-        if (title.trim().isEmpty() || description.trim().isEmpty() || duration_time == 0) {
-            Toast.makeText(this, "Please insert title and description and duration", Toast.LENGTH_SHORT).show();
+        if (title.trim().isEmpty()) {
+            Toast.makeText(this, getString(R.string.add_edit_task_title_empty), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (description.trim().isEmpty()) {
+            Toast.makeText(this, getString(R.string.add_edit_task_description_empty), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (duration_time == 0) {
+            Toast.makeText(this, getString(R.string.add_edit_task_duration_empty), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (deadline == null) {
-            Toast.makeText(this, "Deadline empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.add_edit_task_deadline_empty), Toast.LENGTH_SHORT).show();
             return;
         }
 

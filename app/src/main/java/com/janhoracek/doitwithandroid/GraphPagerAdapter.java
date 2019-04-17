@@ -25,7 +25,7 @@ public class GraphPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new LevelFragment();
             case 1:
-                return new CurrentTasksFragment();
+                return new FragmentHomeOverview();
             default:
                 return null;
         }

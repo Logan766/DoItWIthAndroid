@@ -1,175 +1,81 @@
 <resources>
     <string name="app_name">DoItWithAndroid</string>
-    <string name="title_activity_bottom_nav">BottomNav</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
-
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets.\n\n"
-
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
-    </string>
     <string name="action_settings">Settings</string>
     <string name="navigation_task">Tasks</string>
     <string name="navigation_home">Home</string>
     <string name="navigation_graphs">Stats</string>
     <string name="action_o_aplikaci">About</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="add_edit_task_date_format">d.M.yyyy    HH:mm</string>
+    <string name="add_edit_task_priority_high">High</string>
+    <string name="add_edit_task_priority_medium">Medium</string>
+    <string name="add_edit_task_priority_low">Low</string>
+    <string name="add_edit_task_deadline_pick_header">Pick deadline</string>
+    <string name="add_edit_task_title_reopen_task">Reopen Task</string>
+    <string name="add_edit_task_title_edit_task">Edit Task</string>
+    <string name="add_edit_task_title_add_task">Add Task</string>
+    <string name="add_edit_task_title_empty">Please insert title of task</string>
+    <string name="add_edit_task_description_empty">Please insert description of task</string>
+    <string name="add_edit_task_duration_empty">Please insert duration of task</string>
+    <string name="add_edit_task_deadline_empty">Please pick a deadline</string>
+    <string name="fragment_home_overview_all_task_succ">Great! You can complete all tasks!</string>
+    <string name="fragment_home_overview_all_task_fail">Try skipping low priorities. Then you can make it!</string>
+    <string name="fragment_home_overview_med_task_succ">Medium and higher tasks completable</string>
+    <string name="fragment_home_overview_med_task_fail">Skip medium task, focus on high!</string>
+    <string name="fragment_home_overview_high_task_succ">You can complete all high priority tasks</string>
+    <string name="fragment_home_overview_high_task_fail">Oh, you cannot complete all high tasks. Consider changing deadlines</string>
+    <string name="task_delete">Delete</string>
+    <string name="fragment_archived_tasks_cannot_update_task">Task cannot be updated</string>
+    <string name="fragment_archived_tasks_reopen_task">Task reopened successfully</string>
+    <string name="fragment_archived_tasks_task_not_reopen">Task not reopened</string>
+    <string name="home_fragment_task_done">Task done! Good work!</string>
+    <string name="complete_task">Complete task</string>
+    <string name="tutorial_title_call_mom">Call mom</string>
+    <string name="tutorial_title_call_mom_des">Tell mom to have a nice day</string>
+    <string name="tutorial_buy_milk_title">Buy milk</string>
+    <string name="tutorial_buy_milk_des">Buy the freshest milk I can get</string>
+    <string name="tutorial_go_to_work_title">Go to work</string>
+    <string name="tutorial_go_to_work_des">Make some money</string>
+    <string name="hours_short">h</string>
+    <string name="minutes_short">min</string>
+    <string name="home_fragment_tutorial_welcome_title">Welcome</string>
+    <string name="home_fragment_tutorial_welcome_des">Welcome to DoItWithAndroid, since this is your first run, lets take a look on how to use this awesome app</string>
+    <string name="home_fragment_tutorial_menu_title">Menu</string>
+    <string name="home_fragment_tutorial_menu_des">This is the main menu, use it to go through application</string>
+    <string name="home_fragment_tutorial_overall_lvl_title">Overall level</string>
+    <string name="home_fragment_tutorial_overall_lvl_des">This is your level. You will earn experience by completing your tasks. Try to complete as many tasks as you can a become a high level effective person!</string>
+    <string name="home_fragment_tutorial_exp_title">Experience</string>
+    <string name="home_fragment_tutorial_exp_des">This is your current experience and experience you need to reach new level. Every new level will require more experience than the last, it will get harder over time, but you can do it!</string>
+    <string name="home_fragment_tutorial_time_remaining_title">Time remaining</string>
+    <string name="home_fragment_tutorial_time_remaining_des">This is your time remaining today. It is how much working hours you have till the end of your day. Timer will stop when you add task, because application assumes that you gave started working. When you complete task, timer will recalculate how much time left.</string>
+    <string name="home_fragment_tutorial_todo_tasks_title">Tasks to do today</string>
+    <string name="home_fragment_tutorial_todo_tasks_des">There you can find tasks you should do today. You do not have to complete them in given order, order is just recommended. Every task have its own color based on its priority. RED means high, YELLOW is medium and GREEN is low. Experience gained per task is based on priority and its duration. When you complete task, simply swipe left to mark it as done.</string>
+    <string name="home_fragment_tutorial_gray_tasks_title">Gray tasks</string>
+    <string name="home_fragment_tutorial_gray_tasks_des">Gray tasks are same as normal tasks, only difference is that when your tasks are grayed out, the current time is not within you working time. You can still complete task as usual, but planner will not count their duration to your working time left today, also their completion time will be same as their estimated time. Feel free to complete task out of your working time, planner will recalculate your working plan :)</string>
+    <string name="home_fragment_tutorial_more_parts_title">Tasks on more parts</string>
+    <string name="home_fragment_tutorial_more_parts_des">If you do not have enough working time left today to fit in the whole task or you have task that is longer than you daily hours, you will still see this task on today list if its relevant. Difference is, that you will see this task with number of percent, which represents the part that will be completed when you mark this task as done</string>
+    <string name="home_fragment_tutorial_overview_title">Quick overview</string>
+    <string name="home_fragment_tutorial_overview_des">If you swipe left on you current level, you will get to quick overview of your tasks. Here you cas see if you are able to get everything done within your deadlines.</string>
+    <string name="home_fragment_tutorial_overview_all_title">All tasks</string>
+    <string name="home_fragment_tutorial_overview_all_des">If you see this line with green check - Great! You are able to complete all your tasks and do not miss any deadline. Try to complete tasks as soon as possible to see this one green as often as you can.</string>
+    <string name="home_fragment_tutorial_overview_med_title">Medium priority tasks</string>
+    <string name="home_fragment_tutorial_overview_med_des">If all tasks overview goes to red and this line is still green, you do not have to worry much. This means that you are still able to complete all medium and high priority task and Do It With Android will prepare plan how to complete them with ease :). However if you see this line red, that means you are not able to complete all medium priority task, so you should start working more effectively or consider changin you priorities or deadlines.</string>
+    <string name="home_fragment_tutorial_overview_high_title">High priority tasks</string>
+    <string name="home_fragment_tutorial_overview_high_des">If all other goes to red and high priority stays green, there is still hope. That means you are able to complete at least all your high priority tasks, planner will ignore lower priority tasks and will make you a plan to complete your important things. If you see this red, you are in a problem. Red means that you are not able to complete all your high priority tasks no matter what you do. You will have to work out of your working hours or you will have to change deadlines/priorities</string>
+    <string name="level_fragment_progress">Progress</string>
+    <string name="fragment_overview_line_experience">Experience gained</string>
+    <string name="fragment_overview_bar_tasks_day">Tasks completed per day</string>
+    <string name="fragment_overview_bar_tasks_month">Tasks completed per month</string>
+    <string name="fragment_overview_pie_priority_ratio">Tasks priority ratio</string>
+    <string name="overview_fragment_tutorial_statistics_title">Statistics</string>
+    <string name="fragment_overview_statistics_des">Statistics screen is exactly what it sounds to be. You can see statistics about your progress, completed tasks and more. Just scroll down and look at your statistics :)</string>
+    <string name="activity_settings_title">Settings</string>
+    <string name="activity_settings_butt_tutorial_title">Run tutorial again?</string>
+    <string name="activity_settings_dialog_tutorial">This action will close settings and will enable tutorial to run once again.  Do you really want to play tutorial again?</string>
+    <string name="activity_settings_dialog_prod_time_title">Confirm your productivity time</string>
+    <string name="activity_settings_dialog_prod_time_p1">Your productivity time is:</string>
+    <string name="activity_settings_dialog_prod_time_p2">hours</string>
+    <string name="activity_settings_dialog_prod_time_p3">minutes  Is that correct?</string>
 
-    <!-- Strings related to Settings -->
 
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
 </resources>

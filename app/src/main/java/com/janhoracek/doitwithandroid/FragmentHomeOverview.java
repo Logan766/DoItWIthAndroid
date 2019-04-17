@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import devlight.io.library.ArcProgressStackView;
 
 
-public class CurrentTasksFragment extends UpdateableFragment{
+public class FragmentHomeOverview extends UpdateableFragment{
 
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
 
@@ -83,29 +83,29 @@ public class CurrentTasksFragment extends UpdateableFragment{
         if(holder.getAllTasksDoable()) {
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
-            mTextViewAll.setText("Great! You can complete all tasks!");
+            mTextViewAll.setText(getString(R.string.fragment_home_overview_all_task_succ));
         } else {
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
-            mTextViewAll.setText("Try skipping low priorities.\nThen you can make it!");
+            mTextViewAll.setText(getString(R.string.fragment_home_overview_all_task_fail));
         }
         if(holder.getMediumTasksDoable()) {
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("success.json");
-            mTextViewMedium.setText("Medium and higher tasks completable");
+            mTextViewMedium.setText(getString(R.string.fragment_home_overview_med_task_succ));
         } else {
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("not_success.json");
-            mTextViewMedium.setText("Skip medium task, focus on high!");
+            mTextViewMedium.setText(getString(R.string.fragment_home_overview_med_task_fail));
         }
         if(holder.getHighTasksDoable()) {
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
-            mTextViewHigh.setText("You can complete all high priority tasks");
+            mTextViewHigh.setText(getString(R.string.fragment_home_overview_high_task_succ));
         } else {
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
-            mTextViewHigh.setText("Oh, you cannot complete all high tasks.\nConsider changing deadlines");
+            mTextViewHigh.setText(getString(R.string.fragment_home_overview_high_task_fail));
         }
     }
 }
