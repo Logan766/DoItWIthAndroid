@@ -33,7 +33,7 @@
     <string name="tutorial_title_call_mom">Call mom</string>
     <string name="tutorial_title_call_mom_des">Tell mom to have a nice day</string>
     <string name="tutorial_buy_milk_title">Buy milk</string>
-    <string name="tutorial_buy_milk_des">Buy the freshest milk I can get</string>
+    <string name="tutorial_buy_milk_des">Buy the freshest milk</string>
     <string name="tutorial_go_to_work_title">Go to work</string>
     <string name="tutorial_go_to_work_des">Make some money</string>
     <string name="hours_short" translatable="false">h</string>
@@ -85,8 +85,8 @@
     <string name="click_to_add_date">+ Click to add date...</string>
     <string name="priority">Priority</string>
     <string name="estimated_duration">Estimated duration</string>
-    <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
+    <string name="hours">Hrs</string>
+    <string name="minutes">Min</string>
     <string name="start_time">Start Time</string>
     <string name="end_time">End Time</string>
     <string name="run_tutorial_again">Run tutorial again</string>
@@ -98,7 +98,7 @@
     <string name="complete">Complete</string>
     <string name="fragment_home_nothing_to_do">Nothing to do now</string>
     <string name="level">Level</string>
-    <string name="fragment_tasks_all">All tasks</string>
+    <string name="fragment_tasks_all">All</string>
     <string name="fragment_tasks_medium">Medium</string>
     <string name="fragment_tasks_high">High</string>
     <string name="save">Save</string>
@@ -130,7 +130,7 @@
     <string name="tasks_fragment_tutorial_pay_bills_title">Pay bills</string>
     <string name="tasks_fragment_tutorial_pay_bills_des">Pay bill for electricity</string>
     <string name="tasks_fragment_tutorial_buy_milk_title">Buy milk</string>
-    <string name="tasks_fragment_tutorial_buy_milk_des">Buy the freshest milk I can get</string>
+    <string name="tasks_fragment_tutorial_buy_milk_des">Buy the freshest milk</string>
     <string name="graph_legend_priority_high">High priority</string>
     <string name="graph_legend_priority_medium">Medium priority</string>
     <string name="graph_legend_priority_low">Low priority</string>

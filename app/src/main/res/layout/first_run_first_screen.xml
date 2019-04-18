@@ -26,13 +26,13 @@
         android:layout_marginTop="30dp"
         android:padding="10dp"
         android:text="@string/first_run_1_des"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/imageView_logo"
         android:layout_marginTop="10dp"
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/logo_to_use" />

@@ -19,10 +19,12 @@
             android:layout_marginTop="56dp"
             android:background="@color/colorAccent">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_all"
@@ -34,11 +36,8 @@
 
                 <TextView
                     android:id="@+id/text_both_all"
-                    android:layout_width="60dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/lottie_all"
                     android:text="@string/fragment_tasks_all"
                     android:textColor="@color/backgroundNormal" />
 
@@ -47,17 +46,14 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_toEndOf="@+id/text_both_all"
                     android:padding="3dp"
                     app:lottie_autoPlay="true" />
 
                 <TextView
                     android:id="@+id/text_both_medium"
-                    android:layout_width="60dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/lottie_medium"
+
                     android:text="@string/fragment_tasks_medium"
                     android:textColor="@color/backgroundNormal" />
 
@@ -66,7 +62,6 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_toEndOf="@+id/text_both_medium"
                     android:padding="3dp"
                     app:lottie_autoPlay="true" />
 
@@ -74,8 +69,6 @@
                     android:id="@+id/text_both_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/lottie_high"
                     android:text="@string/fragment_tasks_high"
                     android:textColor="@color/backgroundNormal" />
 
@@ -84,14 +77,12 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/text_both_high"
                     android:padding="3dp"
                     android:visibility="gone"
                     app:lottie_autoPlay="true"
                     app:lottie_fileName="deadline.json"
                     app:lottie_loop="true" />
-
-            </RelativeLayout>
+            </LinearLayout>
 
 
         </RelativeLayout>

@@ -32,7 +32,7 @@
     <string name="tutorial_title_call_mom">Zavolat mamince</string>
     <string name="tutorial_title_call_mom_des">Popřát mamince hezký den</string>
     <string name="tutorial_buy_milk_title">Koupit mléko</string>
-    <string name="tutorial_buy_milk_des">Sehnat to nejčerstvější mléko jaké dokážu</string>
+    <string name="tutorial_buy_milk_des">Sehnat to nejčerstvější mléko</string>
     <string name="tutorial_go_to_work_title">Jít do práce</string>
     <string name="tutorial_go_to_work_des">Vydělat nějaké peníze</string>
     <string name="home_fragment_tutorial_welcome_title">Vítej</string>
@@ -82,8 +82,8 @@
     <string name="click_to_add_date">+ klikni pro přídání termínu</string>
     <string name="priority">Priorita</string>
     <string name="estimated_duration">Předpokládaná doba trvání</string>
-    <string name="hours">Hodiny</string>
-    <string name="minutes">Minuty</string>
+    <string name="hours">Hod</string>
+    <string name="minutes">Min</string>
     <string name="start_time">Začátek</string>
     <string name="end_time">Konec</string>
     <string name="run_tutorial_again">Znovu spustit průvodce</string>
@@ -117,7 +117,7 @@
     <string name="tasks_fragment_tutorial_pay_bills_title">Zaplatit účty</string>
     <string name="tasks_fragment_tutorial_pay_bills_des">Zaplatit účet za elektřinu</string>
     <string name="tasks_fragment_tutorial_buy_milk_title">Koupit mléko</string>
-    <string name="tasks_fragment_tutorial_buy_milk_des">Koupit nejčerstvější mléko jaké seženu</string>
+    <string name="tasks_fragment_tutorial_buy_milk_des">Koupit nejčerstvější mléko</string>
     <string name="about_awareness_data">Autor nenese žádnou zodpovědnost za promeškané termíny při používání této aplikace. Aplikace slouží pouze jako doporučení a ne zaručený postup. Promeškání jakéhokoli termínu nebo údálosti je po autorovi nevymahatelné a používáním aplikace s tímto souhlasíte.</string>
     <string name="tasks_fragment_tutorial_welcome_des">Vítej ve tvých úkolech. Zde najdeš všechny své úkoly, úkoly odsud můžeš přidávat, mazat, upravovat a najdeš zde i informace o jednotlivých úkolech.</string>
     <string name="tasks_fragment_tutorial_tasks_title">Stávající úkoly</string>
