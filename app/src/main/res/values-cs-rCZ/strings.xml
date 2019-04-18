@@ -23,7 +23,7 @@
     <string name="fragment_home_overview_med_task_fail">Zaměř se na úkoly s vysokou prioritou, přeskoč střední a nízké.</string>
     <string name="fragment_home_overview_high_task_succ">Úkoly s vysokou prioritou se dají splnit.</string>
     <string name="fragment_home_overview_high_task_fail">Ne všechny úkoly s vysokou prioritou stihneš splnit. Zvaž změny v termínech.</string>
-    <string name="task_delete">Samazt</string>
+    <string name="task_delete">Smazat</string>
     <string name="fragment_archived_tasks_cannot_update_task">Úkol se nepodařilo aktualizovat</string>
     <string name="fragment_archived_tasks_reopen_task">Úkoly byl úspěšně znovu přidán</string>
     <string name="fragment_archived_tasks_task_not_reopen">Úkol nebyl znovu přidán</string>
@@ -89,7 +89,7 @@
     <string name="run_tutorial_again">Znovu spustit průvodce</string>
     <string name="welcome_and_do_it_with_android">Vítej v Do It With Android</string>
     <string name="first_run3_start_des">Prosím zadej čas od kdy jsi aktivní, například po snídani nebo po ranní kávě.</string>
-    <string name="first_run3_end_des">Zadej čas kdy přesáváš být produtivní, neměl by to být čas těsně před spaním, ale například než jdeš večeřet nebo koukat večer na TV. U někoho to může být čas než jsi jde čistit zuby.</string>
+    <string name="first_run3_end_des">Zadej čas kdy přestáváš být produtivní, neměl by to být čas těsně před spaním, ale například než jdeš večeřet nebo koukat večer na TV. U někoho to může být čas než jsi jde čistit zuby.</string>
     <string name="complete">Dokončit</string>
     <string name="fragment_home_nothing_to_do">Žádné úkoly</string>
     <string name="level">Úroveň</string>
@@ -127,7 +127,7 @@
     <string name="tasks_fragment_tutorial_edit_title">Dokončení/Smazání/Úprava úkolu</string>
     <string name="tasks_fragment_tutorial_edit_des">Chceš-li dokončit kterýkoli úkol (ne jenom dnešní) potáhni úkol DOPRAVA, chceš-li úkol smazat potáhni jej DOLEVA a pokud chceš úkol upravit podrž ho.</string>
     <string name="tasks_fragment_tutorial_deadline_after_title">Úkoly po termínu</string>
-    <string name="tasks_fragment_tutorial_deadline_after_des">Pokud se změní ikonka termínu (plamínek) na červenou, znamená to, že tento úkol je již po termínu jeho dokončení. Takévé úkoly by jsi měl upravit, protože plánovač je řadí až na poslední místo.</string>
+    <string name="tasks_fragment_tutorial_deadline_after_des">Pokud se změní ikonka termínu (plamínek) na červenou, znamená to, že tento úkol je již po termínu jeho dokončení. Takové úkoly by jsi měl upravit, protože plánovač je řadí až na poslední místo.</string>
     <string name="tasks_fragment_tutorial_udnoable_title">Nestihnutelné úkoly</string>
     <string name="tasks_fragment_tutorial_undoable_des">Když se plamínk změní na červený vykřičník znamená to, že úkol ještě není po termínu, ale i když se vynechají všechny úkoly s nižší prioritou nelze jej stihnout. Tyto úkoly aplikace řadí až za ty, které se dají stihnout - dle nás je lepší stihnout méně a včas než naopak.</string>
     <string name="tasks_fragment_tutorial_focus_title">Zvýrazněné úkoly</string>
@@ -140,4 +140,9 @@
     <string name="tasks_fragment_tutorial_deadline_alert_des">Pokud se v horní listě objeví vykřičnik, znamená to, že některý z tvých úkolů je po termínu</string>
     <string name="first_run_1_des">Díky že sid stáhl tuto aplikaci. Aplikace Do It With Android je navržena tak aby Ti pomohla s organizací času a omezila prokrastinaci. Do aplikace zadáš úkoly, které potřebuješ splnit a aplikace navrhne ideální postup v jakém pořadí úkoly plnit. V případě že se úkoly nedají splnit bude aplikace hledat nejlepší možné řešení. Toto je tvé první spuštění, proto je potřeba nastavit pár věcí. Pokračuj posuntím doprava...</string>
     <string name="first_run2_des">Jak již bylo naznačeno v úvodu do aplikace je potřeba zadávat tvé úkoly a jejich termíny splnění. U každého úkolu budeš zadávat jeho název, stručný popis termín jeho splnění, prioritu a předpokládný čas splnění a trvání úkolu. Časovou náročnost se snaž odhadnout co nejpřesněji, protože slouží pro výpočet toho zda všechno stihneš, nicméně pokud se bude doba nakonec lišit nic se neděje, po té co úkol splníš aplikace sama vezme v potaz reálnou dobu jeho plnění a přepočítá tvůj ideální plán. Důležitou věc kterou bys měl mít na paměti je ta, že aplikace stále funguje pouze na tom co jí sdělíš, to znamená, že bys měl označovat úkoly jako splněné poctivě, protože aplikace ti jinak přiliš nepomůže.</string>
+    <string name="fragment_current_task_add_succ">Úkol úspěšně přidán</string>
+    <string name="fragment_current_task_update_fail">Úkol se nepodařilo aktualizovat</string>
+    <string name="fragment_current_task_over100">Úkol dokončen automaticky z důvodu 100%</string>
+    <string name="fragment_current_task_update_succ">Úkol aktualizován</string>
+    <string name="fragment_current_task_not_saved">Úkol nebyl uložen</string>
 </resources>

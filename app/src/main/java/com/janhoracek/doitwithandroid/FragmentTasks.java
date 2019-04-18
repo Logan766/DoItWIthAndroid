@@ -164,7 +164,8 @@ public class FragmentTasks extends Fragment {
         if(FirstRunCheck) {
             saveTempTasks();
             taskViewModel.deleteAllTasks();
-            taskViewModel.insert(new Taskers(getString(R.string.tasks_fragment_tutorial_call_mom_title), getString(R.string.tasks_fragment_tutorial_call_mom_des), 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() + 3600000, 0, 0));
+            mArchiveTaskViewModel.deleteAllTasks();
+            taskViewModel.insert(new Taskers(getString(R.string.tasks_fragment_tutorial_call_mom_title), getString(R.string.tasks_fragment_tutorial_call_mom_des), 1, 30, 26, 5, 2019, "14:00", (new DateHandler().getCurrentDateTimeInMilisec()+3600000), 0, 0));
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {

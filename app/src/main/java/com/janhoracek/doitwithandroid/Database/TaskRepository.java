@@ -17,20 +17,27 @@ public class TaskRepository {
         allTasks = taskDao.getAllNotes();
     }
 
-    public void insert(Taskers taskers) {
+    /*public void insert(Taskers taskers) {
         new InsertTaskAsyncTask(taskDao).execute(taskers);
+    }*/
+
+    public void insert(Taskers taskers) {
+        taskDao.insert(taskers);
     }
 
     public void update(Taskers taskers) {
-        new UpdateTaskAsyncTask(taskDao).execute(taskers);
+        //new UpdateTaskAsyncTask(taskDao).execute(taskers);
+        taskDao.update(taskers);
     }
 
     public void delete(Taskers taskers) {
-        new DeleteTaskAsyncTask(taskDao).execute(taskers);
+        //new DeleteTaskAsyncTask(taskDao).execute(taskers);
+        taskDao.delete(taskers);
     }
 
     public void deleteAllTasks() {
-        new DeleteAllTasksAsyncTask(taskDao).execute();
+        //new DeleteAllTasksAsyncTask(taskDao).execute();
+        taskDao.deleteAllTasks();
     }
 
     public LiveData<List<Taskers>> getAllTasks() {

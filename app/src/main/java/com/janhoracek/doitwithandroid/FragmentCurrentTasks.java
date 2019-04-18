@@ -140,11 +140,11 @@ public class FragmentCurrentTasks extends Fragment {
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.PastelRed))
                         .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
-                        .addSwipeLeftLabel("Delete")
+                        .addSwipeLeftLabel(getString(R.string.task_delete))
                         .setSwipeLeftLabelColor(Color.BLACK)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
                         .addSwipeRightActionIcon(R.drawable.ic_check_black_24dp)
-                        .addSwipeRightLabel("Complete task")
+                        .addSwipeRightLabel(getString(R.string.complete_task))
                         .setSwipeRightLabelColor(Color.BLACK)
                         .create()
                         .decorate();
@@ -224,12 +224,12 @@ public class FragmentCurrentTasks extends Fragment {
 
             taskViewModel.insert(task);
 
-            Toast.makeText(getActivity(), "Task added successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.fragment_current_task_add_succ), Toast.LENGTH_SHORT).show();
         } else if(requestCode == EDIT_TASK_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(AddEditTaskActivity.EXTRA_ID, -1);
 
             if(id == -1) {
-                Toast.makeText(getActivity(), "Task cannot be updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.fragment_current_task_update_fail), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -248,14 +248,14 @@ public class FragmentCurrentTasks extends Fragment {
 
             if(task.getCompleted() >= task.getTime_consumption()) {
                 completeTask(task);
-                Toast.makeText(getActivity(), "Task completed since its completion was over 100% ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.fragment_current_task_over100), Toast.LENGTH_SHORT).show();
             } else {
                 taskViewModel.update(task);
-                Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.fragment_current_task_update_succ), Toast.LENGTH_SHORT).show();
             }
 
         } else {
-            Toast.makeText(getActivity(), "Task not saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.fragment_current_task_not_saved), Toast.LENGTH_SHORT).show();
         }
     }
 

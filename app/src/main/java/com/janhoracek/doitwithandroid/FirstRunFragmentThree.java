@@ -76,8 +76,8 @@ public class FirstRunFragmentThree extends Fragment {
                 } else {
                     new AlertDialog.Builder(getActivity())
                             .setIcon(null)
-                            .setTitle("Confirm your productivity time")
-                            .setMessage("\nYour productivity time is: \n\n" + prodHours + " hours " + prodMinutes + " minutes\n\nIs that correct?")
+                            .setTitle(getString(R.string.activity_settings_dialog_prod_time_title))
+                            .setMessage(getString(R.string.activity_settings_dialog_prod_time_p1) + " " + prodHours + " " + getString(R.string.activity_settings_dialog_prod_time_p2) + " " + prodMinutes +"\n"+ getString(R.string.activity_settings_dialog_prod_time_p3))
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     pref.edit().putInt(START_HOUR, startHour).apply();

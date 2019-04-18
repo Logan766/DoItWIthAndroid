@@ -146,6 +146,11 @@
     <string name="mail_subject">Do It With Android Feedback</string>
     <string name="mail_text">Hi I would like to report feedback on your app:</string>
     <string name="mail_choose">Choose an Email client :</string>
+    <string name="fragment_current_task_add_succ">Task added successfully</string>
+    <string name="fragment_current_task_update_fail">Task cannot be updated</string>
+    <string name="fragment_current_task_over100">Task completed since its completion was over 100%</string>
+    <string name="fragment_current_task_update_succ">Task updated</string>
+    <string name="fragment_current_task_not_saved">Task not saved</string>
 
 
 </resources>

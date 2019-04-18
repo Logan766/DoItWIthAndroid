@@ -380,9 +380,12 @@ public class HomeFragment extends Fragment{
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
                     public void onStarted(SimpleTarget target) {
-                        mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
-                        mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
-                        mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        for(int i = 0; i<=taskViewModel.getAllTasksList().size() -1; i++) {
+                            mRecyclerView.findViewHolderForAdapterPosition(i).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        }
+                        //mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        //mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
+                        //mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
 
                         mScrollView.postDelayed(new Runnable() {
                             @Override
@@ -410,9 +413,14 @@ public class HomeFragment extends Fragment{
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                     @Override
                     public void onStarted(SimpleTarget target) {
+                        for(int i = 0; i<=taskViewModel.getAllTasksList().size() -1; i++) {
+                            mRecyclerView.findViewHolderForAdapterPosition(i).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
+                        }
+                        /*
                         mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
+                        */
 
 
                         mScrollView.postDelayed(new Runnable() {

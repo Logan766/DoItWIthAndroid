@@ -5,74 +5,83 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_view_first_run_third_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/first_run3_start_des" />
 
-    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
-        android:id="@+id/first_run_time_pick_start"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@+id/text_view_first_run_third_1"
-        android:layout_marginTop="25dp"
-        android:paddingEnd="65dp"
-        android:layout_marginStart="35dp"
+        android:layout_height="match_parent">
 
-        app:picker_curved="true"
-        app:picker_cyclic="true"
-        app:picker_displayDays="false"
-        app:picker_displayDaysOfMonth="false"
-        app:picker_displayHours="true"
-        app:picker_displayMinutes="true"
-        app:picker_displayMonth="false"
-        app:picker_displayMonthNumbers="false"
-        app:picker_displayYears="false"
-        app:picker_visibleItemCount="3" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_view_first_run_third_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/text_view_first_run_third_1"
-        android:layout_marginTop="170dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/first_run3_end_des" />
+            <TextView
+                android:id="@+id/text_view_first_run_third_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/first_run3_start_des" />
 
-    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
-        android:id="@+id/first_run_time_pick_end"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@+id/text_view_first_run_third_2"
-        android:layout_marginTop="25dp"
-        android:paddingEnd="65dp"
-        android:layout_marginStart="35dp"
+            <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                android:id="@+id/first_run_time_pick_start"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:paddingEnd="65dp"
 
-        app:picker_curved="true"
-        app:picker_cyclic="true"
-        app:picker_displayDays="false"
-        app:picker_displayDaysOfMonth="false"
-        app:picker_displayHours="true"
-        app:picker_displayMinutes="true"
-        app:picker_displayMonth="false"
-        app:picker_displayMonthNumbers="false"
-        app:picker_displayYears="false"
-        app:picker_visibleItemCount="3" />
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="false"
+                app:picker_displayHours="true"
+                app:picker_displayMinutes="true"
+                app:picker_displayMonth="false"
+                app:picker_displayMonthNumbers="false"
+                app:picker_displayYears="false"
+                app:picker_visibleItemCount="3">
 
-    <Button
-        android:id="@+id/button_first_run_complete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:text="@string/complete" />
+            </com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker>
+
+            <TextView
+                android:id="@+id/text_view_first_run_third_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/first_run3_end_des" />
+
+            <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                android:id="@+id/first_run_time_pick_end"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:paddingEnd="65dp"
+
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="false"
+                app:picker_displayHours="true"
+                app:picker_displayMinutes="true"
+                app:picker_displayMonth="false"
+                app:picker_displayMonthNumbers="false"
+                app:picker_displayYears="false"
+                app:picker_visibleItemCount="3" />
+
+            <Button
+                android:id="@+id/button_first_run_complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="50dp"
+                android:text="@string/complete" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
