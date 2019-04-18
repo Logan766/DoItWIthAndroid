@@ -9,7 +9,7 @@
     <string name="add_edit_task_priority_high">Vysoká</string>
     <string name="add_edit_task_priority_medium">Střední</string>
     <string name="add_edit_task_priority_low">Nízká</string>
-    <string name="add_edit_task_deadline_pick_header">Zvolte termín dokončení</string>
+    <string name="add_edit_task_deadline_pick_header">Zvol termín dokončení</string>
     <string name="add_edit_task_title_reopen_task">Znovu přidat úkol</string>
     <string name="add_edit_task_title_edit_task">Upravit úkol</string>
     <string name="add_edit_task_title_add_task">Přidat úkol</string>
@@ -40,10 +40,10 @@
     <string name="home_fragment_tutorial_menu_title">Menu</string>
     <string name="home_fragment_tutorial_menu_des">Toto je hlavní menu, použij jej k navigaci po aplikaci</string>
     <string name="home_fragment_tutorial_overall_lvl_title">Úroveň</string>
-    <string name="home_fragment_tutorial_overall_lvl_des">"Toto je tvá úroveň. Plněním úkolů budeš získávat zkušenosti, které jí budou zvyšovat. Pokus se splnit co nevjíce úkolů a staň se efektivním člověkem s vysokou úrovní! "</string>
+    <string name="home_fragment_tutorial_overall_lvl_des">Toto je tvá úroveň. Plněním úkolů budeš získávat zkušenosti, které jí budou zvyšovat. Pokus se splnit co nevjíce úkolů a staň se efektivním člověkem s vysokou úrovní! \"</string>
     <string name="home_fragment_tutorial_exp_title">Zkušenosti</string>
     <string name="home_fragment_tutorial_exp_des">Toto jsou tvé stávající zkušenosti a počet zkušeností, které potřebuješ k dosažení další úrovně. Každá další úroveň bude náročnější na splnění, ale ty to zvládneš!</string>
-    <string name="home_fragment_tutorial_time_remaining_title">Zbávající čas</string>
+    <string name="home_fragment_tutorial_time_remaining_title">Zbývající čas</string>
     <string name="home_fragment_tutorial_time_remaining_des">Toto je čas, který ti dnes zbývá. Zobrazuje kolik času Ti zbývá do konce tvého pracovního dne. Čas se zastaví ve chvíli kdy přidáš nějaký úkol, protože aplikace předpoklá, že jsi na něm začal(a) pracovat. Ve chvíli kdy dokončíš úkol se zbývající čas přepočítá.</string>
     <string name="home_fragment_tutorial_todo_tasks_title">Úkoly na dnešní den</string>
     <string name="home_fragment_tutorial_todo_tasks_des">Zde nalezneš úkoly, které by jsi měl dnes plnit. Nemusíš je plnit v daném pořadí, to je pouze doporučené. Každý úkol má barvu na základě jeho priority. ČERVENÁ je vysoká, ŽLUTÁ je střední a ZELENÁ je nízká. Množství zkušeností za splnění úkolu se odvíjí od jeho délky a priority. Úkol označíš jako splněný potažením doleva.</string>
@@ -89,7 +89,7 @@
     <string name="run_tutorial_again">Znovu spustit průvodce</string>
     <string name="welcome_and_do_it_with_android">Vítej v Do It With Android</string>
     <string name="first_run3_start_des">Prosím zadej čas od kdy jsi aktivní, například po snídani nebo po ranní kávě.</string>
-    <string name="first_run3_end_des">Zadej čas kdy přestáváš být produtivní, neměl by to být čas těsně před spaním, ale například než jdeš večeřet nebo koukat večer na TV. U někoho to může být čas než jsi jde čistit zuby.</string>
+    <string name="first_run3_end_des">Zadej čas kdy přesáváš být produktivní, neměl by to být čas těsně před spaním, ale například než jdeš večeřet nebo koukat večer na TV. U někoho to může být čas než jsi jde čistit zuby.</string>
     <string name="complete">Dokončit</string>
     <string name="fragment_home_nothing_to_do">Žádné úkoly</string>
     <string name="level">Úroveň</string>
@@ -105,7 +105,7 @@
     <string name="mail_subject">Do It With Android - zpětná vazba</string>
     <string name="mail_text">Ahoj, rád bych ti zanechal(a) zpětnou vazbu na tvojí aplikaci:</string>
     <string name="about_awareness_title">Upozornění</string>
-    <string name="about_contact">Kontakt</string>
+    <string name="about_contact">Kontakt:</string>
     <string name="about_author_label">Autor:</string>
     <string name="about_version">Verze:</string>
     <string name="graph_no_data">Žádná data</string>
@@ -138,11 +138,11 @@
     <string name="tasks_fragment_tutorial_top_screen_des">Informace v horní části jsou stejné jako na domovské obrazovce, jsou zde z toho důvodu aby jsi nemusel(a) přepínat mezi obrazovkami po tom co vytvoříš úkol.</string>
     <string name="tasks_fragment_tutorial_deadline_alert_title">Upozornění na termín</string>
     <string name="tasks_fragment_tutorial_deadline_alert_des">Pokud se v horní listě objeví vykřičnik, znamená to, že některý z tvých úkolů je po termínu</string>
-    <string name="first_run_1_des">Díky že sid stáhl tuto aplikaci. Aplikace Do It With Android je navržena tak aby Ti pomohla s organizací času a omezila prokrastinaci. Do aplikace zadáš úkoly, které potřebuješ splnit a aplikace navrhne ideální postup v jakém pořadí úkoly plnit. V případě že se úkoly nedají splnit bude aplikace hledat nejlepší možné řešení. Toto je tvé první spuštění, proto je potřeba nastavit pár věcí. Pokračuj posuntím doprava...</string>
-    <string name="first_run2_des">Jak již bylo naznačeno v úvodu do aplikace je potřeba zadávat tvé úkoly a jejich termíny splnění. U každého úkolu budeš zadávat jeho název, stručný popis termín jeho splnění, prioritu a předpokládný čas splnění a trvání úkolu. Časovou náročnost se snaž odhadnout co nejpřesněji, protože slouží pro výpočet toho zda všechno stihneš, nicméně pokud se bude doba nakonec lišit nic se neděje, po té co úkol splníš aplikace sama vezme v potaz reálnou dobu jeho plnění a přepočítá tvůj ideální plán. Důležitou věc kterou bys měl mít na paměti je ta, že aplikace stále funguje pouze na tom co jí sdělíš, to znamená, že bys měl označovat úkoly jako splněné poctivě, protože aplikace ti jinak přiliš nepomůže.</string>
+    <string name="first_run_1_des">Díky že sis stáhl tuto aplikaci. Aplikace Do It With Android je navržena tak, aby Ti pomohla s organizací času a omezila prokrastinaci. Do aplikace zadáš úkoly, které potřebuješ splnit a aplikace navrhne ideální postup v jakém pořadí úkoly plnit. V případě že se úkoly nedají splnit bude aplikace hledat nejlepší možné řešení. Toto je tvé první spuštění, proto je potřeba nastavit pár věcí. Pokračuj posuntím doprava...</string>
+    <string name="first_run2_des">Jak již bylo naznačeno v úvodu do aplikace je potřeba zadávat tvé úkoly a jejich termíny splnění. U každého úkolu budeš zadávat jeho název, stručný popis, termín jeho splnění, prioritu a předpokládný čas splnění a trvání úkolu. Časovou náročnost se snaž odhadnout co nejpřesněji, protože slouží pro výpočet toho zda všechno stihneš, nicméně pokud se bude doba nakonec lišit nic se neděje, po té co úkol splníš aplikace sama vezme v potaz reálnou dobu jeho plnění a přepočítá tvůj ideální plán. Důležitou věc kterou bys měl mít na paměti je ta, že aplikace stále funguje pouze na tom co jí sdělíš, to znamená, že bys měl označovat úkoly jako splněné poctivě, protože aplikace ti jinak přiliš nepomůže.</string>
     <string name="fragment_current_task_add_succ">Úkol úspěšně přidán</string>
     <string name="fragment_current_task_update_fail">Úkol se nepodařilo aktualizovat</string>
     <string name="fragment_current_task_over100">Úkol dokončen automaticky z důvodu 100%</string>
     <string name="fragment_current_task_update_succ">Úkol aktualizován</string>
-    <string name="fragment_current_task_not_saved">Úkol nebyl uložen</string>
+    <string name="fragment_current_task_not_saved">Úkol neuložen</string>
 </resources>

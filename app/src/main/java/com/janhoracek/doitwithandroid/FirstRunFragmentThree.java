@@ -31,6 +31,7 @@ public class FirstRunFragmentThree extends Fragment {
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
     private static final String TIME_REMAINING = "com.janhoracek.doitwithandroid.TIME_REMAINING";
+    final static String PREF_VERSION_CODE_KEY = "1";
 
     private Button mButton;
     private SingleDateAndTimePicker mDateAndTimePickerStart;
@@ -72,7 +73,7 @@ public class FirstRunFragmentThree extends Fragment {
                 prodMinutes = (((endHour - startHour) * 60) + (endMinute - startMinute)) % 60;
                 prodTime = prodHours * 60 + prodMinutes;
                 if(prodHours <= 0) {
-                    Toast.makeText(getActivity(), "Productivity time lower than hour...You can do better!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.activity_settings_lower_hours), Toast.LENGTH_SHORT).show();
                 } else {
                     new AlertDialog.Builder(getActivity())
                             .setIcon(null)
@@ -80,12 +81,14 @@ public class FirstRunFragmentThree extends Fragment {
                             .setMessage(getString(R.string.activity_settings_dialog_prod_time_p1) + "\n" + prodHours + " " + getString(R.string.activity_settings_dialog_prod_time_p2) + " " + prodMinutes +" "+ getString(R.string.activity_settings_dialog_prod_time_p3))
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
+                                    int currentVersionCode = BuildConfig.VERSION_CODE;
                                     pref.edit().putInt(START_HOUR, startHour).apply();
                                     pref.edit().putInt(START_MINUTE, startMinute).apply();
                                     pref.edit().putInt(END_HOUR, endHour).apply();
                                     pref.edit().putInt(END_MINUTE, endMinute).apply();
                                     pref.edit().putLong(PRODUCTIVITY_TIME, prodTime).apply();
                                     pref.edit().putLong(TIME_REMAINING, prodTime);
+                                    pref.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
                                     Log.d(TAG, "Productivity time: " + prodTime);
                                     Intent intent = new Intent(getContext(), ApplicationActivity.class);
                                     startActivity(intent);

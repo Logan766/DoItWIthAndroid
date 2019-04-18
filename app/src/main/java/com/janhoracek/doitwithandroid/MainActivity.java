@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Update the shared preferences with the current version code
-        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+        //prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
 

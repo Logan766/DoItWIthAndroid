@@ -287,12 +287,12 @@ public class HomeFragment extends Fragment{
                             .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
                                 @Override
                                 public void onStarted() {
-                                    Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onEnded() {
-                                    Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
                                     taskViewModel.deleteAllTasks();
                                     mViewPager.setCurrentItem(0);
                                     reloadTasks();

@@ -70,6 +70,7 @@ public class FragmentTasks extends Fragment {
     private Tooltip mTooltip;
 
     private boolean FirstRunCheck;
+    private boolean tutorialRunning = false;
 
     List<Taskers> tempSave = new ArrayList<>();
     List<ArchivedTasks> tempSaveArchive = new ArrayList<>();
@@ -162,6 +163,7 @@ public class FragmentTasks extends Fragment {
         FirstRunCheck = pref.getBoolean(TASKS_FRAG_RUN, true);
         //if(FirstRunCheck) {
         if(FirstRunCheck) {
+            tutorialRunning = true;
             saveTempTasks();
             taskViewModel.deleteAllTasks();
             mArchiveTaskViewModel.deleteAllTasks();
@@ -179,14 +181,15 @@ public class FragmentTasks extends Fragment {
                             .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
                                 @Override
                                 public void onStarted() {
-                                    Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onEnded() {
-                                    Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
                                     taskViewModel.deleteAllTasks();
                                     mArchiveTaskViewModel.deleteAllTasks();
+                                    tutorialRunning = false;
                                     reloadTasks();
                                     pref.edit().putBoolean(TASKS_FRAG_RUN, false).apply();
                                 }
@@ -198,6 +201,15 @@ public class FragmentTasks extends Fragment {
         }
 
         return v;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(tutorialRunning) {
+            taskViewModel.deleteAllTasks();
+            reloadTasks();
+        }
     }
 
     private ArrayList<SimpleTarget> buildTargets(View v) {

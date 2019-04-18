@@ -29,7 +29,6 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
     private static final String END_MINUTE = "com.janhoracek.doitwithandroid.END_MINUTE";
 
-    private static final String TAG = "MRDEJ";
 
 
     private List<Taskers> mTasks = new ArrayList<>();
@@ -80,7 +79,6 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
 
 
-        Log.d(TAG, "To be done: " + currentTaskers.getTo_be_done());
         if(currentTaskers.getTo_be_done() > 0) {
             holder.mTextViewCompleted.setVisibility(View.VISIBLE);
             int partDone = Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * 100);
