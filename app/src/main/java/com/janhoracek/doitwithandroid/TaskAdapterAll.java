@@ -73,7 +73,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d.M.yyyy    HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(mContext.getString(R.string.dateFormat));
         Taskers currentTaskers = getItem(position);
         switch (currentTaskers.getPriority()) {
             case 1:

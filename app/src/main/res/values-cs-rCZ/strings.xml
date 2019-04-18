@@ -145,4 +145,7 @@
     <string name="fragment_current_task_over100">Úkol dokončen automaticky z důvodu 100%</string>
     <string name="fragment_current_task_update_succ">Úkol aktualizován</string>
     <string name="fragment_current_task_not_saved">Úkol neuložen</string>
+    <string name="activity_settings_lower_hours">Produktivní čas je menší než hodina nebo není v jednom dni</string>
+    <string name="add_edit_task_date_format">d.M.yyyy    HH:mm</string>
+    <string name="dateFormat">d.M.yyyy    HH:mm</string>
 </resources>

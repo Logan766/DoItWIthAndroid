@@ -109,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setIcon(null)
                     .setTitle(getString(R.string.activity_settings_dialog_prod_time_title))
-                    .setMessage(getString(R.string.activity_settings_dialog_prod_time_p1) + prodHours + getString(R.string.activity_settings_dialog_prod_time_p2) + prodMinutes + getString(R.string.activity_settings_dialog_prod_time_p3))
+                    .setMessage(getString(R.string.activity_settings_dialog_prod_time_p1) + prodHours + " " + getString(R.string.activity_settings_dialog_prod_time_p2) +  " " + prodMinutes + " " + getString(R.string.activity_settings_dialog_prod_time_p3))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             pref.edit().putInt(START_HOUR, startHour).apply();

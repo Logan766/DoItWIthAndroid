@@ -14,20 +14,22 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ApplicationActivity" />
         <activity
             android:name=".AboutActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ApplicationActivity" />
-        <activity android:name=".FirstRunActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".FirstRunActivity" />
         <activity
             android:name=".AddEditTaskActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ApplicationActivity" />
         <activity
             android:name=".ApplicationActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

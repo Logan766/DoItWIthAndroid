@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.google.android.gms.tasks.Task;
 import com.janhoracek.doitwithandroid.ChartDataHolder;
 import com.janhoracek.doitwithandroid.Database.TaskRepository;
 import com.janhoracek.doitwithandroid.Database.Taskers;

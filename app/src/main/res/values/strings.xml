@@ -6,7 +6,7 @@
     <string name="navigation_graphs">Stats</string>
     <string name="action_about">About</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="add_edit_task_date_format" translatable="false">d.M.yyyy    HH:mm</string>
+    <string name="add_edit_task_date_format">M.d.yyyy    hh:mm a</string>
     <string name="add_edit_task_priority_high">High</string>
     <string name="add_edit_task_priority_medium">Medium</string>
     <string name="add_edit_task_priority_low">Low</string>
@@ -152,6 +152,7 @@
     <string name="add_edit_task_duration_empty">"Please insert the duration of the task "</string>
     <string name="first_run_1_des">"Thank you for installing this app. Do It With Android is designed to allow you to complete tasks more effectively and to reduce procrastination. Since this is your first time, we have to set a few things up to get you started.  I hope you will enjoy the app and it will help you improve your time management. "</string>
     <string name="activity_settings_lower_hours">Productivity time lower than hour...You can do better!</string>
+    <string name="dateFormat">M.d.yyyy    hh:mm a</string>
 
 
 </resources>
