@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,20 +186,25 @@ public class FragmentCurrentTasks extends Fragment {
 
         if(completedTime >= timeConsumption) {
             expGained = 0;
-        } else {
+        } else if (completedTime > 0){
             expGained = Math.round(taskExp * (completedTime/(float) timeConsumption));
+        } else {
+            expGained = taskExp;
         }
 
 
         if(((currExp + expGained)/expNextLevel) > 0) {
+            Log.d("LEVELOS", "level up ");
             int oldLevel = pref.getInt(USER_LEVEL, -1);
             int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);
             pref.edit().putInt(USER_LEVEL, oldLevel + 1).apply();
             pref.edit().putInt(NEXT_EXPERIENCE, oldNextExp * 2).apply();
             pref.edit().putInt(USER_EXPERIENCE, currExp + expGained - expNextLevel).apply();
         } else {
+            Log.d("LEVELOS", "neni level up");
             pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
         }
+        Log.d("LEVELOS", "expgained: " + expGained);
         mStatsViewModel.completeTask(task, true);
         mArchiveTaskViewModel.insert(new ArchivedTasks(task.getName(),task.getDescription(), task.getPriority(), task.getTime_consumption(), task.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
         taskViewModel.delete(task);
