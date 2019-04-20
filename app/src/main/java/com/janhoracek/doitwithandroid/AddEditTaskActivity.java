@@ -218,7 +218,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         }
 
         if (description.trim().isEmpty()) {
-            Toast.makeText(this, getString(R.string.add_edit_task_description_empty), Toast.LENGTH_SHORT).show();
+            description = " ";
             return;
         }
 

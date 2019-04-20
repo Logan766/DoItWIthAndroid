@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lottie = findViewById(R.id.animation_view);
+        checkFirstRun();
         lottie.setImageAssetsFolder("images");
         lottie.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                checkFirstRun();
+                Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -89,13 +92,16 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putInt(USER_EXPERIENCE, 0).apply();
             prefs.edit().putInt(NEXT_EXPERIENCE, 1000).apply();
 
+            /*
             Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
             startActivity(intent);
-            finish();
+            finish();*/
 
         } else if (currentVersionCode > savedVersionCode) {
 
-            // TODO This is an upgrade
+            Intent intent = new Intent(MainActivity.this, ApplicationActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         // Update the shared preferences with the current version code
