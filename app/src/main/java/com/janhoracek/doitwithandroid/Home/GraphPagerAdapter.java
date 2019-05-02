@@ -6,8 +6,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.view.ViewGroup;
 
-import com.janhoracek.doitwithandroid.UpdateableFragment;
-
 import java.util.HashMap;
 import java.util.Map;
 

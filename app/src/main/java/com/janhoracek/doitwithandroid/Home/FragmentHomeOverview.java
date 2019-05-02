@@ -16,7 +16,6 @@ import com.janhoracek.doitwithandroid.Data.DataHolder;
 import com.janhoracek.doitwithandroid.Data.DateChangeChecker;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.R;
-import com.janhoracek.doitwithandroid.UpdateableFragment;
 
 import androidx.lifecycle.ViewModelProviders;
 

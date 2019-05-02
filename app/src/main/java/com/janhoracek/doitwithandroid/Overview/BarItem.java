@@ -21,7 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.graphics.Color.rgb;
-
+/**
+ * Contains Bar Chart to be used in recycler view in overall stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class BarItem extends ChartItem {
 
     private BarData mBarData;
@@ -30,6 +36,14 @@ public class BarItem extends ChartItem {
     private int mBarGraphKind;
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param chartData Bar Chart Data
+     * @param title Title of chart
+     * @param barGraphKind Type of Bar Chart
+     * @param context Context
+     */
     public BarItem(ChartData<?> chartData, String title, int barGraphKind, Context context) {
         super(chartData);
         this.mBarData = (BarData) chartData;
@@ -43,6 +57,11 @@ public class BarItem extends ChartItem {
         return mBarGraphKind;
     }
 
+    /**
+     * Gets type of graph
+     *
+     * @return type of graph
+     */
     public int getGraphType() {
         return 2;
     }
@@ -67,7 +86,6 @@ public class BarItem extends ChartItem {
 
         Legend legend = mBarChart.getLegend();
         legend.setEnabled(true);
-        //legend.setFormSize(10f);
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setTextSize(12f);
         legend.setTextColor(Color.BLACK);
@@ -90,14 +108,15 @@ public class BarItem extends ChartItem {
         leftAxis.setGranularity(1f);
         leftAxis.setLabelCount(5, false);
         leftAxis.setSpaceTop(20f);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        leftAxis.setAxisMinimum(0f);
 
         YAxis rightAxis = mBarChart.getAxisRight();
         rightAxis.setGranularity(1f);
         rightAxis.setLabelCount(5, false);
         rightAxis.setSpaceTop(20f);
-        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        rightAxis.setAxisMinimum(0f);
 
+        //load data based on exact chart
         switch (mBarGraphKind) {
             case 1:
                 xAxis.setValueFormatter(new IndexAxisValueFormatter(getDateByDay()));
@@ -110,6 +129,11 @@ public class BarItem extends ChartItem {
 
     }
 
+    /**
+     * Gets labels for data (daily statistics)
+     *
+     * @return label for data (day)
+     */
     private ArrayList<String> getDateByDay() {
         ArrayList<String> label = new ArrayList<>();
         List<Stats> stats = DataHolder.getInstance().getStatsList();
@@ -122,6 +146,11 @@ public class BarItem extends ChartItem {
         return label;
     }
 
+    /**
+     * Gets labels for data (monthly statistics)
+     *
+     * @return label for data (month)
+     */
     private ArrayList<String> getDateByMonth() {
         ArrayList<String> label = new ArrayList<>();
         List<StatsByMonth> stats = DataHolder.getInstance().getStatsByMonths();
@@ -130,7 +159,6 @@ public class BarItem extends ChartItem {
             String year = String.valueOf(stats.get(i).getYear());
             label.add(month + "." + year);
         }
-
         return label;
     }
 

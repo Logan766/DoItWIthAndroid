@@ -21,14 +21,18 @@ import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+/**
+ * Activity which contains information about application to be shown to user
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class AboutActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TextView mTextViewVersion;
     private TextView mTextViewMail;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +53,7 @@ public class AboutActivity extends AppCompatActivity {
         mTextViewMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto",getString(R.string.me_mail), null));
-                intent.putExtra(Intent.EXTRA_SUBJECT, R.string.mail_subject);
-                intent.putExtra(Intent.EXTRA_TEXT, R.string.mail_text);
-                startActivity(Intent.createChooser(intent, getString(R.string.mail_choose)));*/
-
+                //send feedback via email
                 Intent send = new Intent(Intent.ACTION_SENDTO);
                 String uriText = "mailto:" + Uri.encode(getString(R.string.me_mail)) +
                         "?subject=" + Uri.encode(getString(R.string.mail_subject)) +
@@ -65,9 +64,7 @@ public class AboutActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(send, getString(R.string.mail_choose)));
             }
         });
-
         setTitle(getString(R.string.action_about));
-
     }
 
 

@@ -37,7 +37,13 @@ import java.util.Date;
 import static android.graphics.Color.rgb;
 import static java.time.format.FormatStyle.LONG;
 import static java.time.format.FormatStyle.MEDIUM;
-
+/**
+ * Activity which is used to create, reopen or edit task
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class AddEditTaskActivity extends AppCompatActivity {
     public static final String REOPEN_REQUEST = "com.janhoracek.doitwithandroid.REOPEN_REQUEST";
     public static final String EXTRA_ID = "com.janhoracek.doitwithandroid.EXTRA_ID";
@@ -120,12 +126,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new SingleDateAndTimePickerDialog.Builder(v.getContext())
-                        //.bottomSheet()
                         .mainColor(getResources().getColor(R.color.colorPrimaryDark))
                         .curved()
-                        //.minutesStep(15)
-                        //.todayText("aujourd'hui")
-                        //.backgroundColor(Color.BLACK)
                         .mainColor(getResources().getColor(R.color.colorPrimaryDark))
                         .titleTextColor(Color.BLACK)
                         .mustBeOnFuture()
@@ -141,7 +143,6 @@ public class AddEditTaskActivity extends AppCompatActivity {
                             @Override
                             public void onDateSelected(Date date) {
                                 mDeadline = date;
-                                //String myString = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(date);
                                 String myString = mDateFormat.format(date);
                                 mTextViewAddDate.setText(myString);
                             }
@@ -182,12 +183,10 @@ public class AddEditTaskActivity extends AppCompatActivity {
             mNumberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
             mNumberPickerHours.setValue(intent.getIntExtra(EXTRA_DURATION, 1)/60);
             mNumberPickerMinutes.setValue((intent.getIntExtra(EXTRA_DURATION, 1) % 60) / 15 );
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             mCompleted = intent.getIntExtra(EXTRA_COMPLETED, 0);
 
 
-            //bug fix
+            //Number picker show value fix
             try {
                 Method method = mNumberPickerMinutes.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
                 method.setAccessible(true);
@@ -206,6 +205,9 @@ public class AddEditTaskActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Collects data and passes them back to FragmentTask to be saved
+     */
     private void saveTask() {
         String title = mEditTextTitle.getText().toString();
         String description = mEditTextDescription.getText().toString();
@@ -213,14 +215,14 @@ public class AddEditTaskActivity extends AppCompatActivity {
         Date deadline = mDeadline;
         int duration_time = mNumberPickerHours.getValue() * 60 + mNumberPickerMinutes.getValue() * 15;
 
+        //validation
         if (title.trim().isEmpty()) {
             Toast.makeText(this, getString(R.string.add_edit_task_title_empty), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (description.trim().isEmpty()) {
-            description = " ";
-            return;
+            description = "-";
         }
 
         if (duration_time == 0) {
@@ -233,18 +235,18 @@ public class AddEditTaskActivity extends AppCompatActivity {
             return;
         }
 
+        //put data to Intent
         Intent data = new Intent();
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
         data.putExtra(EXTRA_DURATION, duration_time);
         data.putExtra(EXTRA_DEADLINE, deadline);
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         data.putExtra(EXTRA_COMPLETED, mCompleted);
 
 
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        //catch error
         if (id != -1) {
             data.putExtra(EXTRA_ID, id);
         }
@@ -253,15 +255,6 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDeadline);
-
-        Log.d("DIWD", "date year: " + calendar.get(Calendar.YEAR));
-        Log.d("DIWD", "date month: " + calendar.get(Calendar.MONTH));
-        Log.d("DIWD", "date day: " + calendar.get(Calendar.DAY_OF_MONTH) + 1);
-        Log.d("DIWD", "time: " + calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE));
-
-        Log.d("Saving", "Completed is: " + mCompleted);
-
-
         finish();
 
     }

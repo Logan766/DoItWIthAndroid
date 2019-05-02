@@ -34,6 +34,13 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Fragment contains recycler view for ArchivedTasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FragmentArchivedTasks extends Fragment {
     public static final int REOPEN_TASK_REQUEST = 3;
 
@@ -95,6 +102,7 @@ public class FragmentArchivedTasks extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        //reopen task
         mAdapterArchive.setOnTaskClickListener(new TaskAdapterArchive.OnTaskClickListener() {
             @Override
             public void onTaskClick(ArchivedTasks task) {

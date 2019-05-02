@@ -13,7 +13,13 @@ import com.janhoracek.doitwithandroid.Database.Stats;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Contains Line Chart to be used in recycler view in overall stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class LineItem extends  ChartItem {
     private static LineData mLineData;
     private String mTitle;
@@ -21,6 +27,14 @@ public class LineItem extends  ChartItem {
     private int mLineGraphKind;
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param chartData Bar Chart Data
+     * @param title Title of chart
+     * @param lineGraphKind Type of Line Chart
+     * @param context Context
+     */
     public LineItem(ChartData<?> chartData, String title, int lineGraphKind, Context context) {
         super(chartData);
         mLineData = (LineData) chartData;

@@ -8,7 +8,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+/**
+ * Fragment to be used second in first run Activity containing info
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FirstRunFragmentTwo extends Fragment {
     @Nullable
     @Override

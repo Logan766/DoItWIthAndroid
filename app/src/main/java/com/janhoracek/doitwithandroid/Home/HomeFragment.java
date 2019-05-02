@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +39,6 @@ import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
 import com.janhoracek.doitwithandroid.R;
-import com.janhoracek.doitwithandroid.Tasks.TaskAdapterToday;
-import com.janhoracek.doitwithandroid.UpdateableFragment;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
@@ -192,6 +189,7 @@ public class HomeFragment extends Fragment{
                 Calendar calStart = Calendar.getInstance();
                 calStart.setTime(DateChangeChecker.getInstance().getTodayStart(pref));
 
+                //check if now is in productivity time
                 if(((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
                     Calendar calRelativeStart = Calendar.getInstance();
                     calRelativeStart.setTimeInMillis(calEnd.getTimeInMillis() - timeRemaining*60000);
@@ -201,38 +199,42 @@ public class HomeFragment extends Fragment{
                     timeRemaining = timeRemaining-timeConsumed;
                 }
 
+                //change time remaining
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
                 int expGain;
+                //check if task is parted
                 if(adapter.getTaskAt(viewHolder.getAdapterPosition()).getTo_be_done() > 0) {
-                    Log.d(TAG, "Task je pulenej");
                     Taskers uTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
-                    Log.d(TAG, "Task cela doba: " + uTask.getTime_consumption());
                     int completed = uTask.getCompleted() + uTask.getTo_be_done();
-                    Log.d(TAG, "Splnena doba: " + completed);
+                    //check if task is now fully completed
                     if(completed == uTask.getTime_consumption()) {
+                        //task is fully completed
                         expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), true);
-                        Log.d(TAG, "Task je dokoncenej celej");
                         taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                         Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
+                        //add task to archive
                         ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), helpTask.getTime_consumption(), helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
                         mArchiveTaskViewModel.insert(archivTask);
                     } else {
+                        //task is still pared
                         expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), false);
-                        Log.d(TAG, "Tasku jsi splnil cast, nova completed je: " + completed);
+                        //update completed time
                         uTask.setCompleted(completed);
                         taskViewModel.update(uTask);
                     }
 
                 } else {
-                    Log.d(TAG, "Task je celej");
+                    //task is whole
                     expGain = mStatsViewModel.completeTask(adapter.getTaskAt(viewHolder.getAdapterPosition()), true);
                     taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
                     Taskers helpTask = adapter.getTaskAt(viewHolder.getAdapterPosition());
                     if(timeConsumed == 0) {timeConsumed = helpTask.getTime_consumption();}
+                    //add task to archive
                     ArchivedTasks archivTask = new ArchivedTasks(helpTask.getName(), helpTask.getDescription(), helpTask.getPriority(), (int) timeConsumed, helpTask.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec());
                     mArchiveTaskViewModel.insert(archivTask);
                 }
 
+                //update experience progress
                 UpdateableFragment fragment = (UpdateableFragment) mAdapter.getFragment(0);
                 if(fragment == null) return;
                 fragment.updateProgress(expGain, getContext());
@@ -245,12 +247,11 @@ public class HomeFragment extends Fragment{
                 params.setMargins(0, 0, 0, getActivity().findViewById(R.id.bottom_navigation).getHeight());
                 snack.getView().setLayoutParams(params);
                 snack.show();
-                //Snackbar.make(getActivity().findViewById(android.R.id.content), "Task done! Good work!", Snackbar.LENGTH_LONG).show();
-
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                //decoreate RecyclerView
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
                         .addSwipeLeftActionIcon(R.drawable.ic_check_black_24dp)
@@ -264,10 +265,12 @@ public class HomeFragment extends Fragment{
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        //check if tutorial should run
         FirstRunCheck = pref.getBoolean(HOME_FRAG_RUN, true);
-        //if(FirstRunCheck) {
         if(FirstRunCheck) {
+            //backup current tasks
             saveTempTasks();
+            //load example data
             taskViewModel.deleteAllTasks();
             taskViewModel.insert(new Taskers(getString(R.string.tutorial_title_call_mom), getString(R.string.tutorial_title_call_mom_des), 1, 30, 26, 5, 2019, "14:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
             taskViewModel.insert(new Taskers(getString(R.string.tutorial_buy_milk_title), getString(R.string.tutorial_buy_milk_des), 2, 15, 28, 5, 2019, "18:00", new DateHandler().getCurrentDateTimeInMilisec() - 60000, 0, 0));
@@ -285,15 +288,16 @@ public class HomeFragment extends Fragment{
                             .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
                                 @Override
                                 public void onStarted() {
-                                    //Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
                                 public void onEnded() {
-                                    //Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                    //restore data
                                     taskViewModel.deleteAllTasks();
                                     mViewPager.setCurrentItem(0);
                                     reloadTasks();
+                                    //disable tutorial
                                     pref.edit().putBoolean(HOME_FRAG_RUN, false).apply();
                                 }
                             });
@@ -302,26 +306,43 @@ public class HomeFragment extends Fragment{
 
             });
         }
-
         return v;
     }
 
+    /**
+     * Converts time remaining to String
+     *
+     * @param pref SharedPreferences
+     * @return String with time remaining
+     */
     private String getTimeRemaining(SharedPreferences pref) {
         long minutes = pref.getLong(TIME_REMAINING, -1) % 60;
         long hours = pref.getLong(TIME_REMAINING, -1) / 60;
         return hours + getString(R.string.hours_short) + " " +  minutes + getString(R.string.minutes_short);
     }
 
+    /**
+     * Backups current tasks
+     */
     private void saveTempTasks() {
         tempSave = taskViewModel.getAllTasksList();
     }
 
+    /**
+     * Restores backup of tasks
+     */
     private void reloadTasks() {
         for(int i = 0; i <= tempSave.size()-1; i++) {
             taskViewModel.insert(tempSave.get(i));
         }
     }
 
+    /**
+     * Builds targets for tutorial
+     *
+     * @param v View
+     * @return list of targets
+     */
     private ArrayList<SimpleTarget> buildTargets(View v) {
         ArrayList<SimpleTarget> targets = new ArrayList<>();
 
@@ -381,15 +402,10 @@ public class HomeFragment extends Fragment{
                         for(int i = 0; i<=taskViewModel.getAllTasksList().size() -1; i++) {
                             mRecyclerView.findViewHolderForAdapterPosition(i).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
                         }
-                        //mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
-                        //mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
-                        //mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(Color.WHITE);
-
                         mScrollView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 ObjectAnimator.ofInt(mScrollView, "scrollY",  mScrollView.getBottom()).setDuration(6000).start();
-                                //mScrollView.smoothScrollTo(0, mScrollView.getBottom());
                             }
                         },100);
                     }
@@ -414,13 +430,6 @@ public class HomeFragment extends Fragment{
                         for(int i = 0; i<=taskViewModel.getAllTasksList().size() -1; i++) {
                             mRecyclerView.findViewHolderForAdapterPosition(i).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
                         }
-                        /*
-                        mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
-                        mRecyclerView.findViewHolderForAdapterPosition(1).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
-                        mRecyclerView.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.today_background).setBackgroundColor(rgb(200, 200, 200));
-                        */
-
-
                         mScrollView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -456,7 +465,7 @@ public class HomeFragment extends Fragment{
                     }
                     @Override
                     public void onEnded(SimpleTarget target) {
-                        //taskViewModel.deleteAllTasks();
+
                     }
                 })
                 .setTitle(getString(R.string.home_fragment_tutorial_more_parts_title))
@@ -477,7 +486,7 @@ public class HomeFragment extends Fragment{
                     }
                     @Override
                     public void onEnded(SimpleTarget target) {
-                        //taskViewModel.deleteAllTasks();
+
                     }
                 })
                 .setTitle(getString(R.string.home_fragment_tutorial_overview_title))
@@ -519,9 +528,6 @@ public class HomeFragment extends Fragment{
                 .build();
 
         targets.add(highTaskTarget);
-
-
-
         return targets;
     }
 

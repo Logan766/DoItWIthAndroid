@@ -40,7 +40,13 @@ import java.util.Date;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-
+/**
+ * Fragment contains recycler view for current Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FragmentCurrentTasks extends Fragment {
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
@@ -66,16 +72,18 @@ public class FragmentCurrentTasks extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_tasks_current, container, false);
         pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        //check date change
         DateChangeChecker.getInstance().CheckDate(pref);
 
         mRecyclerView = v.findViewById(R.id.task_fragment_recyclerview);
         mRecyclerView.setItemViewCacheSize(0);
         mFloatingActionButton = v.findViewById(R.id.add_task_fab);
-        //mScrollView = v.findViewById(R.id.scrollview_current_tasks);
 
+        //load models
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        //observe changes in database
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
@@ -89,7 +97,7 @@ public class FragmentCurrentTasks extends Fragment {
                     DataHolder.getInstance().setDeadlinesDoable(true);
                     ((FragmentTasks)getParentFragment()).redrawLottie();
                 }
-
+                //load tasks
                 mAdapterAll.submitList(taskers);
 
                 for(int i = 0; i<=taskers.size()-1; i++) {
@@ -97,10 +105,9 @@ public class FragmentCurrentTasks extends Fragment {
                 }
             }
         });
-
+        //setup RecyclerView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-
         mAdapterAll = new TaskAdapterAll(getActivity()); /////////////////////////////////////////
         mRecyclerView.setAdapter(mAdapterAll);
 
@@ -133,6 +140,7 @@ public class FragmentCurrentTasks extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //delete/complete task
                 if(direction == ItemTouchHelper.LEFT) {
                     taskViewModel.delete(mAdapterAll.getTaskAt(viewHolder.getAdapterPosition()));
                 } else if (direction == ItemTouchHelper.RIGHT) {
@@ -142,6 +150,7 @@ public class FragmentCurrentTasks extends Fragment {
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                //decorate RecyclerView
                 new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(getActivity(), R.color.PastelRed))
                         .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
@@ -159,7 +168,7 @@ public class FragmentCurrentTasks extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-
+        //edit task
         mAdapterAll.setOnTaskClickListener(new TaskAdapterAll.OnTaskClickListener() {
             @Override
             public void onTaskClick(Taskers task) {
@@ -174,12 +183,14 @@ public class FragmentCurrentTasks extends Fragment {
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
             }
         });
-
-
-
         return v;
     }
 
+    /**
+     * Completes selected Task
+     *
+     * @param task Task to be completed
+     */
     private void completeTask(Taskers task) {
         int expNextLevel = pref.getInt(NEXT_EXPERIENCE, -1);
         int currExp = pref.getInt(USER_EXPERIENCE, -1);
@@ -198,17 +209,14 @@ public class FragmentCurrentTasks extends Fragment {
 
 
         if(((currExp + expGained)/expNextLevel) > 0) {
-            Log.d("LEVELOS", "level up ");
             int oldLevel = pref.getInt(USER_LEVEL, -1);
             int oldNextExp = pref.getInt(NEXT_EXPERIENCE, -1);
             pref.edit().putInt(USER_LEVEL, oldLevel + 1).apply();
             pref.edit().putInt(NEXT_EXPERIENCE, oldNextExp * 2).apply();
             pref.edit().putInt(USER_EXPERIENCE, currExp + expGained - expNextLevel).apply();
         } else {
-            Log.d("LEVELOS", "neni level up");
             pref.edit().putInt(USER_EXPERIENCE, expGained + currExp).apply();
         }
-        Log.d("LEVELOS", "expgained: " + expGained);
         mStatsViewModel.completeTask(task, true);
         mArchiveTaskViewModel.insert(new ArchivedTasks(task.getName(),task.getDescription(), task.getPriority(), task.getTime_consumption(), task.getD_time_milisec(), new DateHandler().getCurrentDateTimeInMilisec()));
         taskViewModel.delete(task);
@@ -218,7 +226,7 @@ public class FragmentCurrentTasks extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        //add task to databse
         if(requestCode == ADD_TASK_REQUEST && resultCode == RESULT_OK) {
             String title = data.getStringExtra(AddEditTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
@@ -236,8 +244,10 @@ public class FragmentCurrentTasks extends Fragment {
 
             Toast.makeText(getActivity(), getString(R.string.fragment_current_task_add_succ), Toast.LENGTH_SHORT).show();
         } else if(requestCode == EDIT_TASK_REQUEST && resultCode == RESULT_OK) {
+            //update task in database
             int id = data.getIntExtra(AddEditTaskActivity.EXTRA_ID, -1);
 
+            //catch error
             if(id == -1) {
                 Toast.makeText(getActivity(), getString(R.string.fragment_current_task_update_fail), Toast.LENGTH_SHORT).show();
                 return;
@@ -256,6 +266,7 @@ public class FragmentCurrentTasks extends Fragment {
             Taskers task = new Taskers(title, description, priority, duration, calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) +1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), deadline.getTime(), 0, completed );
             task.setId(id);
 
+            //autocomplete task if completed time is 100% or more
             if(task.getCompleted() >= task.getTime_consumption()) {
                 completeTask(task);
                 Toast.makeText(getActivity(), getString(R.string.fragment_current_task_over100), Toast.LENGTH_SHORT).show();

@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid.Tasks;
+package com.janhoracek.doitwithandroid.Home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,7 +22,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.graphics.Color.rgb;
-
+/**
+ * Adapter for recycler view containing today Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.TaskHolder> {
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
@@ -58,6 +64,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         calEnd.set(Calendar.SECOND, 0);
 
         Taskers currentTaskers = mTasks.get(position);
+        //color priority
         switch (currentTaskers.getPriority()) {
             case 1:
                 holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
@@ -70,6 +77,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
                 break;
         }
 
+        //grey if now is not in productive time
         if(!((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
             holder.mBackground.setBackgroundColor(rgb(200, 200, 200));
         } else {
@@ -79,7 +87,7 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
         holder.mTextViewTitle.setText(currentTaskers.getName());
         holder.mTextViewDescription.setText(currentTaskers.getDescription());
 
-
+        //manage parted task
         if(currentTaskers.getTo_be_done() > 0) {
             holder.mTextViewCompleted.setVisibility(View.VISIBLE);
             int partDone = Math.round((currentTaskers.getTo_be_done() / (float) currentTaskers.getTime_consumption()) * 100);
@@ -104,10 +112,13 @@ public class TaskAdapterToday extends RecyclerView.Adapter<TaskAdapterToday.Task
 
     public void setTasks (List<Taskers> tasks) {
         this.mTasks = tasks;
-        notifyDataSetChanged(); //replace
+        notifyDataSetChanged();
 
     }
 
+    /**
+     * ViewHolder for today Task
+     */
     class TaskHolder extends  RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;

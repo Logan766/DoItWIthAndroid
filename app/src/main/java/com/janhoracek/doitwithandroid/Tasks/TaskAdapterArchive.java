@@ -19,12 +19,23 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.graphics.Color.rgb;
-
+/**
+ * Adapter for recycler view containing archived Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class TaskAdapterArchive extends ListAdapter<ArchivedTasks, TaskAdapterArchive.TaskHolder> {
     private OnTaskClickListener mListener;
     private SimpleDateFormat mDateFormat;
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param context Context
+     */
     public TaskAdapterArchive(Context context) {
         super(DIFF_CALLBACK);
         mContext = context;
@@ -71,7 +82,7 @@ public class TaskAdapterArchive extends ListAdapter<ArchivedTasks, TaskAdapterAr
                 break;
         }
 
-
+        //change icon if task is after its deadline
         if(currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) {
             holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_red_24dp), null, null, null);
         } else {
@@ -84,11 +95,19 @@ public class TaskAdapterArchive extends ListAdapter<ArchivedTasks, TaskAdapterAr
         holder.mTextViewCompleted.setText(mDateFormat.format(currentTaskers.getCompleted()));
     }
 
-
+    /**
+     * Gets archived Task at given position
+     *
+     * @param position position of task
+     * @return ArchivedTask
+     */
     public ArchivedTasks getTaskAt(int position) {
         return getItem(position);
     }
 
+    /**
+     * ViewHolder for ArchivedTask
+     */
     class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
@@ -122,11 +141,17 @@ public class TaskAdapterArchive extends ListAdapter<ArchivedTasks, TaskAdapterAr
             });
         }
     }
-
+    /**
+     * Interface to make Task clickable
+     */
     public interface OnTaskClickListener {
         void onTaskClick(ArchivedTasks task);
     }
 
+    /**
+     * Sets click listener on Task
+     * @param listener listener
+     */
     public void setOnTaskClickListener(OnTaskClickListener listener) {
         this.mListener = listener;
     }

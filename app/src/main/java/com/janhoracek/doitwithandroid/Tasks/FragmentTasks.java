@@ -40,7 +40,13 @@ import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Main Fragment of Tasks, containing current task, archived tasks and quick summary
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FragmentTasks extends Fragment {
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
@@ -96,46 +102,41 @@ public class FragmentTasks extends Fragment {
                 .setCancelable(true)
                 .build();
 
-
+        //tooltip information
         mLottieAnimationViewDeadline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     mTooltip.show();
-
             }
         });
 
+
+        //change icon of summary based on check doables result
         if(DataHolder.getInstance().getAllTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
             mLottieAnimationViewAll.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
             mLottieAnimationViewAll.playAnimation();
         }
 
         if(DataHolder.getInstance().getMediumTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("success.json");
             mLottieAnimationViewMedium.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("not_success.json");
             mLottieAnimationViewMedium.playAnimation();
         }
 
         if(DataHolder.getInstance().getHighTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
             mLottieAnimationViewHigh.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
@@ -158,7 +159,7 @@ public class FragmentTasks extends Fragment {
         tabLayout.setupWithViewPager(mViewPager);
 
         FirstRunCheck = pref.getBoolean(TASKS_FRAG_RUN, true);
-        //if(FirstRunCheck) {
+        //check if tutorial should run
         if(FirstRunCheck) {
             tutorialRunning = true;
             saveTempTasks();
@@ -209,6 +210,12 @@ public class FragmentTasks extends Fragment {
         }
     }
 
+    /**
+     * Builds targets for tutorial
+     *
+     * @param v View
+     * @return List of targets for tutorial
+     */
     private ArrayList<SimpleTarget> buildTargets(View v) {
         ArrayList<SimpleTarget> targets = new ArrayList<>();
 
@@ -390,11 +397,17 @@ public class FragmentTasks extends Fragment {
         return targets;
     }
 
+    /**
+     * Backups current tasks
+     */
     private void saveTempTasks() {
         tempSave = taskViewModel.getAllTasksList();
         tempSaveArchive = mArchiveTaskViewModel.getAllTasksList();
     }
 
+    /**
+     * Restores backup of tasks
+     */
     private void reloadTasks() {
         for(int i = 0; i <= tempSave.size()-1; i++) {
             taskViewModel.insert(tempSave.get(i));
@@ -404,45 +417,39 @@ public class FragmentTasks extends Fragment {
         }
     }
 
+    /**
+     * Redraws summary icons
+     */
     public void redrawLottie() {
         if(DataHolder.getInstance().getAllTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
             mLottieAnimationViewAll.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
             mLottieAnimationViewAll.playAnimation();
         }
 
         if(DataHolder.getInstance().getMediumTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("success.json");
             mLottieAnimationViewMedium.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("not_success.json");
             mLottieAnimationViewMedium.playAnimation();
         }
 
         if(DataHolder.getInstance().getHighTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
             mLottieAnimationViewHigh.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
         }
-
-
-        Log.d("DDLINE", "Deadline doable: " + DataHolder.getInstance().getDeadlinesDoable());
 
         if(DataHolder.getInstance().getDeadlinesDoable()) {
             mLottieAnimationViewDeadline.setVisibility(View.GONE);
@@ -469,7 +476,6 @@ public class FragmentTasks extends Fragment {
             switch (position) {
                 case 0:
                     fragment = new FragmentCurrentTasks();
-                    Log.d("FRAGS", "Ted se prepnul item ");
                     break;
                 case 1:
                     fragment = new FragmentArchivedTasks();

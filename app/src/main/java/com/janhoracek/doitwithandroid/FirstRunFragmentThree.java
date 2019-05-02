@@ -21,7 +21,13 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+/**
+ * Fragment to be used third in first run Activity to set productivity time
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FirstRunFragmentThree extends Fragment {
     private static final String TAG = "FIRSTRUNN";
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
@@ -62,19 +68,17 @@ public class FirstRunFragmentThree extends Fragment {
                 cal.setTime(mDateAndTimePickerStart.getDate());
                 startHour = cal.get(Calendar.HOUR_OF_DAY);
                 startMinute = cal.get(Calendar.MINUTE);
-                Log.d(TAG, "Start time hours " + startHour);
-                Log.d(TAG, "Start time minutes " + startMinute);
                 cal.setTime(mDateAndTimePickerEnd.getDate());
                 endHour = cal.get(Calendar.HOUR_OF_DAY);
                 endMinute = cal.get(Calendar.MINUTE);
-                Log.d(TAG, "End time hours " + endHour);
-                Log.d(TAG, "End time minutes " + endMinute);
                 prodHours = (((endHour - startHour) * 60) + (endMinute - startMinute)) / 60;
                 prodMinutes = (((endHour - startHour) * 60) + (endMinute - startMinute)) % 60;
                 prodTime = prodHours * 60 + prodMinutes;
                 if(prodHours <= 0) {
+                    //validate
                     Toast.makeText(getActivity(), getString(R.string.activity_settings_lower_hours), Toast.LENGTH_SHORT).show();
                 } else {
+                    //save productivity time
                     new AlertDialog.Builder(getActivity())
                             .setIcon(null)
                             .setTitle(getString(R.string.activity_settings_dialog_prod_time_title))
@@ -89,7 +93,6 @@ public class FirstRunFragmentThree extends Fragment {
                                     pref.edit().putLong(PRODUCTIVITY_TIME, prodTime).apply();
                                     pref.edit().putLong(TIME_REMAINING, prodTime);
                                     pref.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
-                                    Log.d(TAG, "Productivity time: " + prodTime);
                                     Intent intent = new Intent(getContext(), ApplicationActivity.class);
                                     startActivity(intent);
                                     getActivity().finish();
@@ -98,12 +101,8 @@ public class FirstRunFragmentThree extends Fragment {
                             .setNegativeButton(android.R.string.no, null)
                             .show();
                 }
-
             }
         });
-
-
-
         return v;
     }
 }

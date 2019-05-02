@@ -15,7 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.graphics.Color.rgb;
-
+/**
+ * Contains Pie Chart to be used in recycler view in overall stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class PieItem extends ChartItem {
 
     private PieData mPieData;
@@ -24,6 +30,14 @@ public class PieItem extends ChartItem {
     private int mPieGraphKind;
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param chartData Bar Chart Data
+     * @param title Title of chart
+     * @param pieGraphKind Type of Pie Chart
+     * @param context Context
+     */
     public PieItem(ChartData<?> chartData, String title, int pieGraphKind, Context context) {
         super(chartData);
         this.mPieData = (PieData) chartData;

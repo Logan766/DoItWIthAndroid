@@ -13,13 +13,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.janhoracek.doitwithandroid.Application.ApplicationActivity;
 import com.janhoracek.doitwithandroid.R;
 
 import java.util.Calendar;
-
+/**
+ * Activity contains settings to be changed by user
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class SettingsActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
@@ -61,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
         mButtonRunTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //rerun tutorials
                 new AlertDialog.Builder(SettingsActivity.this)
                         .setIcon(null)
                         .setTitle(getString(R.string.activity_settings_butt_tutorial_title))
@@ -83,6 +91,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Validates and saves settings to SharedPreferences
+     */
     private void saveSettings() {
         final int startHour;
         final int startMinute;
@@ -103,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity {
         prodMinutes = (((endHour - startHour) * 60) + (endMinute - startMinute)) % 60;
         prodTime = prodHours * 60 + prodMinutes;
         if(prodHours <= 0) {
-            //Toast.makeText(getActivity(), "Productivity time lower than hour...You can do better!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.activity_settings_lower_hours), Toast.LENGTH_SHORT).show();
         } else {
             new AlertDialog.Builder(SettingsActivity.this)
                     .setIcon(null)

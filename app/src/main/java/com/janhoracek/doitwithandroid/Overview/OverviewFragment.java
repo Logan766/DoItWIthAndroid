@@ -32,6 +32,13 @@ import com.takusemba.spotlight.target.SimpleTarget;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main Overview Fragment, which contains recycler view with graphs
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class OverviewFragment extends Fragment {
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
     private static final String OVERVIEW_FRAG_RUN = "com.janhoracek.doitwithandroid.OVERVIEW_FRAG_RUN";
@@ -42,7 +49,6 @@ public class OverviewFragment extends Fragment {
     private StatsViewModel mStatsViewModel;
     private SharedPreferences pref;
     private boolean FirstRunCheck;
-    //private List<Stats> Mstats;
 
     @Nullable
     @Override
@@ -50,10 +56,11 @@ public class OverviewFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_overview, container, false);
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        //check date
         DateChangeChecker.getInstance().CheckDate(pref);
 
+        //setup RecyclerView
         mRecyclerView = v.findViewById(R.id.recycler_view_graphs);
-
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -61,13 +68,13 @@ public class OverviewFragment extends Fragment {
         items.add(new BarItem(DataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1, getActivity()));
         items.add(new BarItem(DataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2, getActivity()));
         items.add(new PieItem(DataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1, getActivity()));
-
         final GraphAdaper adaper = new GraphAdaper();
         adaper.setGraphs(items);
-
-
         mRecyclerView.setAdapter(adaper);
+
+        //set model
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
+        //check last date
         new DateHandler().checkLastDate(mStatsViewModel);
         mStatsViewModel.getAllStats().observe(this, new Observer<List<Stats>>() {
             @Override
@@ -75,7 +82,7 @@ public class OverviewFragment extends Fragment {
 
             }
         });
-        Log.d("DIWD", "ted cumis na statistiku");
+        //check if tutorial should run
         FirstRunCheck = pref.getBoolean(OVERVIEW_FRAG_RUN, true);
         if(FirstRunCheck) {
             v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -91,12 +98,11 @@ public class OverviewFragment extends Fragment {
                             .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
                                 @Override
                                 public void onStarted() {
-                                    //Toast.makeText(getContext(), "spotlight is started", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
                                 public void onEnded() {
-                                    //Toast.makeText(getActivity(), "spotlight is ended", Toast.LENGTH_SHORT).show();
                                     pref.edit().putBoolean(OVERVIEW_FRAG_RUN, false).apply();
                                 }
                             });
@@ -108,6 +114,12 @@ public class OverviewFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Builds targets for tutorial
+     *
+     * @param v View
+     * @return List of targets
+     */
     private ArrayList<SimpleTarget> buildTargets(View v) {
         ArrayList<SimpleTarget> targets = new ArrayList<>();
 

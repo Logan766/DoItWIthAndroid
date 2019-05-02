@@ -12,7 +12,13 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Application.ApplicationActivity;
 import com.janhoracek.doitwithandroid.Application.FirstRunActivity;
 
-
+/**
+ * Main activity which decides wheter is fist run, updated run or normal run
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class MainActivity extends AppCompatActivity {
     private LottieAnimationView lottie;
 
@@ -49,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Checks first run
+     */
     private void checkFirstRun() {
 
         final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
@@ -72,33 +81,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ApplicationActivity.class);
             startActivity(intent);
             finish();
-
-            Log.d("FRFFS", "This is normal run");
             return;
 
         } else if (savedVersionCode == DOESNT_EXIST) {
-
             // First run
-            //TODO intent
-            Log.d("FRFFS", "This is the first run");
             prefs.edit().putInt(USER_LEVEL, 1).apply();
             prefs.edit().putInt(USER_EXPERIENCE, 0).apply();
             prefs.edit().putInt(NEXT_EXPERIENCE, 1000).apply();
-
-            /*
-            Intent intent = new Intent(MainActivity.this, FirstRunActivity.class);
-            startActivity(intent);
-            finish();*/
-
         } else if (currentVersionCode > savedVersionCode) {
-
+            // Updated run
             Intent intent = new Intent(MainActivity.this, ApplicationActivity.class);
             startActivity(intent);
             finish();
         }
 
-        // Update the shared preferences with the current version code
-        //prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
 

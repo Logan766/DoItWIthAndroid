@@ -16,7 +16,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+/**
+ * Adapter for recyclew view in statistics
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<ChartItem> items;
@@ -122,15 +128,27 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items.size();
     }
 
+    /**
+     * Sets graphs
+     *
+     * @param graphs list of ChartItems
+     */
     public void setGraphs (List<ChartItem> graphs) {
         this.items = graphs;
     }
 
+    /**
+     * Get graphs
+     *
+     * @return List of ChartItems
+     */
     public List<ChartItem> getGraphs() {
         return items;
     }
 
-
+    /**
+     * ViewHolder for BarChart
+     */
     class GraphHolderBarChart extends  RecyclerView.ViewHolder {
 
         public BarChart graph;
@@ -143,6 +161,9 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    /**
+     * ViewHolder for LineChart
+     */
     class GraphHolderLineChart extends  RecyclerView.ViewHolder {
 
         public LineChart graph;
@@ -151,25 +172,13 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public GraphHolderLineChart(@NonNull View itemView) {
             super(itemView);
             graph = itemView.findViewById(R.id.linechart_overview);
-            /*graph.getDescription().setEnabled(false);
-            graph.setDrawGridBackground(false);
-
-            XAxis xAxis = graph.getXAxis();
-            xAxis.setDrawGridLines(false);
-            xAxis.setDrawAxisLine(true);
-
-            YAxis leftAxis = graph.getAxisLeft();
-            leftAxis.setLabelCount(5, false);
-            leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-            YAxis rightAxis = graph.getAxisRight();
-            rightAxis.setLabelCount(5, false);
-            rightAxis.setDrawGridLines(false);
-            rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)*/
             lineTitle = itemView.findViewById(R.id.item_linechart_text_view_title);
         }
     }
 
+    /**
+     * ViewHolder for PieChart
+     */
     class GraphHolderPieChart extends  RecyclerView.ViewHolder {
 
         public PieChart graph;

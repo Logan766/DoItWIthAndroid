@@ -26,11 +26,22 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.graphics.Color.rgb;
-
+/**
+ * Adapter for recycler view containing all current Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHolder> {
     private OnTaskClickListener mListener;
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param context Context
+     */
     public TaskAdapterAll(Context context) {
         super(DIFF_CALLBACK);
         mContext = context;
@@ -77,6 +88,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(mContext.getString(R.string.dateFormat));
         Taskers currentTaskers = getItem(position);
+        //change icon based on deadline and color priority
         switch (currentTaskers.getPriority()) {
             case 1:
                 holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
@@ -139,7 +151,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
         }
 
-
+        //change icon if task is after its deadline
         if(currentTaskers.getD_time_milisec() < new DateHandler().getCurrentDateTimeInMilisec()) {
             holder.mTextViewFire.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_whatshot_red_24dp), null, null, null);
         } else {
@@ -200,11 +212,19 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         }
     }
 
-
+    /**
+     * Gets task at given position
+     *
+     * @param position position of task
+     * @return Task
+     */
     public Taskers getTaskAt(int position) {
         return getItem(position);
     }
 
+    /**
+     * ViewHolder for Task
+     */
     class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextViewTitle;
         private TextView mTextViewDescription;
@@ -278,8 +298,6 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     .setCancelable(true)
                     .setGravity(Gravity.LEFT)
                     .build();
-
-
             mLinearLayoutDoableAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -289,10 +307,17 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         }
     }
 
+    /**
+     * Interface to make Task clickable
+     */
     public interface OnTaskClickListener {
         void onTaskClick(Taskers task);
     }
 
+    /**
+     * Sets click listener on Task
+     * @param listener listener
+     */
     public void setOnTaskClickListener(OnTaskClickListener listener) {
         this.mListener = listener;
     }

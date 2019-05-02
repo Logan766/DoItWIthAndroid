@@ -40,7 +40,7 @@
     <string name="home_fragment_tutorial_menu_title">Menu</string>
     <string name="home_fragment_tutorial_menu_des">Toto je hlavní menu, použij jej k navigaci po aplikaci</string>
     <string name="home_fragment_tutorial_overall_lvl_title">Úroveň</string>
-    <string name="home_fragment_tutorial_overall_lvl_des">Toto je tvá úroveň. Plněním úkolů budeš získávat zkušenosti, které jí budou zvyšovat. Pokus se splnit co nevjíce úkolů a staň se efektivním člověkem s vysokou úrovní!</string>
+    <string name="home_fragment_tutorial_overall_lvl_des">Toto je tvá úroveň. Plněním úkolů budeš získávat zkušenosti, které jí budou zvyšovat. Pokus se splnit co nejvíce úkolů a staň se efektivním člověkem s vysokou úrovní!</string>
     <string name="home_fragment_tutorial_exp_title">Zkušenosti</string>
     <string name="home_fragment_tutorial_exp_des">Toto jsou tvé stávající zkušenosti a počet zkušeností, které potřebuješ k dosažení další úrovně. Každá další úroveň bude náročnější na splnění, ale ty to zvládneš!</string>
     <string name="home_fragment_tutorial_time_remaining_title">Zbývající čas</string>
@@ -52,11 +52,11 @@
     <string name="home_fragment_tutorial_more_parts_title">Úkoly na více částí</string>
     <string name="home_fragment_tutorial_more_parts_des">Pokud Ti ve tvé aktivní době nezbývá moc času, nebo je úkol delší než tvůj celkový pracovní čas, bude úkol rozdělen na více částí. Takový úkol se zobrazí stejně jako ostatní, s tím rozdílem, že je u něj uvedena procentuální část, jakou tato položka zabírá z celkového úkolu.</string>
     <string name="home_fragment_tutorial_overview_title">Rychlý přehled</string>
-    <string name="home_fragment_tutorial_overview_des">Pokud potahneš doleva v místech tvé úrovně, dostaneš se na rychlý přehled. Zde nalezneš přehled o tom, co jsi schopen splnit do jednotlivých termínů</string>
+    <string name="home_fragment_tutorial_overview_des">Pokud potahneš doleva v místech tvé úrovně, dostaneš se na rychlý přehled. Zde nalezneš přehled o tom, co jsi schopen splnit do jednotlivých termínů.</string>
     <string name="home_fragment_tutorial_overview_all_title">Všechny priority</string>
     <string name="home_fragment_tutorial_overview_all_des">Pokud uvidíš tento řádek zelený - Skvěle! Pokud budeš plnit ůkoly v zadaném pořadí, je možné je splnit všechny. Snaž se plnit úkoly co nejdřív, aby jsi viděl tento řádek co nejčastějí zelený.</string>
     <string name="home_fragment_tutorial_overview_med_title">Střední a vysoká priorita</string>
-    <string name="home_fragment_tutorial_overview_med_des">Pokud první řádek zčervená, ale tento zůstane zelený, není potřeba se ničeho obávat. Zelená na tomto řádku znamená, že je zde stále možnost splnit úkoly se střední a vysokou prioritou a Do It With Android Ti připraví plán jak toho docílit. Nicméně pokud je tento řádek červený, není možné splnit všechny ůkoly se střední prioritou.</string>
+    <string name="home_fragment_tutorial_overview_med_des">Pokud první řádek zčervená, ale tento zůstane zelený, není potřeba se ničeho obávat. Zelená na tomto řádku znamená, že je zde stále možnost splnit úkoly se střední a vysokou prioritou a Do It With Android Ti připraví plán jak toho docílit. Nicméně pokud je tento řádek červený, není možné splnit všechny úkoly se střední prioritou.</string>
     <string name="home_fragment_tutorial_overview_high_title">Úkoly s vysokou prioritou</string>
     <string name="home_fragment_tutorial_overview_high_des">Pokud ostatní řádky zčervenají, ale tento zůstane zelený je zde stále naděje. Znamená to, že je možné dokončit alespoň úkoly s vysokou prioritou a plánovač ti řekne jak. Pokud zčervená i tento řádek, není možné splnit všechny úkoly s vysokou prioritou a je potřeba aby ses zamyslel(a) nad změnou termínů nebo priorit.</string>
     <string name="level_fragment_progress">Postup</string>
@@ -131,7 +131,7 @@
     <string name="tasks_fragment_tutorial_udnoable_title">Nestihnutelné úkoly</string>
     <string name="tasks_fragment_tutorial_undoable_des">Když se plamínek změní na červený vykřičník znamená to, že úkol ještě není po termínu, ale i když se vynechají všechny úkoly s nižší prioritou, nelze jej stihnout. Tyto úkoly aplikace řadí až za ty, které se dají stihnout - dle nás je lepší stihnout méně a včas, než naopak.</string>
     <string name="tasks_fragment_tutorial_focus_title">Zvýrazněné úkoly</string>
-    <string name="tasks_fragment_tutorial_focus_des">Pokud nejdou všechny úkoly dokončit včas, u některých se objeví trojuhelník. Tento trojuhleník se zobrazuje u úkolů, na které by jsi se měl(a) soustředit, protože mají vyšíí prioritu</string>
+    <string name="tasks_fragment_tutorial_focus_des">Pokud nejdou všechny úkoly dokončit včas, u některých se objeví trojúhelník. Tento trojúhleník se zobrazuje u úkolů, na které by jsi se měl(a) soustředit, protože mají vyšíí prioritu.</string>
     <string name="tasks_fragment_tutorial_archive_title">Archiv</string>
     <string name="tasks_fragment_tutorial_archive_des">Kliknutím na příslušnou položku se dostaneš do archivu. V archivu se zobrazují všechny dokončené úkoly. Nalezneš zde informace o tom, kdy jsi úkol dokončil a jak dlouho trval. Chceš-li znovu přidat stejný úkol, stačí na něj kliknout a změnit příslušná data. Potažením DOPRAVA smažeš úkol z archivu.</string>
     <string name="tasks_fragment_tutorial_top_screen_title">Informace v horní liště</string>
