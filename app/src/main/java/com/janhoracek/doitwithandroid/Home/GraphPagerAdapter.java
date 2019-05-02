@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Home;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -6,13 +6,27 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.view.ViewGroup;
 
+import com.janhoracek.doitwithandroid.UpdateableFragment;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Graph Pager Adapter which handles level and summary on home screen
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class GraphPagerAdapter extends FragmentPagerAdapter {
     private Map<Integer, String> mFragmentTags;
     private FragmentManager mFragmentManager;
 
+    /**
+     * Constructor - sets fragment manager, sets TAGs
+     *
+     * @param fm Fragment Manager
+     */
     public GraphPagerAdapter(FragmentManager fm) {
         super(fm);
         mFragmentManager = fm;
@@ -47,6 +61,12 @@ public class GraphPagerAdapter extends FragmentPagerAdapter {
         return obj;
     }
 
+    /**
+     * Gets fragment with TAG based on position
+     *
+     * @param position position of fragment
+     * @return Fragment
+     */
     public Fragment getFragment(int position) {
         String tag = mFragmentTags.get(position);
         if (tag == null) return null;

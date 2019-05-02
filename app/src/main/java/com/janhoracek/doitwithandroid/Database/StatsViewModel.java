@@ -2,15 +2,13 @@ package com.janhoracek.doitwithandroid.Database;
 
 import android.app.Application;
 
-import com.janhoracek.doitwithandroid.DateHandler;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 public class StatsViewModel extends AndroidViewModel {
     private StatsRepository mRepository;

@@ -7,11 +7,21 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 
-
+/**
+ * Archive repository to work with ArchivedStats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class ArchiveRepository {
     private ArchiveStatsDao archiveDao;
     private LiveData allTasks;
 
+    /**
+     * Constructor - gets database instance, gets DAO, gets all ArchivedStats
+     * @param application Application
+     */
     public ArchiveRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         archiveDao = database.archiveDao();

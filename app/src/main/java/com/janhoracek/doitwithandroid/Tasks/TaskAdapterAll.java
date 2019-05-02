@@ -1,9 +1,8 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
 import android.content.Context;
 import android.os.Vibrator;
 import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
 import com.tooltip.Tooltip;
 
 import java.text.SimpleDateFormat;
@@ -79,7 +81,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             case 1:
                 holder.mPriority.setBackgroundColor(rgb(239, 83, 80));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(239, 83, 80), android.graphics.PorterDuff.Mode.SRC_IN);
-                if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
+                if(!DataHolder.getInstance().getHighTasksDoable()) {
                     if(!currentTaskers.isDoable_high()) {
                         holder.mLottieUndoable.setVisibility(View.VISIBLE);
                     } else {
@@ -93,7 +95,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             case 2:
                 holder.mPriority.setBackgroundColor(rgb(255,202,40));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(255,202,40), android.graphics.PorterDuff.Mode.SRC_IN);
-                if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+                if(!DataHolder.getInstance().getMediumTasksDoable()) {
                     if(!currentTaskers.isDoable_medium()) {
                         holder.mLottieUndoable.setVisibility(View.VISIBLE);
                     } else {
@@ -107,7 +109,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
             case 3:
                 holder.mPriority.setBackgroundColor(rgb(156,204,101));
                 holder.mProgress.getProgressDrawable().setColorFilter(rgb(156,204,101), android.graphics.PorterDuff.Mode.SRC_IN);
-                if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+                if(!DataHolder.getInstance().getAllTasksDoable()) {
                     if(!currentTaskers.isDoable_all()) {
                         holder.mLottieUndoable.setVisibility(View.VISIBLE);
                     } else {
@@ -121,13 +123,13 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         }
 
 
-        if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+        if(!DataHolder.getInstance().getMediumTasksDoable()) {
             if(currentTaskers.getPriority() == 1) {
                 holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
             } else {
                 holder.mLinearLayoutDoableAll.setVisibility(View.GONE);
             }
-        } else if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+        } else if(!DataHolder.getInstance().getAllTasksDoable()) {
             if(currentTaskers.getPriority() < 3) {
                 holder.mLinearLayoutDoableAll.setVisibility(View.VISIBLE);
             } else {
@@ -143,7 +145,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
         } else {
             switch (currentTaskers.getPriority()) {
                 case 1:
-                    if(!ChartDataHolder.getInstance().getHighTasksDoable()) {
+                    if(!DataHolder.getInstance().getHighTasksDoable()) {
                         if(!currentTaskers.isDoable_high()) {
                             holder.mLottieUndoable.setVisibility(View.VISIBLE);
                             holder.mTextViewFire.setVisibility(View.INVISIBLE);
@@ -154,7 +156,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     }
                     break;
                 case 2:
-                    if(!ChartDataHolder.getInstance().getMediumTasksDoable()) {
+                    if(!DataHolder.getInstance().getMediumTasksDoable()) {
                         if(!currentTaskers.isDoable_medium()) {
                             holder.mLottieUndoable.setVisibility(View.VISIBLE);
                             holder.mTextViewFire.setVisibility(View.INVISIBLE);
@@ -165,7 +167,7 @@ public class TaskAdapterAll extends ListAdapter<Taskers, TaskAdapterAll.TaskHold
                     }
                     break;
                 case 3:
-                    if(!ChartDataHolder.getInstance().getAllTasksDoable()) {
+                    if(!DataHolder.getInstance().getAllTasksDoable()) {
                         if(!currentTaskers.isDoable_all()) {
                             holder.mLottieUndoable.setVisibility(View.VISIBLE);
                             holder.mTextViewFire.setVisibility(View.INVISIBLE);

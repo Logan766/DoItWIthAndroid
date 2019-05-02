@@ -4,24 +4,25 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.github.mikephil.charting.charts.Chart;
-import com.janhoracek.doitwithandroid.ChartDataHolder;
-import com.janhoracek.doitwithandroid.Database.TaskRepository;
-import com.janhoracek.doitwithandroid.Database.Taskers;
-import com.janhoracek.doitwithandroid.DateHandler;
-
-import org.joda.time.LocalDate;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * View Model for Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class TaskViewModel extends AndroidViewModel {
     private static final String START_HOUR = "com.janhoracek.doitwithandroid.START_HOUR";
     private static final String START_MINUTE = "com.janhoracek.doitwithandroid.START_MINUTE";
@@ -40,6 +41,11 @@ public class TaskViewModel extends AndroidViewModel {
     private TaskRepository repository;
     private LiveData<List<Taskers>> allTasks;
 
+    /**
+     * Constructor - gets repository, gets all Tasks
+     *
+     * @param application
+     */
     public TaskViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
@@ -62,59 +68,73 @@ public class TaskViewModel extends AndroidViewModel {
         repository.deleteAllTasks();
     }
 
+    /**
+     * Gets all tasks
+     *
+     * @return All tasks
+     */
     public LiveData<List<Taskers>> getAllTasks() {
         return allTasks;
     }
 
+    /**
+     * Gets all tasks ordered by priority
+     *
+     * @return All tasks ordered by priority
+     */
     public List<Taskers> getAllTasksListByPriority() {return repository.getAllTasksListByPriority();}
 
+    /**
+     * Get all tasks as List
+     *
+     * @return All tasks (List)
+     */
     public List<Taskers> getAllTasksList() {
         return repository.getAllTasksList();
     }
 
+    /**
+     * Gets tasks to show on today
+     *
+     * @param allTasks List of all Tasks
+     * @param pref SharedPreferences
+     * @return Tasks for today
+     */
     public List<Taskers> getTasksToday(List<Taskers> allTasks, SharedPreferences pref) {
 
         List<Taskers> todayTasks = new ArrayList<>();
+        //get time remaining
         long timeRemaining = pref.getLong(TIME_REMAINING, -1);
-        Log.d(TAG, "time remaining " + timeRemaining);
-        Log.d(TAG, "alltask.size()-1: " + (allTasks.size()-1));
+        //check if tasks should be on today
         for(int i= 0; i<= allTasks.size() - 1; i++) {
             if((allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted()) <= timeRemaining) {
-                Log.d(TAG, "Inserting new task today: " + allTasks.get(i).getName());
+                //add whole task on today
                 Taskers tTask = allTasks.get(i);
                 tTask.setTo_be_done(0);
                 todayTasks.add(tTask);
+                //lower time remaining by time remaining of task
                 timeRemaining -= (allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted());
-                Log.d(TAG, "Time remaining po odectu: " + timeRemaining);
             } else {
-                Log.d(TAG, "Nevejde se: " + allTasks.get(i).getName());
+                //add parted task
                 timeRemaining -= (allTasks.get(i).getTime_consumption() - allTasks.get(i).getCompleted());
-                Log.d(TAG, "Nevejde se tam dneska minut: " + timeRemaining);
                 Taskers tTask = allTasks.get(i);
+                //set temporary time to be completed
                 int toBeDone = (tTask.getTime_consumption() - tTask.getCompleted()) + (int) timeRemaining;
                 tTask.setTo_be_done(toBeDone);
-                //this.update(tTask);
                 todayTasks.add(tTask);
-                Log.d(TAG, "Takze to be done jest: " + toBeDone);
-
+                //break cycle
                 break;
             }
         }
-        Log.d(TAG, "/////////////////////////////////////////////");
         return todayTasks;
     }
 
-    /*
-    public List<Taskers> getHighPriorityForToday(List<Taskers> tasks) {
-        List<Taskers> highPriorityToday = new ArrayList<>();
-        for(int i=0; i<=tasks.size()-1; i++) {
-            if(tasks.get(i).getPriority() == 1 && tasks.get(i).isDoable_high()) {
-                highPriorityToday.add(tasks.get(i));
-            }
-        }
-        return highPriorityToday;
-    }*/
-
+    /**
+     * Gets all Tasks to that can be done or all tasks if none can be done
+     *
+     * @param tasks All Tasks
+     * @return all Tasks that can be done or all if none can be done
+     */
     public List<Taskers> getMediumLowPriorityForToday(List<Taskers> tasks) {
         List<Taskers> mediumPriorityToday = new ArrayList<>();
         for(int i=0; i<=tasks.size()-1; i++) {
@@ -123,11 +143,18 @@ public class TaskViewModel extends AndroidViewModel {
             }
         }
         if(mediumPriorityToday.size() == 0) {
+            // none can be done, get all
             mediumPriorityToday = tasks;
         }
         return mediumPriorityToday;
     }
 
+    /**
+     * Gets medium to high priority Tasks that can be done or all tasks if none can be done
+     *
+     * @param tasks All Tasks
+     * @return medium to high priority Tasks that can be done or all Tasks if none can be done
+     */
     public List<Taskers> getMedHighPriorityForToday(List<Taskers> tasks) {
         List<Taskers> highPriorityToday = new ArrayList<>();
         for(int i=0; i<=tasks.size()-1; i++) {
@@ -136,6 +163,7 @@ public class TaskViewModel extends AndroidViewModel {
             }
         }
         if(highPriorityToday.size() == 0) {
+            //none can be done, get all
             for(int i=0; i<=tasks.size()-1; i++) {
                 if(tasks.get(i).getPriority() < 3) {
                     highPriorityToday.add(tasks.get(i));
@@ -148,6 +176,12 @@ public class TaskViewModel extends AndroidViewModel {
         return highPriorityToday;
     }
 
+    /**
+     * Gets high priority Tasks
+     *
+     * @param tasks All Tasks
+     * @return high priority Tasks
+     */
     public List<Taskers> getHighPriority(List<Taskers> tasks) {
         List<Taskers> highPriority = new ArrayList<>();
         for(int i=0; i<=tasks.size()-1; i++) {
@@ -158,6 +192,12 @@ public class TaskViewModel extends AndroidViewModel {
         return highPriority;
     }
 
+    /**
+     * Gets medium to high priority Tasks
+     *
+     * @param tasks All Tasks
+     * @return medium and high priority Tasks
+     */
     public List<Taskers> getMediumHighPriority(List<Taskers> tasks) {
         List<Taskers> mediumHighPriority = new ArrayList<>();
         for(int i=0; i<=tasks.size()-1; i++) {
@@ -168,28 +208,46 @@ public class TaskViewModel extends AndroidViewModel {
         return mediumHighPriority;
     }
 
+    /**
+     * Check if Tasks can be done
+     *
+     * @param tasks All Tasks
+     * @param pref SharedPreferences
+     */
     public void checkAllDoables(List<Taskers> tasks, SharedPreferences pref) {
-        if(tasks.size() == 0) {return;}
+        if(tasks.size() == 0) {return;} //no tasks in database
         boolean result;
+        //check all priority
         result = checkDoable(tasks, pref, PRIORITY_TAG_ALL);
-        ChartDataHolder.getInstance().setAllTasksDoable(result);
+        DataHolder.getInstance().setAllTasksDoable(result);
+        //if all priority is false check medium to high
         if(!result) {
             result = checkDoable(this.getMediumHighPriority(tasks), pref, PRIORITY_TAG_MEDIUM);
-            ChartDataHolder.getInstance().setMediumTasksDoable(result);
+            DataHolder.getInstance().setMediumTasksDoable(result);
         } else {
-            ChartDataHolder.getInstance().setMediumTasksDoable(true);
+            DataHolder.getInstance().setMediumTasksDoable(true);
         }
+        //if medium to high priority is false check high only
         if(!result) {
             result = checkDoable(this.getHighPriority(tasks), pref, PRIORITY_TAG_HIGH);
-            ChartDataHolder.getInstance().setHighTasksDoable(result);
+            DataHolder.getInstance().setHighTasksDoable(result);
         } else {
-            ChartDataHolder.getInstance().setHighTasksDoable(true);
+            DataHolder.getInstance().setHighTasksDoable(true);
         }
 
+        //check deadlines
         result = checkDeadline(tasks);
-        ChartDataHolder.getInstance().setDeadlinesDoable(result);
+        DataHolder.getInstance().setDeadlinesDoable(result);
     }
 
+    /**
+     * Check if tasks are doable based on priority
+     *
+     * @param tasks Tasks
+     * @param pref SharedPreferences
+     * @param PRIORITY_TAG Priority TAG
+     * @return Boolean if tasks are doable based on priority
+     */
     public boolean checkDoable(List<Taskers> tasks, SharedPreferences pref, int PRIORITY_TAG) {
         boolean result = true;
         long deadline;
@@ -201,110 +259,98 @@ public class TaskViewModel extends AndroidViewModel {
         int endMinute = pref.getInt(END_MINUTE, -1);
         int timeRemaining = (int) pref.getLong(TIME_REMAINING, -1);
 
-
+        //get start time
         Calendar calStart = Calendar.getInstance();
         calStart.set(Calendar.HOUR_OF_DAY, startHour);
         calStart.set(Calendar.MINUTE, startMinute);
         calStart.set(Calendar.SECOND, 0);
 
+        //get end time
         Calendar calEnd = Calendar.getInstance();
         calEnd.set(Calendar.HOUR_OF_DAY, endHour);
         calEnd.set(Calendar.MINUTE, endMinute);
         calEnd.set(Calendar.SECOND, 0);
 
-        Log.d(TAG1, "This is by priority: " + PRIORITY_TAG);
-        Log.d(TAG1, "StartCal: " + calStart.getTime());
-        Log.d(TAG1, "EndCal: " + calEnd.getTime());
-
+        //get temporary Calendar
         Calendar temp = Calendar.getInstance();
         temp.setTimeInMillis(calEnd.getTimeInMillis());
         temp.add(Calendar.MINUTE, -timeRemaining);
 
-        Log.d(TAG1, "Time remaining: " + timeRemaining);
-        Log.d(TAG1, "Temp calendar date: " + temp.getTime());
-
+        //check if now is productivity time
         if(calEnd.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) {
+            //add day and put start on productivity start time
             calStart.add(Calendar.DAY_OF_YEAR, 1);
             lastEnd = calStart.getTimeInMillis();
-            Log.d(TAG1, "Now is after productivity");
         } else {
+            //now is in productivity time
             lastEnd = temp.getTimeInMillis();
             Log.d(TAG1, "Ok time to add");
         }
 
-        //lastEnd = 60000 * (lastEnd / 60000);
-
+        //check if its first task
         if(tasks.size() == 1) {
-            Log.d(TAG1, "First task");
+            //set last end date to current time
             lastEnd = new DateHandler().getCurrentDateTimeInMilisec();
         }
 
-        Log.d(TAG1, "--------------" + tasks.size() + "-----------------------");
-
+        //check deadlines
         for (int i=0; i<= tasks.size()-1; i++) {
             deadline = tasks.get(i).getD_time_milisec();
+            //check if task is after deadline
             if(deadline < new DateHandler().getCurrentDateTimeInMilisec()) {
-                Log.d(TAG1, "Skipping task");
+                //skip task
                 continue;
             }
             int duration = tasks.get(i).getTime_consumption();
 
-            Log.d(TAG1, "This task duration: " + duration);
+            //set task deadline Calendar
             Calendar deadlines = Calendar.getInstance();
             deadlines.setTimeInMillis(deadline);
-            Log.d(TAG1, "This task deadline" + deadlines.getTime());
 
+            //set last end Calendar
             Calendar lastEndCal = Calendar.getInstance();
             lastEndCal.setTimeInMillis(lastEnd);
-            Log.d(TAG1, "LatEnd: " + lastEndCal.getTime());
 
-
-
+            //get number of productive days
             int numberDays = duration / (int) productivityTime;
-            Log.d(TAG1, "Number of days: " + numberDays);
 
-
+            //add productive days
             for (int e = 0; e < numberDays; e++) {
                 lastEndCal.add(Calendar.DAY_OF_YEAR, 1);
-                Log.d(TAG1, "adding day...");
+                //lower remaining duration
                 duration -= productivityTime;
             }
 
+            //set end Calendar
             calEnd.setTime(lastEndCal.getTime());
             calEnd.set(Calendar.HOUR_OF_DAY, endHour);
             calEnd.set(Calendar.MINUTE, endMinute);
             calEnd.set(Calendar.SECOND, 0);
 
-            Log.d(TAG1, "Future productivity end: " + calEnd.getTime());
-
-            long endsDifference = (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis() /*+ duration * 60000*/) / 60000; ///////////////////////////////
-
-            Log.d(TAG1, "Difference between ends: " + endsDifference);
-
-            if(endsDifference <= duration) { ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Log.d(TAG1, "One more day");
+            //check if task end is after productivity time
+            long endsDifference = (calEnd.getTimeInMillis() - lastEndCal.getTimeInMillis() /*+ duration * 60000*/) / 60000;
+            if(endsDifference <= duration) {
+                //task ends next day -> add one day
                 long minutesOver = (duration % productivityTime) - endsDifference;
-                Log.d(TAG1, "Minutes over: " + minutesOver);
-
                 lastEndCal.add(Calendar.DAY_OF_YEAR, 1);
 
                 lastEndCal.set(Calendar.HOUR_OF_DAY, pref.getInt(START_HOUR, -1));
                 lastEndCal.set(Calendar.MINUTE, pref.getInt(START_MINUTE, -1));
                 lastEndCal.set(Calendar.SECOND, 0);
 
+                //set task end date
                 lastEndCal.add(Calendar.MINUTE, (int) minutesOver);
-                Log.d(TAG1, "Final end date is: " + lastEndCal.getTime());
-
             } else {
+                //task end is in current day
                 int minutes = duration % (int) productivityTime;
                 lastEndCal.add(Calendar.MINUTE, minutes);
-                Log.d(TAG1, "Short task final end date: " + lastEndCal.getTime());
             }
 
-
+            //check if task can be done
             if (lastEndCal.getTimeInMillis() > deadline) {
-                Log.d(TAG1, "Over deadline");
+                //task cannot meet its deadline
                 Taskers doableTask = tasks.get(i);
+                //set doable based on priority TAG
                 switch (PRIORITY_TAG) {
                     case PRIORITY_TAG_ALL:
                         if(doableTask.isDoable_all()) {
@@ -325,10 +371,12 @@ public class TaskViewModel extends AndroidViewModel {
                         }
                         break;
                 }
+                //one or more tasks are not doable
                 result = false;
-                //return result;
             } else {
+                //task can meet its deadline
                 Taskers doableTask = tasks.get(i);
+                //set doable based on priority TAG
                 switch (PRIORITY_TAG) {
                     case PRIORITY_TAG_ALL:
                         if(!doableTask.isDoable_all()) {
@@ -349,21 +397,22 @@ public class TaskViewModel extends AndroidViewModel {
                         }
                         break;
                 }
-                Log.d(TAG1, "Not over deadline, next task should begin at: " + lastEndCal.getTime());
+                //task is not over its deadline
             }
-
+            //set last end
             lastEnd = lastEndCal.getTimeInMillis();
-            Log.d(TAG1, "////////////////////////////////////////////////\n\n\n\n");
-
         }
-        Log.d(TAG1, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
         return result;
     }
 
+    /**
+     * Check if any task is after its deadline
+     *
+     * @param tasks Tasks
+     * @return false if any tasks is after deadline otherwise true
+     */
     public Boolean checkDeadline(List<Taskers> tasks) {
         Boolean result = true;
-        //if(tasks.size() == 0) {return result;}
         long currentDateMili = new DateHandler().getCurrentDateTimeInMilisec();
         for(int i = 0; i<=tasks.size()-1; i++) {
             if(tasks.get(i).getD_time_milisec() < currentDateMili) {

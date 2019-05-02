@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
+import com.janhoracek.doitwithandroid.UpdateableFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Application;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,11 +9,23 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.janhoracek.doitwithandroid.FirstRunFragmentOne;
+import com.janhoracek.doitwithandroid.FirstRunFragmentThree;
+import com.janhoracek.doitwithandroid.FirstRunFragmentTwo;
+import com.janhoracek.doitwithandroid.R;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * First run activity - activity launched after the first run of the application.
+ * User is informed about app and productivity time is set
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class FirstRunActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private FirstRunPagerAdapter mAdapter;
@@ -33,10 +45,17 @@ public class FirstRunActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Adapter of FragmentPagerAdapter - provides showing of fragments
+     */
     private class FirstRunPagerAdapter extends FragmentPagerAdapter {
         private Map<Integer, String> mFragmentTags;
         private FragmentManager mFragmentManager;
 
+        /**
+         * Constructor of FragmentPagerAdapter for FirstRunPagerAdapter
+         * @param fm FragmentManager
+         */
         public FirstRunPagerAdapter(FragmentManager fm) {
             super(fm);
             mFragmentManager = fm;
@@ -73,13 +92,15 @@ public class FirstRunActivity extends AppCompatActivity {
             return obj;
         }
 
+        /**
+         * Gets fragment based on position
+         * @param position
+         * @return Fragment by tag
+         */
         public Fragment getFragment(int position) {
             String tag = mFragmentTags.get(position);
             if (tag == null) return null;
             return mFragmentManager.findFragmentByTag(tag);
         }
-
-
-
     }
 }

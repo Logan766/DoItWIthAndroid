@@ -1,30 +1,22 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
-import com.takusemba.spotlight.OnSpotlightStateChangedListener;
-import com.takusemba.spotlight.OnTargetStateChangedListener;
-import com.takusemba.spotlight.Spotlight;
-import com.takusemba.spotlight.shape.RoundedRectangle;
-import com.takusemba.spotlight.target.SimpleTarget;
+import com.janhoracek.doitwithandroid.R;
+import com.janhoracek.doitwithandroid.Tasks.AddEditTaskActivity;
+import com.janhoracek.doitwithandroid.Tasks.TaskAdapterArchive;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

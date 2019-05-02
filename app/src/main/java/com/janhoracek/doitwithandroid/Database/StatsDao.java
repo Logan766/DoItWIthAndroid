@@ -8,7 +8,13 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
+/**
+ * Interface DAO for Stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 @Dao
 public interface StatsDao {
 

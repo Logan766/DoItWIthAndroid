@@ -3,21 +3,14 @@ package com.janhoracek.doitwithandroid;
 import android.animation.Animator;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.airbnb.lottie.LottieAnimationView;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.janhoracek.doitwithandroid.Application.ApplicationActivity;
+import com.janhoracek.doitwithandroid.Application.FirstRunActivity;
 
 
 public class MainActivity extends AppCompatActivity {

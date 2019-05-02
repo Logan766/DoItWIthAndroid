@@ -12,8 +12,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.janhoracek.doitwithandroid.ChartDataHolder;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsByMonth;
 import com.janhoracek.doitwithandroid.R;
@@ -113,7 +112,7 @@ public class BarItem extends ChartItem {
 
     private ArrayList<String> getDateByDay() {
         ArrayList<String> label = new ArrayList<>();
-        List<Stats> stats = ChartDataHolder.getInstance().getStatsList();
+        List<Stats> stats = DataHolder.getInstance().getStatsList();
         for (int i = 0; i <= stats.size()-1; i++) {
             String day = String.valueOf(stats.get(i).getDate());
             String month = String.valueOf(stats.get(i).getMonth());
@@ -125,7 +124,7 @@ public class BarItem extends ChartItem {
 
     private ArrayList<String> getDateByMonth() {
         ArrayList<String> label = new ArrayList<>();
-        List<StatsByMonth> stats = ChartDataHolder.getInstance().getStatsByMonths();
+        List<StatsByMonth> stats = DataHolder.getInstance().getStatsByMonths();
         for(int i = 0; i <= stats.size()-1; i++) {
             String month = String.valueOf(stats.get(i).getMonth());
             String year = String.valueOf(stats.get(i).getYear());

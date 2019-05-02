@@ -4,18 +4,11 @@ import android.content.Context;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.janhoracek.doitwithandroid.ChartDataHolder;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
 import com.janhoracek.doitwithandroid.Database.Stats;
 
 import java.util.ArrayList;
@@ -95,7 +88,7 @@ public class LineItem extends  ChartItem {
 
     public ArrayList<String> getDate() {
 
-        List<Stats> stats = ChartDataHolder.getInstance().getStatsList();
+        List<Stats> stats = DataHolder.getInstance().getStatsList();
         ArrayList<String> label = new ArrayList<>();
         for (int i = 0; i <= stats.size()-1; i++) {
             String day = String.valueOf(stats.get(i).getDate());

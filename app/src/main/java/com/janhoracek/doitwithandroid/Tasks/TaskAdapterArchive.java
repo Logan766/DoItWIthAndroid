@@ -1,17 +1,15 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
-import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
 
 import java.text.SimpleDateFormat;
 

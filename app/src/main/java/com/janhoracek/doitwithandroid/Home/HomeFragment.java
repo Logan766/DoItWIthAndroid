@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Home;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -26,38 +26,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateChangeChecker;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
+import com.janhoracek.doitwithandroid.Tasks.TaskAdapterToday;
+import com.janhoracek.doitwithandroid.UpdateableFragment;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.shape.RoundedRectangle;
-import com.takusemba.spotlight.target.CustomTarget;
 import com.takusemba.spotlight.target.SimpleTarget;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static android.graphics.Color.rgb;
 
-//public class HomeFragment extends Fragment implements View.OnClickListener
+/**
+ * Main Home Fragment, which contains user level, summary, time remaining and tasks to do today
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class HomeFragment extends Fragment{
     private static final String TAG = "IMDATE";
     private static final String END_HOUR = "com.janhoracek.doitwithandroid.END_HOUR";
@@ -94,15 +99,16 @@ public class HomeFragment extends Fragment{
         final View v = inflater.inflate(R.layout.fragment_home, container, false);
         final SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        //check date
         DateChangeChecker.getInstance().CheckDate(pref);
 
-
+        //load models
         mArchiveTaskViewModel = ViewModelProviders.of(this).get(ArchiveTaskViewModel.class);
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         mStatsViewModel = ViewModelProviders.of(this).get(StatsViewModel.class);
         new DateHandler().checkLastDate(mStatsViewModel);
 
-        Log.d("PRDEL", "time remain " + pref.getLong(TIME_REMAINING, -1));
+        //check time remaining
         DateChangeChecker.getInstance().checkTimeRemaining(taskViewModel.getAllTasksList(), pref);
 
         mTextViewTimeRemaining = v.findViewById(R.id.text_view_time_remaining);
@@ -111,27 +117,31 @@ public class HomeFragment extends Fragment{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
+        //set recycler view for today tasks
         adapter = new TaskAdapterToday();
         mRecyclerView.setAdapter(adapter);
 
+        //set viewpager
         mSpringDotsIndicator = v.findViewById(R.id.spring_dots_indicator);
         mViewPager = v.findViewById(R.id.view_pager);
         mAdapter = new GraphPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mSpringDotsIndicator.setViewPager(mViewPager);
 
+        //set time remaining
         mTextViewTimeRemaining.setText(getTimeRemaining(pref));
 
+        //listen on changes in today tasks
         taskViewModel.getAllTasks().observe(this, new Observer<List<Taskers>>() {
             @Override
             public void onChanged(@Nullable List<Taskers> taskers) {
-                //adapter.setTasks(taskers);
                 Calendar calEnd = Calendar.getInstance();
                 calEnd.set(Calendar.SECOND, 0);
                 calEnd.set(Calendar.HOUR_OF_DAY, pref.getInt(END_HOUR, 0));
                 calEnd.set(Calendar.MINUTE, pref.getInt(END_MINUTE, 0));
-                //if (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis() && new DateHandler().getCurrentDateTimeInMilisec() > ) {adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));}
-                ChartDataHolder holder = ChartDataHolder.getInstance();
+                DataHolder holder = DataHolder.getInstance();
+
+                //load tasks based on doability
                 if(!holder.getHighTasksDoable()) {
                     adapter.setTasks(taskViewModel.getTasksToday(taskViewModel.getAllTasksListByPriority(), pref));
                 } else if (!holder.getMediumTasksDoable()) {
@@ -141,6 +151,7 @@ public class HomeFragment extends Fragment{
                 } else {
                     adapter.setTasks(taskViewModel.getTasksToday(taskers, pref));
                 }
+                //set time remaining
                 mTextViewTimeRemaining.setText(getTimeRemaining(pref));
             }
         });
@@ -158,12 +169,10 @@ public class HomeFragment extends Fragment{
                 fragment.update();
             }
 
-
             @Override
             public void onPageScrollStateChanged(int i) {
 
             }
-
         });
 
         ItemTouchHelper.SimpleCallback callback =  new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -172,36 +181,26 @@ public class HomeFragment extends Fragment{
                 return false;
             }
 
+            //complete task
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 long timeRemaining = pref.getLong(TIME_REMAINING, -1);
                 long timeConsumed = 0;
 
-                /////
                 Calendar calEnd = Calendar.getInstance();
                 calEnd.setTime(DateChangeChecker.getInstance().getTodayEnd(pref));
                 Calendar calStart = Calendar.getInstance();
                 calStart.setTime(DateChangeChecker.getInstance().getTodayStart(pref));
 
                 if(((calStart.getTimeInMillis() < new DateHandler().getCurrentDateTimeInMilisec()) && (new DateHandler().getCurrentDateTimeInMilisec() < calEnd.getTimeInMillis()))) {
-                    Log.d(TAG, "Task delas v pracovni dobe");
                     Calendar calRelativeStart = Calendar.getInstance();
                     calRelativeStart.setTimeInMillis(calEnd.getTimeInMillis() - timeRemaining*60000);
 
                     timeConsumed = new DateHandler().getCurrentDateTimeInMilisec() - calRelativeStart.getTimeInMillis();
                     timeConsumed = timeConsumed / 60000;
-
-                    Log.d(TAG, "Zbyva dneska casu: " + timeRemaining);
-
-                    Log.d(TAG, "Po tom cos dokoncil ukol zbyva dnes casu: " + (timeRemaining - timeConsumed));
                     timeRemaining = timeRemaining-timeConsumed;
                 }
 
-
-
-                ///////
-
-                //timeRemaining -= adapter.getTaskAt(viewHolder.getAdapterPosition()).getTime_consumption();
                 pref.edit().putLong(TIME_REMAINING, timeRemaining).apply();
                 int expGain;
                 if(adapter.getTaskAt(viewHolder.getAdapterPosition()).getTo_be_done() > 0) {

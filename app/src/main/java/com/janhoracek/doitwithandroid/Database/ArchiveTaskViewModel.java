@@ -1,24 +1,27 @@
 package com.janhoracek.doitwithandroid.Database;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.janhoracek.doitwithandroid.ChartDataHolder;
-import com.janhoracek.doitwithandroid.DateHandler;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
+/**
+ * View Model for ArchivedTasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class ArchiveTaskViewModel extends AndroidViewModel {
     private ArchiveRepository repository;
     private LiveData<List<ArchivedTasks>> allTasks;
 
+    /**
+     * Constructor - gets repository, gets all ArchivedTasks
+     * @param application Application
+     */
     public ArchiveTaskViewModel(@NonNull Application application) {
         super(application);
         repository = new ArchiveRepository(application);

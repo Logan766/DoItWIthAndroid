@@ -7,7 +7,13 @@ import java.util.Date;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+/**
+ * Entity of Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 @Entity(tableName = "task_table")
 public class Taskers {
 
@@ -29,11 +35,27 @@ public class Taskers {
     private boolean doable_medium;
     private boolean doable_high;
 
+    /**
+     * Constructor
+     * @param name name of task
+     * @param description description of task
+     * @param priority priority of task
+     * @param time_consumption estimated time consumption of task
+     * @param d_day deadline day of task
+     * @param d_month deadline month of task
+     * @param d_year deadline year of task
+     * @param d_time deadline time of task
+     * @param d_time_milisec deadline time of task in millisecs
+     * @param to_be_done temporary time that will be completed when partly done task is completed
+     * @param completed completed time (if task was completed partly)
+     */
     public Taskers(String name, String description, int priority,  int time_consumption, int d_day, int d_month, int d_year, String d_time, Long d_time_milisec, int to_be_done, int completed) {
         this.name = name;
         this.description = description;
         this.priority = priority;
         this.time_consumption = time_consumption;
+
+        //set experience based on priority
         switch (priority) {
             case 1:
                 exp = 4 * this.time_consumption;
@@ -148,7 +170,10 @@ public class Taskers {
         this.doable_high = doable_high;
     }
 
+    /**
+     * Logs information about task to console
+     */
     public void toText(){
-        Log.d("VYPIS", "Name: " + this.name + "\nPriority: " + this.priority + "\nDoable all: " + this.doable_all + "\nDoable medium: " + this.doable_medium + "\nDoable high: " + this.doable_high);
+        Log.d("TASK", "Name: " + this.name + "\nPriority: " + this.priority + "\nDoable all: " + this.doable_all + "\nDoable medium: " + this.doable_medium + "\nDoable high: " + this.doable_high);
     }
 }

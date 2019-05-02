@@ -1,7 +1,6 @@
 package com.janhoracek.doitwithandroid;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.janhoracek.doitwithandroid.Application.ApplicationActivity;
 
 import java.util.Calendar;
 

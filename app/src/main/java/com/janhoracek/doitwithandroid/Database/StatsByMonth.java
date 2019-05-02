@@ -1,5 +1,11 @@
 package com.janhoracek.doitwithandroid.Database;
-
+/**
+ * Stores Stats sorted by month
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class StatsByMonth {
     public int low_done;
     public int medium_done;

@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.janhoracek.doitwithandroid.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

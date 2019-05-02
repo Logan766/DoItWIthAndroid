@@ -6,20 +6,27 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-
+/**
+ * Task repository to work with Tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class TaskRepository {
     private TaskDao taskDao;
     private LiveData allTasks;
 
+    /**
+     * Constructor - gets DAO, gets all Tasks
+     * @param application application
+     */
     public TaskRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         taskDao = database.taskDao();
         allTasks = taskDao.getAllNotes();
     }
 
-    /*public void insert(Taskers taskers) {
-        new InsertTaskAsyncTask(taskDao).execute(taskers);
-    }*/
 
     public void insert(Taskers taskers) {
         taskDao.insert(taskers);

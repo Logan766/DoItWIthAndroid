@@ -1,8 +1,6 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Overview;
 
 import android.content.Context;
-import android.content.Entity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -19,32 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.EntryXComparator;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateChangeChecker;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.Stats;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
-import com.janhoracek.doitwithandroid.Database.Taskers;
-import com.janhoracek.doitwithandroid.Overview.BarItem;
-import com.janhoracek.doitwithandroid.Overview.ChartItem;
-import com.janhoracek.doitwithandroid.Overview.GraphAdaper;
-import com.janhoracek.doitwithandroid.Overview.LineItem;
-import com.janhoracek.doitwithandroid.Overview.PieItem;
+import com.janhoracek.doitwithandroid.R;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.target.SimpleTarget;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OverviewFragment extends Fragment {
@@ -72,10 +57,10 @@ public class OverviewFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        items.add(new LineItem(ChartDataHolder.getInstance().getmLineChartData(), getString(R.string.fragment_overview_line_experience), 1, getActivity()));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1, getActivity()));
-        items.add(new BarItem(ChartDataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2, getActivity()));
-        items.add(new PieItem(ChartDataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1, getActivity()));
+        items.add(new LineItem(DataHolder.getInstance().getmLineChartData(), getString(R.string.fragment_overview_line_experience), 1, getActivity()));
+        items.add(new BarItem(DataHolder.getInstance().getmBarDataDay(), getString(R.string.fragment_overview_bar_tasks_day), 1, getActivity()));
+        items.add(new BarItem(DataHolder.getInstance().getmBarDataMonth(), getString(R.string.fragment_overview_bar_tasks_month), 2, getActivity()));
+        items.add(new PieItem(DataHolder.getInstance().getmPieOverallData(), getString(R.string.fragment_overview_pie_priority_ratio), 1, getActivity()));
 
         final GraphAdaper adaper = new GraphAdaper();
         adaper.setGraphs(items);

@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Data;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -8,7 +8,13 @@ import com.janhoracek.doitwithandroid.Database.Taskers;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * Checks if its already new date
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class DateChangeChecker {
     private static final String CURRENT_DATE = "com.janhoracek.doitwithandroid.CURRENT_DATE";
     private static final String PRODUCTIVITY_TIME = "com.janhoracek.doitwithandroid.PRODUCTIVITY_TIME";
@@ -22,11 +28,17 @@ public class DateChangeChecker {
 
     private static String TAG = "DCHCK";
 
-
+    /**
+     * Constructor of DateChangeChecker
+     */
     private DateChangeChecker() {
 
     }
 
+    /**
+     * Gets instance of DateChangeChecker
+     * @return instance of DateChangeChecker
+     */
     public static DateChangeChecker getInstance() {
         if(instance == null) {
             instance = new DateChangeChecker();
@@ -34,6 +46,10 @@ public class DateChangeChecker {
         return instance;
     }
 
+    /**
+     * Check if it is new date
+     * @param pref SharedPreferences
+     */
     public void CheckDate(SharedPreferences pref) {
         long CurrentTime = 60000 * (pref.getLong(CURRENT_DATE, NOT_EXIST) / 60000);
         Calendar cal = Calendar.getInstance();
@@ -41,21 +57,24 @@ public class DateChangeChecker {
         cal.set(Calendar.MINUTE, 1);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+
+        //check if current date exists
         if(CurrentTime == NOT_EXIST ) {
             pref.edit().putLong(CURRENT_DATE, cal.getTimeInMillis()).apply();
-            Log.d(TAG, "Date not exist puttin in date: " + cal.getTime());
             pref.edit().putLong(TIME_REMAINING, pref.getLong(PRODUCTIVITY_TIME, -1)).apply();
             return;
         } else if ( CurrentTime != cal.getTimeInMillis()) {
             pref.edit().putLong(CURRENT_DATE, cal.getTimeInMillis()).apply();
             pref.edit().putLong(TIME_REMAINING, pref.getLong(PRODUCTIVITY_TIME, -1)).apply();
-            Log.d(TAG, "Time remaining: " + (pref.getLong(PRODUCTIVITY_TIME, -1)));
-            Log.d(TAG, "Date different. Expected: " + CurrentTime + " got: " + cal.getTimeInMillis());
             return;
         }
-        Log.d(TAG, "Dates are ok");
     }
 
+    /**
+     * Gets start of productivity time
+     * @param pref SharedPreferences
+     * @return Calendar with start of productivity time today
+     */
     public Date getTodayStart(SharedPreferences pref) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(new DateHandler().getCurrentDateTimeInMilisec());
@@ -67,6 +86,11 @@ public class DateChangeChecker {
         return  cal.getTime();
     }
 
+    /**
+     * Gets end of productivity time
+     * @param pref SharedPreferences
+     * @return Calendar with end of productivity time today
+     */
     public Date getTodayEnd(SharedPreferences pref) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(new DateHandler().getCurrentDateTimeInMilisec());
@@ -78,6 +102,11 @@ public class DateChangeChecker {
         return  cal.getTime();
     }
 
+    /**
+     * Checks remaining time of productivity time
+     * @param tasks List of all Tasks
+     * @param pref SharedPreferences
+     */
     public void checkTimeRemaining(List<Taskers> tasks, SharedPreferences pref) {
         long timeRemaining = pref.getLong(TIME_REMAINING, -1);
         long currTime = new DateHandler().getCurrentDateTimeInMilisec();
@@ -89,9 +118,9 @@ public class DateChangeChecker {
 
         long minToEnd = (calEnd.getTimeInMillis() - currTime) / 60000;
 
+        //check if time is in productivity time
         if((tasks.size() == 0) && (calStart.getTimeInMillis() < currTime) && (currTime < calEnd.getTimeInMillis())) {
             if(minToEnd < timeRemaining) {
-                Log.d("PRDEL", "Time remaining by mel bejt: " + minToEnd);
                 pref.edit().putLong(TIME_REMAINING, minToEnd).apply();
             }
         }

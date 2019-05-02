@@ -2,7 +2,13 @@ package com.janhoracek.doitwithandroid.Database;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+/**
+ * Entity of Stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 @Entity(tableName = "stats_table")
 public class Stats {
 
@@ -16,6 +22,10 @@ public class Stats {
     private int medium_priority_done;
     private int high_priority_done;
 
+    /**
+     * Constructor
+     * @param id ID of stat
+     */
     public Stats(int id) {
         this.id = id;
         year = id / 10000;
@@ -26,6 +36,11 @@ public class Stats {
         medium_priority_done = 0;
         high_priority_done = 0;
     }
+
+    /**
+     * Gets information about particular stat - for debugging
+     * @return String of information about particular stat
+     */
     public String toString() {
         String result;
         result = "\n ID: " + String.valueOf(getId()) +

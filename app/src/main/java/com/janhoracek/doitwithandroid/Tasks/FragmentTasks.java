@@ -1,14 +1,11 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,17 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
@@ -40,7 +38,6 @@ import com.takusemba.spotlight.shape.RoundedRectangle;
 import com.takusemba.spotlight.target.SimpleTarget;
 import com.tooltip.Tooltip;
 
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,43 +105,43 @@ public class FragmentTasks extends Fragment {
             }
         });
 
-        if(ChartDataHolder.getInstance().getAllTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getAllTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
             mLottieAnimationViewAll.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
             mLottieAnimationViewAll.playAnimation();
         }
 
-        if(ChartDataHolder.getInstance().getMediumTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getMediumTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("success.json");
             mLottieAnimationViewMedium.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("not_success.json");
             mLottieAnimationViewMedium.playAnimation();
         }
 
-        if(ChartDataHolder.getInstance().getHighTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getHighTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
             mLottieAnimationViewHigh.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
         }
 
-        if(ChartDataHolder.getInstance().getDeadlinesDoable()) {
+        if(DataHolder.getInstance().getDeadlinesDoable()) {
             mLottieAnimationViewDeadline.setVisibility(View.GONE);
         } else {
             mLottieAnimationViewDeadline.setVisibility(View.VISIBLE);
@@ -408,46 +405,46 @@ public class FragmentTasks extends Fragment {
     }
 
     public void redrawLottie() {
-        if(ChartDataHolder.getInstance().getAllTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getAllTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
             mLottieAnimationViewAll.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("not_success.json");
             mLottieAnimationViewAll.playAnimation();
         }
 
-        if(ChartDataHolder.getInstance().getMediumTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getMediumTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("success.json");
             mLottieAnimationViewMedium.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewMedium.clearAnimation();
             mLottieAnimationViewMedium.setAnimation("not_success.json");
             mLottieAnimationViewMedium.playAnimation();
         }
 
-        if(ChartDataHolder.getInstance().getHighTasksDoable()) {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + ChartDataHolder.getInstance().getAllTasksDoable());
+        if(DataHolder.getInstance().getHighTasksDoable()) {
+            //Log.d(TAG, "Chart holder pro Lotku jest asi true: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("success.json");
             mLottieAnimationViewHigh.playAnimation();
         } else {
-            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + ChartDataHolder.getInstance().getAllTasksDoable());
+            //Log.d(TAG, "Chart holder pro Lotku jest asi false: " + DataHolder.getInstance().getAllTasksDoable());
             mLottieAnimationViewHigh.clearAnimation();
             mLottieAnimationViewHigh.setAnimation("not_success.json");
             mLottieAnimationViewHigh.playAnimation();
         }
 
 
-        Log.d("DDLINE", "Deadline doable: " + ChartDataHolder.getInstance().getDeadlinesDoable());
+        Log.d("DDLINE", "Deadline doable: " + DataHolder.getInstance().getDeadlinesDoable());
 
-        if(ChartDataHolder.getInstance().getDeadlinesDoable()) {
+        if(DataHolder.getInstance().getDeadlinesDoable()) {
             mLottieAnimationViewDeadline.setVisibility(View.GONE);
         } else {
             mLottieAnimationViewDeadline.setVisibility(View.VISIBLE);

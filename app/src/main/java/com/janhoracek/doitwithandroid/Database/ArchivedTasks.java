@@ -2,7 +2,13 @@ package com.janhoracek.doitwithandroid.Database;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+/**
+ * Entity of ArchivedTasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 @Entity(tableName = "archive_stats_table")
 public class ArchivedTasks {
 
@@ -15,6 +21,15 @@ public class ArchivedTasks {
     private Long d_time_milisec;
     private Long completed;
 
+    /**
+     * Constuctor of ArchivedTasks
+     * @param name name of task
+     * @param description description of task
+     * @param priority priority of task
+     * @param time_consumption time consumed when tasks was completed
+     * @param d_time_milisec deadline time in milliseconds
+     * @param completed completed time in milliseconds
+     */
     public ArchivedTasks(String name, String description, int priority, int time_consumption, Long d_time_milisec, Long completed) {
         this.name = name;
         this.description = description;

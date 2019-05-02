@@ -7,11 +7,21 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 
-
+/**
+ * Stats repository to work with Stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class StatsRepository {
     private StatsDao statsDao;
     private LiveData allStats;
 
+    /**
+     * Constructor - gets DAO, gets all Stats
+     * @param application
+     */
     public StatsRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         statsDao = database.statsDao();

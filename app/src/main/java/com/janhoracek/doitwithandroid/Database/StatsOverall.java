@@ -1,5 +1,11 @@
 package com.janhoracek.doitwithandroid.Database;
-
+/**
+ * Stores Stats
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
 public class StatsOverall {
     private int low_done;
     private int medium_done;

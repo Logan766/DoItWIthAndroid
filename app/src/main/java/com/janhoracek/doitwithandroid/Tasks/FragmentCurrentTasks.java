@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Tasks;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +25,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateChangeChecker;
+import com.janhoracek.doitwithandroid.Data.DateHandler;
 import com.janhoracek.doitwithandroid.Database.ArchiveTaskViewModel;
 import com.janhoracek.doitwithandroid.Database.ArchivedTasks;
 import com.janhoracek.doitwithandroid.Database.StatsViewModel;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
 import com.janhoracek.doitwithandroid.Database.Taskers;
+import com.janhoracek.doitwithandroid.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -79,10 +83,10 @@ public class FragmentCurrentTasks extends Fragment {
                     taskViewModel.checkAllDoables(taskers, pref);
                     ((FragmentTasks)getParentFragment()).redrawLottie();
                 } else {
-                    ChartDataHolder.getInstance().setHighTasksDoable(true);
-                    ChartDataHolder.getInstance().setMediumTasksDoable(true);
-                    ChartDataHolder.getInstance().setAllTasksDoable(true);
-                    ChartDataHolder.getInstance().setDeadlinesDoable(true);
+                    DataHolder.getInstance().setHighTasksDoable(true);
+                    DataHolder.getInstance().setMediumTasksDoable(true);
+                    DataHolder.getInstance().setAllTasksDoable(true);
+                    DataHolder.getInstance().setDeadlinesDoable(true);
                     ((FragmentTasks)getParentFragment()).redrawLottie();
                 }
 

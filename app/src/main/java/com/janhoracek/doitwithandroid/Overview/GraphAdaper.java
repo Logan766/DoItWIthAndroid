@@ -1,21 +1,15 @@
 package com.janhoracek.doitwithandroid.Overview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.PieData;
-import com.janhoracek.doitwithandroid.ChartDataHolder;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
 import com.janhoracek.doitwithandroid.R;
 
 import java.util.List;
@@ -72,7 +66,7 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.lineTitle.setText(item.getTitle());
 
                     item.styleGraph(viewHolder.graph);
-                    item.setGraphData(ChartDataHolder.getInstance().getmLineChartData());
+                    item.setGraphData(DataHolder.getInstance().getmLineChartData());
 
                     chart.invalidate();
                     chart.animate();
@@ -90,10 +84,10 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     item.styleGraph(viewHolder.graph);
                         switch (item.getOwnKindType()) {
                             case 1:
-                                item.setGraphData(ChartDataHolder.getInstance().getmBarDataDay());
+                                item.setGraphData(DataHolder.getInstance().getmBarDataDay());
                                 break;
                             case 2:
-                                item.setGraphData(ChartDataHolder.getInstance().getmBarDataMonth());
+                                item.setGraphData(DataHolder.getInstance().getmBarDataMonth());
                                 break;
                         }
                     chart.getData().setHighlightEnabled(false);
@@ -111,7 +105,7 @@ public class GraphAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.pieTitle.setText(item.getTitle());
                     item.styleGraph(viewHolder.graph);
 
-                    item.setGraphData(ChartDataHolder.getInstance().getmPieOverallData());
+                    item.setGraphData(DataHolder.getInstance().getmPieOverallData());
                     chart.getDescription().setEnabled(false);
 
                     chart.invalidate();

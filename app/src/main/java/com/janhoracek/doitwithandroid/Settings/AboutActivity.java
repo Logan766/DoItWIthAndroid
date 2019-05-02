@@ -1,4 +1,4 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.janhoracek.doitwithandroid.BuildConfig;
+import com.janhoracek.doitwithandroid.R;
 
 import java.util.Calendar;
 

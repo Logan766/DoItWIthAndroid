@@ -1,28 +1,33 @@
-package com.janhoracek.doitwithandroid;
+package com.janhoracek.doitwithandroid.Home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.github.mikephil.charting.charts.Chart;
+import com.janhoracek.doitwithandroid.Data.DataHolder;
+import com.janhoracek.doitwithandroid.Data.DateChangeChecker;
 import com.janhoracek.doitwithandroid.Database.TaskViewModel;
-
-import java.util.ArrayList;
+import com.janhoracek.doitwithandroid.R;
+import com.janhoracek.doitwithandroid.UpdateableFragment;
 
 import androidx.lifecycle.ViewModelProviders;
-import devlight.io.library.ArcProgressStackView;
 
-
-public class FragmentHomeOverview extends UpdateableFragment{
+/**
+ * Fragment which contains status of doability of tasks
+ *
+ * @author  Jan Horáček
+ * @version 1.0
+ * @since   2019-03-28
+ */
+public class FragmentHomeOverview extends UpdateableFragment {
 
     private static final String PREFS_NAME = "com.janhoracek.doitwithandroid.SettingsSharedPrefs";
 
@@ -78,8 +83,11 @@ public class FragmentHomeOverview extends UpdateableFragment{
 
     }
 
+    /**
+     * Change icons of summary based on doablility results
+     */
     private void checkerAll() {
-        ChartDataHolder holder = ChartDataHolder.getInstance();
+        DataHolder holder = DataHolder.getInstance();
         if(holder.getAllTasksDoable()) {
             mLottieAnimationViewAll.clearAnimation();
             mLottieAnimationViewAll.setAnimation("success.json");
